@@ -1,0 +1,931 @@
+[
+ {
+  "id": "ch7-01",
+  "chapter": 7,
+  "subtopic": "pattern basics",
+  "type": "single",
+  "level": 1,
+  "gotcha": false,
+  "question": "L13 lists the elements every design pattern description has. Which set is it?",
+  "options": [
+   "Name, Problem, Solution, Consequences",
+   "Problem, Requirements, Architecture, Implementation",
+   "Context, Strategy, ConcreteStrategy, Client",
+   "Intent, Structure, Code, Test cases"
+  ],
+  "answer": [
+   0
+  ],
+  "explanation": "L13 slide 9: Name (shared vocabulary), Problem (when to apply it), Solution (elements, relationships, responsibilities, collaborations) and Consequences (benefits and costs). Context/Strategy/ConcreteStrategy are the participants of one pattern, not the elements of every pattern."
+ },
+ {
+  "id": "ch7-02",
+  "chapter": 7,
+  "subtopic": "pattern basics",
+  "type": "single",
+  "level": 1,
+  "gotcha": false,
+  "question": "Using the GoF categories on the slides, which grouping is correct?",
+  "options": [
+   "Observer: creational, because it creates the subscription list",
+   "Strategy and Observer: behavioural. Façade: structural. Factory Method and Abstract Factory: creational",
+   "Strategy: structural. Observer: behavioural. Façade: creational",
+   "Strategy, Observer and Façade: behavioural. Factory: structural"
+  ],
+  "answer": [
+   1
+  ],
+  "explanation": "L13 slide 10 / L14 slide 3: Observer and Strategy are behavioural, Façade is structural, and Factory Method and Abstract Factory are creational. Observer does not create objects, so it is not creational."
+ },
+ {
+  "id": "ch7-03",
+  "chapter": 7,
+  "subtopic": "Strategy",
+  "type": "single",
+  "level": 1,
+  "gotcha": false,
+  "question": "According to L13, what design problem is the Strategy pattern the solution to?",
+  "options": [
+   "A complex subsystem needs one simple entry point",
+   "Exactly one instance of a class may exist",
+   "A set of algorithms or objects should be interchangeable",
+   "Many objects must be told when one object changes"
+  ],
+  "answer": [
+   2
+  ],
+  "explanation": "L13 slide 11: \"Design problem: a set of algorithms or objects should be **interchangeable**. Solution: Strategy Pattern.\" Notifying many objects is Observer, the simple entry point is Façade, and the single instance is Singleton."
+ },
+ {
+  "id": "ch7-04",
+  "chapter": 7,
+  "subtopic": "Strategy",
+  "type": "single",
+  "level": 1,
+  "gotcha": false,
+  "question": "In the L13 Strategy template, which participant declares `doSomething()` (in italics) and is only ever referenced by the Context?",
+  "diagram": "classDiagram\nclass Context\nclass Strategy {\n<<interface>>\n+doSomething()\n}\nclass ConcreteStrategyA {\n+doSomething()\n}\nclass ConcreteStrategyB {\n+doSomething()\n}\nContext ..> Strategy : uses\nStrategy <|.. ConcreteStrategyA\nStrategy <|.. ConcreteStrategyB",
+  "options": [
+   "Client",
+   "Context",
+   "ConcreteStrategyA",
+   "Strategy"
+  ],
+  "answer": [
+   3
+  ],
+  "explanation": "L13 slide 11: Context `uses` the Strategy interface. Strategy declares `doSomething()` in italics because it is abstract. ConcreteStrategyA/B implement it. Because Context depends only on Strategy, the concrete strategies can be swapped."
+ },
+ {
+  "id": "ch7-05",
+  "chapter": 7,
+  "subtopic": "Strategy",
+  "type": "single",
+  "level": 1,
+  "gotcha": false,
+  "question": "How is the line from `ConcreteStrategyA` to `Strategy` drawn on the L13 slide?",
+  "options": [
+   "Dashed line with a hollow triangle at Strategy (implements / realizes)",
+   "Dashed line with an open arrowhead pointing at ConcreteStrategyA",
+   "Solid line with a filled diamond at Strategy",
+   "Solid line with no arrowhead (association)"
+  ],
+  "answer": [
+   0
+  ],
+  "explanation": "L13 slide 11 labels it \"implements or realizes\": a dashed line with a hollow triangle pointing at the Strategy interface. The dashed open arrow on that slide is Context `uses` Strategy (a dependency), not the realization."
+ },
+ {
+  "id": "ch7-06",
+  "chapter": 7,
+  "subtopic": "Strategy",
+  "type": "single",
+  "level": 1,
+  "gotcha": false,
+  "question": "Which of these is listed as a **con** of Strategy in L13?",
+  "options": [
+   "It exposes the implementation to the Context",
+   "Overused, it gives complex, hard-to-understand code",
+   "It needs the Subject to know every observer",
+   "It cannot change behaviour at runtime"
+  ],
+  "answer": [
+   1
+  ],
+  "explanation": "L13 slide 12. Pros: encapsulation, hides the implementation, allows behaviour change at runtime. Con: complex, hard-to-understand code if overused. \"Cannot change at runtime\" and \"exposes the implementation\" contradict its pros."
+ },
+ {
+  "id": "ch7-07",
+  "chapter": 7,
+  "subtopic": "Observer",
+  "type": "single",
+  "level": 1,
+  "gotcha": false,
+  "question": "Which statement is L13's definition of what Observer solves?",
+  "options": [
+   "Choosing which subclass to instantiate at runtime without exposing the creation logic",
+   "Making a family of algorithms interchangeable at runtime",
+   "A one-to-many dependency between objects, so that when one object changes state all its dependents are notified and updated automatically",
+   "A unified, higher-level interface to a set of interfaces in a subsystem"
+  ],
+  "answer": [
+   2
+  ],
+  "explanation": "L13 slide 24 (Observer design problems): one-to-many dependency with automatic notification, giving \"easy subscription and automatic notification\". The other options are Factory (L14 s5), Façade (L14 s15) and Strategy (L13 s11)."
+ },
+ {
+  "id": "ch7-08",
+  "chapter": 7,
+  "subtopic": "Observer",
+  "type": "single",
+  "level": 1,
+  "gotcha": false,
+  "question": "L13 says Observer resolves its design problems with two mechanisms. Which two?",
+  "options": [
+   "Polling mechanism and caching mechanism",
+   "Inheritance mechanism and delegation mechanism",
+   "Creation mechanism and destruction mechanism",
+   "Subscription mechanism and notification mechanism"
+  ],
+  "answer": [
+   3
+  ],
+  "explanation": "L13 slide 25: **subscription** (observers freely register/unregister their interest in the Subject) and **notification** (the Subject propagates the change to observers when it occurs). Polling is exactly what Observer avoids (L15 slide 7 criticises the 10-second timer)."
+ },
+ {
+  "id": "ch7-09",
+  "chapter": 7,
+  "subtopic": "Observer",
+  "type": "single",
+  "level": 1,
+  "gotcha": false,
+  "question": "In L13's Observer template, what is the multiplicity and role naming of the Subject–Observer association?",
+  "options": [
+   "Subject 1 (role `subject`), Observer * (role `observers`)",
+   "There is no association; Subject depends on ConcreteObserver directly",
+   "Subject 1, Observer 1: one subject per observer and vice versa",
+   "Subject * , Observer 1"
+  ],
+  "answer": [
+   0
+  ],
+  "explanation": "L13 slides 33/35: a 1-to-* association between the abstract Subject and the abstract Observer, with role names `subject` and `observers`. The link is at the abstract level, so the Subject never names a ConcreteObserver."
+ },
+ {
+  "id": "ch7-10",
+  "chapter": 7,
+  "subtopic": "Observer push/pull",
+  "type": "single",
+  "level": 1,
+  "gotcha": false,
+  "question": "Which describes a **pull** update as L13 defines it?",
+  "options": [
+   "Observer polls `getData()` on a timer without being notified",
+   "Subject sends a simple notification via `update()`; the observer calls back `subject.getData()` for details if interested. Two-way communication",
+   "Observer pulls itself into the list by calling `notify()`",
+   "Subject sends full details in `update(details)`; observer never calls back"
+  ],
+  "answer": [
+   1
+  ],
+  "explanation": "L13 slide 36. Pull: a simple notification, then the observer explicitly calls back for details (two-way). Push: the Subject sends the details whether the observer wants them or not, and there is no call back (one-way). Timer polling is not Observer at all."
+ },
+ {
+  "id": "ch7-11",
+  "chapter": 7,
+  "subtopic": "Observer push/pull",
+  "type": "single",
+  "level": 1,
+  "gotcha": false,
+  "question": "In the **push** template (L13 slide 35), what does the Observer's update operation look like, and what does `notify()` do?",
+  "options": [
+   "`notify(Observer)`; the observer pushes data to the subject",
+   "`register(Anncment)`; notify() is not needed",
+   "`update(Anncment)`; notify() gets `anncment = getAnncment()` then loops `o.update(anncment)`",
+   "`update()`; notify() loops `o.update()` and each observer calls `getAnncment()`"
+  ],
+  "answer": [
+   2
+  ],
+  "explanation": "L13 slides 34–35: in push, the Subject fetches the data itself and passes it as a parameter (`update(Anncment)`), so the observer does not call back. The `update()`-with-no-parameter version plus a `subject.getData()` call back is the pull template (slide 33)."
+ },
+ {
+  "id": "ch7-12",
+  "chapter": 7,
+  "subtopic": "Observer",
+  "type": "multi",
+  "level": 1,
+  "gotcha": false,
+  "question": "Which are listed as **pros** of Observer in L13? (Pick all that apply.)",
+  "options": [
+   "Abstracts the coupling between Subject and Observer",
+   "Supports broadcast communication",
+   "Faster performance than direct calls",
+   "Subjects and observers can be reused independently of each other"
+  ],
+  "answer": [
+   0,
+   1,
+   3
+  ],
+  "explanation": "L13 slide 46 pros: abstracts coupling, broadcast communication, independent reuse. **Slower** performance is listed as a con, together with unnecessary complexity if it is used carelessly."
+ },
+ {
+  "id": "ch7-13",
+  "chapter": 7,
+  "subtopic": "Observer in Swing",
+  "type": "single",
+  "level": 1,
+  "gotcha": false,
+  "question": "L13 maps Java Swing onto Observer. Which Swing method plays the role of `notify()`?",
+  "options": [
+   "`fireActionPerformed(ActionEvent)`",
+   "`addActionListener(ActionListener)`",
+   "`actionPerformed(ActionEvent)`",
+   "`ActionEvent.getSource()`"
+  ],
+  "answer": [
+   0
+  ],
+  "explanation": "L13 slides 43–45: AbstractButton = Subject (JButton/JMenuItem concrete subjects), ActionListener = Observer. add/removeActionListener = register/unregister, fireActionPerformed = notify, actionPerformed(ActionEvent) = update (push some details), getSource() = pull more data."
+ },
+ {
+  "id": "ch7-14",
+  "chapter": 7,
+  "subtopic": "Factory",
+  "type": "multi",
+  "level": 1,
+  "gotcha": false,
+  "question": "Which are the L14 reasons to use the Factory pattern? (Pick all that apply.)",
+  "options": [
+   "You have a set of classes but don't know which one to instantiate until runtime",
+   "You must create one of several classes implementing a common superclass without exposing the creation logic to the client",
+   "You want to localize the logic that instantiates objects",
+   "You need many objects updated when another object changes"
+  ],
+  "answer": [
+   0,
+   1,
+   2
+  ],
+  "explanation": "L14 slide 5 gives exactly the first three. Updating many objects when one changes is Observer (L13 slide 13)."
+ },
+ {
+  "id": "ch7-15",
+  "chapter": 7,
+  "subtopic": "Factory",
+  "type": "single",
+  "level": 1,
+  "gotcha": false,
+  "question": "In L14's \"standard\" Factory template, what is `createProduct()`?",
+  "diagram": "classDiagram\nclass Context\nclass StaticFactory {\n+createProduct()$ AbstractProduct\n}\nclass AbstractProduct {\n<<interface>>\n}\nContext ..> StaticFactory : uses\nStaticFactory ..> AbstractProduct : create\nAbstractProduct <|.. ConcreteProductA\nAbstractProduct <|.. ConcreteProductB",
+  "options": [
+   "An abstract method on Context",
+   "A constructor of AbstractProduct",
+   "A static (underlined) method on StaticFactory returning the AbstractProduct interface",
+   "An instance method on each ConcreteProduct"
+  ],
+  "answer": [
+   2
+  ],
+  "explanation": "L14 slide 7 (\"Factory Pattern a.k.a. Static Factory Pattern\"): `+ createProduct():AbstractProduct` is underlined (static) on StaticFactory. Context uses StaticFactory to get an object that implements the AbstractProduct interface, so Context never names a concrete class."
+ },
+ {
+  "id": "ch7-16",
+  "chapter": 7,
+  "subtopic": "Façade",
+  "type": "single",
+  "level": 1,
+  "gotcha": false,
+  "question": "Which is L14's definition of Façade?",
+  "options": [
+   "Attaches additional responsibilities to an object at runtime",
+   "Notifies dependents when an object's state changes",
+   "Lets subclasses decide which class to instantiate",
+   "Provides a unified interface to a set of interfaces in a subsystem; it defines a higher-level interface that makes the subsystem easier to use"
+  ],
+  "answer": [
+   3
+  ],
+  "explanation": "L14 slide 15. \"Lets subclasses decide which class to instantiate\" is the Factory wording (L14 slide 5). Attaching responsibilities is Decorator (L15 slide 25 uses it for scrolling). Notifying dependents is Observer."
+ },
+ {
+  "id": "ch7-17",
+  "chapter": 7,
+  "subtopic": "design principles",
+  "type": "multi",
+  "level": 1,
+  "gotcha": false,
+  "question": "Which are among the design principles listed on L14 slide 16? (Pick all that apply.)",
+  "options": [
+   "Favour composition over inheritance",
+   "Program to an interface, not an implementation",
+   "Classes should be open for extension, but closed for modification",
+   "Favour inheritance over composition to maximise reuse"
+  ],
+  "answer": [
+   0,
+   1,
+   2
+  ],
+  "explanation": "L14 slide 16 lists: separate what varies from what stays the same, program to an interface, favour composition over inheritance, loosely coupled designs, open for extension / closed for modification, and least knowledge. The last option is the reverse of the principle."
+ },
+ {
+  "id": "ch7-18",
+  "chapter": 7,
+  "subtopic": "MVC",
+  "type": "single",
+  "level": 1,
+  "gotcha": false,
+  "question": "L15 names three **key** patterns in MVC. Which?",
+  "options": [
+   "Observer, Façade, Singleton",
+   "Observer, Strategy, Abstract Factory",
+   "Strategy, Façade, Factory Method",
+   "Composite, Decorator, Command"
+  ],
+  "answer": [
+   1
+  ],
+  "explanation": "L15 slide 25: \"Observer, Strategy and Abstract Factory are the key patterns in MVC.\" Composite (nested views), Decorator (scrolling) and Command (undo/redo) are listed as other patterns that also help."
+ },
+ {
+  "id": "ch7-19",
+  "chapter": 7,
+  "subtopic": "MVC",
+  "type": "single",
+  "level": 1,
+  "gotcha": false,
+  "question": "In MVC's View–Controller relationship (L15 slide 23), which roles do they play in the Strategy pattern?",
+  "options": [
+   "View = Subject, Controller = Observer",
+   "Both are ConcreteStrategies of Model",
+   "View = Context, Controller = Strategy",
+   "View = Strategy, Controller = Context"
+  ],
+  "answer": [
+   2
+  ],
+  "explanation": "L15 slide 23: the View (Context) handles the visual side and delegates interface behaviour to the Controller (Strategy interface). Swapping the Controller makes the same View respond differently to user input. Subject/Observer is the Model–View relationship."
+ },
+ {
+  "id": "ch7-20",
+  "chapter": 7,
+  "subtopic": "which pattern",
+  "type": "single",
+  "level": 2,
+  "gotcha": false,
+  "question": "A navigation app plans routes as **fastest**, **shortest** or **avoid tolls**. The user can switch mode mid-trip, and new modes (e.g. scenic) are planned. Which pattern fits best?",
+  "options": [
+   "Observer",
+   "Façade",
+   "Singleton",
+   "Strategy"
+  ],
+  "answer": [
+   3
+  ],
+  "explanation": "The route algorithms must be interchangeable at runtime, which is the Strategy design problem (L13 slide 11). `RoutePlanner` (Context) uses a `RouteStrategy` interface. Adding Scenic means a new ConcreteStrategy, which is open-closed (L14 slide 16). Nothing has to be notified of changes, so it is not Observer."
+ },
+ {
+  "id": "ch7-21",
+  "chapter": 7,
+  "subtopic": "which pattern",
+  "type": "single",
+  "level": 2,
+  "gotcha": false,
+  "question": "A weather station's readings must be shown on a phone app, an LED board and a data logger. Displays are added and removed at runtime, and none of them should need to poll. Which pattern?",
+  "options": [
+   "Observer",
+   "Factory",
+   "Strategy",
+   "Façade"
+  ],
+  "answer": [
+   0
+  ],
+  "explanation": "Many objects must get an update when another object changes, and they subscribe and unsubscribe freely: Observer (L13 slides 13, 25). WeatherStation = ConcreteSubject, each display = ConcreteObserver. Polling is what Observer removes (L15 slide 7)."
+ },
+ {
+  "id": "ch7-22",
+  "chapter": 7,
+  "subtopic": "which pattern",
+  "type": "single",
+  "level": 2,
+  "gotcha": false,
+  "question": "Five client classes each contain the same `if/else` that picks and `new`s an `EmailSender`, `SmsSender` or `PushSender` from a config string read at runtime. Which pattern removes this duplication?",
+  "options": [
+   "Façade",
+   "Factory",
+   "MVC",
+   "Observer"
+  ],
+  "answer": [
+   1
+  ],
+  "explanation": "L14 slide 9: Factory encapsulates object creation, removes duplicate creation code from clients and centralises class selection. Clients call something like `SenderFactory.createSender(type)` and receive the `Sender` interface."
+ },
+ {
+  "id": "ch7-23",
+  "chapter": 7,
+  "subtopic": "which pattern",
+  "type": "single",
+  "level": 2,
+  "gotcha": false,
+  "question": "To start a movie, the client code calls `amp.on()`, `projector.on()`, `lights.dim(20)`, `screen.down()` and `player.play(film)` in exactly this order. Which pattern simplifies the client?",
+  "options": [
+   "Factory",
+   "Strategy",
+   "Façade",
+   "Observer"
+  ],
+  "answer": [
+   2
+  ],
+  "explanation": "This is L14's Façade problem (slides 18–19, NonFacadeExample vs Computer.startComputer()). A `HomeTheatreFacade.watchMovie(film)` makes the calls in the right order, so the client depends on one class and not five (\"decouples a client from a complex system\", slide 20)."
+ },
+ {
+  "id": "ch7-24",
+  "chapter": 7,
+  "subtopic": "Strategy roles",
+  "type": "single",
+  "level": 2,
+  "gotcha": false,
+  "question": "GES (Tutorial 6): the manager's mobile app must work over LAN, WiFi, Bluetooth, 3G and 4G, with future protocols addable. In a Strategy design, what role does `WiFiProtocol` play?",
+  "options": [
+   "Strategy",
+   "Context",
+   "Subject",
+   "ConcreteStrategy"
+  ],
+  "answer": [
+   3
+  ],
+  "explanation": "`WiFiProtocol` implements the `NetworkProtocol` interface (the Strategy), so it is a ConcreteStrategy (L13 slide 11). The mobile app class that holds a `NetworkProtocol` reference and calls `connect()`/`send()` is the Context."
+ },
+ {
+  "id": "ch7-25",
+  "chapter": 7,
+  "subtopic": "Strategy + Factory",
+  "type": "single",
+  "level": 2,
+  "gotcha": false,
+  "question": "Tutorial 7 Q2 asks what is missing from a Strategy-only solution to the GES network-protocol problem. What is the best answer?",
+  "options": [
+   "Who selects and creates the right ConcreteStrategy at runtime: without a Factory, the client must `new WiFiProtocol()` itself and so knows the concrete classes",
+   "An Observer, so that protocols are notified when the network changes",
+   "Nothing. Strategy alone is complete",
+   "A Façade over the five protocols"
+  ],
+  "answer": [
+   0
+  ],
+  "explanation": "Strategy makes the protocols interchangeable but does not say how the concrete object is chosen and created. L14 slides 8–9 add a Factory (like DataStoreFactory.getDatastore()) to centralise selection and creation, so the Context only sees the interface."
+ },
+ {
+  "id": "ch7-26",
+  "chapter": 7,
+  "subtopic": "Observer variants",
+  "type": "single",
+  "level": 2,
+  "gotcha": false,
+  "question": "GES (Tutorial 7): processing plants register interest in **specific grain types**, and only plants interested in that grain are notified when it arrives. Which Observer signatures match L13's variant for this?",
+  "options": [
+   "`register(Interest)`, `notify(Observer)`, `update()`",
+   "`register(Observer, Interest)`, `notify(Interest)`, `update(Interest)`",
+   "`register(Observer)`, `notify()`, `update()`",
+   "`attach()`, `broadcast()`, `poll()`"
+  ],
+  "answer": [
+   1
+  ],
+  "explanation": "L13 slide 40: interest subscription + selective notification uses `register(Observer, Interest)`, `unregister(Observer, Interest)`, `notify(Interest)` (loops only over observers of that interest) and `update(Interest)`. Here Interest = GrainType."
+ },
+ {
+  "id": "ch7-27",
+  "chapter": 7,
+  "subtopic": "which pattern",
+  "type": "single",
+  "level": 2,
+  "gotcha": false,
+  "question": "Same GES feature: each plant chooses email, SMS or both, can change this over time, and new communication means must be easy to add. Which pattern handles **the communication means** part?",
+  "options": [
+   "Observer",
+   "Singleton",
+   "Strategy",
+   "Façade"
+  ],
+  "answer": [
+   2
+  ],
+  "explanation": "Interchangeable communication means that can change at runtime and must be extensible is the Strategy problem (L13 slide 11). Observer handles notifying the interested plants. Tutorial 7 Q1 is a combination of Observer + Strategy."
+ },
+ {
+  "id": "ch7-28",
+  "chapter": 7,
+  "subtopic": "Observer push/pull",
+  "type": "single",
+  "level": 2,
+  "gotcha": false,
+  "question": "Which update variant does this ConcreteObserver show?",
+  "code": "class PriceBoard extends Observer {\n  void update() {\n    Details d = subject.getData();\n    redraw(d);\n  }\n}",
+  "options": [
+   "Push",
+   "Not Observer: this is Strategy",
+   "Push + Pull",
+   "Pull"
+  ],
+  "answer": [
+   3
+  ],
+  "explanation": "`update()` takes no parameter, and the observer calls back `subject.getData()` for the details, so the communication is two-way. That is pull (L13 slides 33, 36). In push the data would arrive as `update(data)` with no call back."
+ },
+ {
+  "id": "ch7-29",
+  "chapter": 7,
+  "subtopic": "Observer push/pull",
+  "type": "single",
+  "level": 2,
+  "gotcha": false,
+  "question": "Which update variant does this Subject code show?",
+  "code": "void notify() {\n  Price price = getPrice();\n  for (Observer o : observers)\n    o.update(price);\n}",
+  "options": [
+   "Push",
+   "Pull",
+   "Selective notification",
+   "Factory"
+  ],
+  "answer": [
+   0
+  ],
+  "explanation": "The Subject gets the data itself and passes it to every observer in `update(price)`, whether or not they want it, and observers don't call back. That is push, one-way (L13 slides 34–36). It is not selective because it loops over all observers."
+ },
+ {
+  "id": "ch7-30",
+  "chapter": 7,
+  "subtopic": "Observer push/pull",
+  "type": "single",
+  "level": 2,
+  "gotcha": false,
+  "question": "Observers of a CCTV system need a large video clip only occasionally; usually a short alert is enough. Using L13's definitions, which variant avoids sending the clip to observers who don't want it?",
+  "options": [
+   "Push: send the clip in every `update(clip)`",
+   "Pull (or push + pull): send a simple/small notification; interested observers call back for the clip",
+   "Façade",
+   "No notification: observers poll every 10 s"
+  ],
+  "answer": [
+   1
+  ],
+  "explanation": "L13 slide 36: in push the details go out \"whether Observer wants it (interested) or not\". In pull the observer calls back for details only if it is interested. Slide 37's push + pull sends some details and lets the observer `getMoreData()` if interested. The slides pose \"which is better?\" as a trade-off, not a fixed rule."
+ },
+ {
+  "id": "ch7-31",
+  "chapter": 7,
+  "subtopic": "Observer roles",
+  "type": "single",
+  "level": 2,
+  "gotcha": false,
+  "question": "In L15's Excel Observer design, what roles do `SheetMgr` and `LineChart` play?",
+  "options": [
+   "SheetMgr = Context, LineChart = ConcreteStrategy",
+   "Both are Façades",
+   "SheetMgr = ConcreteSubject (extends WSSubject), LineChart = ConcreteObserver (implements WSObserver)",
+   "SheetMgr = Observer, LineChart = Subject"
+  ],
+  "answer": [
+   2
+  ],
+  "explanation": "L15 slide 11: WSSubject (`attach(WSObserver)`, `detach(WSObserver)`, `notify()`, `getData()`) is the Subject, and SheetMgr is the concrete subject. WSObserver (`update()`) is implemented by EditWS, LineChart and BarChart, each of which calls `sheetMgr.getData()` (pull)."
+ },
+ {
+  "id": "ch7-32",
+  "chapter": 7,
+  "subtopic": "Observer + layers",
+  "type": "single",
+  "level": 2,
+  "gotcha": false,
+  "question": "In a layered architecture, the Worksheet (lower layer) must tell charts in the presentation layer that a cell changed, but lower layers must not depend on higher ones. What does L15 suggest?",
+  "options": [
+   "Add a timer so charts poll every 10 seconds",
+   "Let the worksheet call `LineChart.drawLine()` directly",
+   "Merge the two layers",
+   "Apply Observer: the lower layer knows only the abstract Observer, and views subscribe and get notified"
+  ],
+  "answer": [
+   3
+  ],
+  "explanation": "L15 slide 16: layering needs up-calls, and Observer allows them without a dependency from the lower to the higher layer (loose coupling between the two layers). Slide 7 rejects direct callbacks (tight coupling) and timers (slow refresh or excessive polling)."
+ },
+ {
+  "id": "ch7-33",
+  "chapter": 7,
+  "subtopic": "MVC",
+  "type": "single",
+  "level": 2,
+  "gotcha": false,
+  "question": "A spreadsheet view must respond to the same key press differently in **read-only** and **edit** modes, switchable at runtime. Following L15, what do you change?",
+  "options": [
+   "Swap the View's Controller (the Strategy) for a different Controller",
+   "Create a new View subclass for each mode",
+   "Add a new Observer to the Model",
+   "The Model's notify()"
+  ],
+  "answer": [
+   0
+  ],
+  "explanation": "L15 slides 15 and 23: \"the application reacts to user input differently\" is solved by Strategy. The View (Context) delegates input handling to the Controller (Strategy), which can be changed so that the View responds differently."
+ },
+ {
+  "id": "ch7-34",
+  "chapter": 7,
+  "subtopic": "Strategy roles",
+  "type": "single",
+  "level": 2,
+  "gotcha": false,
+  "question": "A food-delivery app accepts GrabPay, card and cash on delivery, with more to come. In a Strategy design, where should the abstract `pay(amount)` operation be declared?",
+  "options": [
+   "In `CheckoutController`, the Context",
+   "In a `PaymentMethod` interface, implemented by `GrabPayPayment`, `CardPayment`, `CashPayment`",
+   "In `CardPayment`, which the others extend",
+   "In a `PaymentSubject` with `notify()`"
+  ],
+  "answer": [
+   1
+  ],
+  "explanation": "The Strategy interface declares the common operation and each ConcreteStrategy implements it (L13 slide 11). The Context holds a `PaymentMethod` reference and calls `pay()` without knowing which concrete class it is: program to an interface (L14 slide 16)."
+ },
+ {
+  "id": "ch7-35",
+  "chapter": 7,
+  "subtopic": "Factory",
+  "type": "single",
+  "level": 2,
+  "gotcha": false,
+  "question": "In L14's EMS design, `ResourceManager` gets its data store from `DataStoreFactory.getDatastore() : DataStoreInterface`. To support a new `OracleImpl` (no dynamic loading), what changes?",
+  "diagram": "classDiagram\nclass ResourceManager\nclass DataStoreFactory {\n+getDatastore()$ DataStoreInterface\n}\nclass DataStoreInterface {\n<<interface>>\n+retrieveMap()\n+createIncident()\n+dispatchResource()\n}\nResourceManager ..> DataStoreFactory\nResourceManager --> DataStoreInterface : datastore\nDataStoreFactory ..> DataStoreInterface : create\nDataStoreInterface <|.. FlatFileImpl\nDataStoreInterface <|.. MySQLImpl\nDataStoreInterface <|.. DB2Impl",
+  "options": [
+   "ResourceManager and every other client must be edited",
+   "DataStoreInterface must be changed to extend OracleImpl",
+   "Add `OracleImpl` implementing DataStoreInterface and update the selection logic in DataStoreFactory; ResourceManager is unchanged",
+   "Nothing at all changes; no new class is needed"
+  ],
+  "answer": [
+   2
+  ],
+  "explanation": "L14 slides 8–9: the factory centralises class selection and creation, so it is \"easy to... add new subclasses, e.g. support new OracleImpl\", and the change is localised to the factory. Only with dynamic loading (slide 14) is \"no need to change a single line of code\" true."
+ },
+ {
+  "id": "ch7-36",
+  "chapter": 7,
+  "subtopic": "Strategy + Factory",
+  "type": "single",
+  "level": 2,
+  "gotcha": false,
+  "question": "Eclipse lets you add `SE2006View` without modifying a single line of Eclipse code. Which combination does L14 credit for this?",
+  "options": [
+   "MVC + Command",
+   "Observer + Façade",
+   "Singleton + Strategy",
+   "Strategy + Factory + dynamic loading"
+  ],
+  "answer": [
+   3
+  ],
+  "explanation": "L14 slides 10–14: ViewPart is the strategy interface, the registry creates views (factory), and classes are loaded dynamically by name. The same trio appears in Swing Look & Feel (UIManager) and JDBC drivers (DriverManager)."
+ },
+ {
+  "id": "ch7-37",
+  "chapter": 7,
+  "subtopic": "Façade",
+  "type": "single",
+  "level": 2,
+  "gotcha": false,
+  "question": "In L14's Façade solution, which classes does `FacadeExample` (the client) depend on directly?",
+  "diagram": "classDiagram\nclass FacadeExample {\n+main()\n}\nclass Computer {\n+startComputer()\n}\nclass HardDrive {\n+read(long, bytes) bytes\n}\nclass CPU {\n+freeze()\n+jump()\n+execute()\n}\nclass Memory {\n+load(long, bytes)\n}\nFacadeExample ..> Computer : startComputer\nComputer *-- HardDrive\nComputer *-- CPU\nComputer *-- Memory",
+  "options": [
+   "Only Computer",
+   "None: it uses Observer",
+   "Computer, CPU and Memory",
+   "HardDrive, CPU and Memory"
+  ],
+  "answer": [
+   0
+  ],
+  "explanation": "L14 slide 19: FacadeExample only instantiates Computer and calls `startComputer()`. Computer creates HardDrive, CPU and Memory and calls freeze/load/jump/execute in order. Slide 18's NonFacadeExample depended on all three, which was the problem."
+ },
+ {
+  "id": "ch7-38",
+  "chapter": 7,
+  "subtopic": "which pattern",
+  "type": "multi",
+  "level": 2,
+  "gotcha": false,
+  "question": "A ride-hailing app has peak, off-peak and promo fare calculators. The booking service must use the right one picked from a config at runtime **without naming any calculator class** in its code. Which patterns combine here? (Pick all that apply.)",
+  "options": [
+   "Strategy",
+   "Factory",
+   "Observer",
+   "Façade"
+  ],
+  "answer": [
+   0,
+   1
+  ],
+  "explanation": "The interchangeable fare algorithms are Strategy (L13 slide 11). Choosing and creating the concrete one without the client naming it is Factory (L14 slide 5). This is the same Strategy + Factory pairing as L14 slide 8. Nothing needs notifying, and there is no complex subsystem to wrap."
+ },
+ {
+  "id": "ch7-39",
+  "chapter": 7,
+  "subtopic": "Observer roles",
+  "type": "single",
+  "level": 2,
+  "gotcha": false,
+  "question": "In L15's MVC class diagram, which classes implement the abstract `Observer` (with `update()`)?",
+  "diagram": "classDiagram\nclass Model {\n-data\n+service()\n+register(Observer)\n+unregister(Observer)\n+notify()\n+getData()\n}\nclass Observer {\n<<interface>>\n+update()\n}\nclass Controller {\n+handleEvent()\n}\nclass View {\n+scroll()\n+update()\n}\nModel \"1\" -- \"*\" Observer : observers\nObserver <|.. Controller\nObserver <|.. View\nController --> Model : model\nController --> View : view\nView ..> Controller : create",
+  "options": [
+   "Model and View",
+   "Only Controller",
+   "View and Controller",
+   "Only Model"
+  ],
+  "answer": [
+   2
+  ],
+  "explanation": "L15 slide 22: Model is the subject (`register/unregister/notify/getData`), and both View and Controller realize Observer. Slide 25 also lists Observer for View–Model and Controller–Model. Model never implements Observer."
+ },
+ {
+  "id": "ch7-40",
+  "chapter": 7,
+  "subtopic": "Strategy gotcha",
+  "type": "single",
+  "level": 3,
+  "gotcha": true,
+  "question": "A student's Strategy \"solution\" for repayments is below. What will the marker penalise?",
+  "code": "class RepaymentController {\n  void pay(String type, int amt) {\n    if (type.equals(\"NETS\"))      { /*NETS*/ }\n    else if (type.equals(\"Visa\")) { /*Visa*/ }\n    else if (type.equals(\"MC\"))   { /*MC*/ }\n  }\n}",
+  "options": [
+   "It only needs `pay()` made static",
+   "It should use Observer instead",
+   "Nothing; it supports three methods",
+   "It is not Strategy: the algorithms are hard-coded in Context, so adding PayPal means modifying `pay()` (it breaks open-closed). It needs a `PaymentMethod` interface with one ConcreteStrategy per method"
+  ],
+  "answer": [
+   3
+  ],
+  "explanation": "A conditional on type inside the Context is the problem Strategy removes. L14 slide 16: open for extension, closed for modification, and program to an interface. A correct design lets PayPal be added as a new class without editing existing code."
+ },
+ {
+  "id": "ch7-41",
+  "chapter": 7,
+  "subtopic": "Strategy gotcha",
+  "type": "single",
+  "level": 3,
+  "gotcha": true,
+  "question": "A student draws the Strategy diagram below. What is wrong?",
+  "diagram": "classDiagram\nclass Context\nclass Strategy {\n<<interface>>\n+doSomething()\n}\nContext ..> Strategy : uses\nConcreteStrategyA <|.. Strategy\nConcreteStrategyB <|.. Strategy",
+  "options": [
+   "The realization triangles point the wrong way: they must point at the Strategy interface (`Strategy <|.. ConcreteStrategyA`)",
+   "The dependency should go from Strategy to Context",
+   "Nothing",
+   "Context should inherit from Strategy"
+  ],
+  "answer": [
+   0
+  ],
+  "explanation": "In L13 slide 11, ConcreteStrategyA/B \"implement or realize\" Strategy with a dashed line and a hollow triangle **at Strategy**. Drawn the other way round, it says the interface implements the concrete classes. Context uses Strategy (dashed arrow); it does not inherit from it."
+ },
+ {
+  "id": "ch7-42",
+  "chapter": 7,
+  "subtopic": "Observer gotcha",
+  "type": "single",
+  "level": 3,
+  "gotcha": true,
+  "question": "A student's GES notifier keeps `List<EmailPlant>` and `List<SmsPlant>` and calls `emailPlant.sendEmail()` / `smsPlant.sendSms()` in `notify()`. Why does this lose marks as an Observer design?",
+  "options": [
+   "notify() should be private",
+   "The Subject depends on concrete observer classes, so it is tightly coupled. Adding a new plant type means editing the Subject. It should hold `List<Observer>` and call `o.update()` only",
+   "It doesn't; it is a valid Observer",
+   "It should use push instead of pull"
+  ],
+  "answer": [
+   1
+  ],
+  "explanation": "L13 slide 33: the 1-to-* association is between abstract Subject and abstract Observer, and notify() is `for each o in observers o.update()`. \"Loose coupling is a benefit for both sides\" (slide 46). Push vs pull is a separate issue."
+ },
+ {
+  "id": "ch7-43",
+  "chapter": 7,
+  "subtopic": "Observer gotcha",
+  "type": "single",
+  "level": 3,
+  "gotcha": true,
+  "question": "A student labels this design **push** update. Is that right?",
+  "code": "// Subject\nvoid notify() {\n  for (Observer o : observers) o.update();\n}\n// ConcreteObserver\nvoid update() {\n  show(subject.getData());\n}",
+  "options": [
+   "Yes, because the subject calls `update()`",
+   "Yes, because there is a `notify()`",
+   "No. `update()` carries no data and the observer calls back `subject.getData()`, so it is pull",
+   "No, it is selective notification"
+  ],
+  "answer": [
+   2
+  ],
+  "explanation": "In both variants the subject calls update(). What decides it (L13 slide 36) is whether details travel in the update call (push, one-way) or the observer calls back for them (pull, two-way). Here it calls back, so it is pull. It is not selective because there is no Interest parameter."
+ },
+ {
+  "id": "ch7-44",
+  "chapter": 7,
+  "subtopic": "Factory gotcha",
+  "type": "single",
+  "level": 3,
+  "gotcha": true,
+  "question": "A student writes: \"With the L14 Factory pattern, adding a new product class needs **no** code change anywhere.\" What is the accurate statement?",
+  "options": [
+   "Correct as written for any factory",
+   "Factories cannot support new classes",
+   "Every client must be changed",
+   "With a basic static factory, clients are unchanged but the factory's selection logic is updated. \"Not a single line\" needs dynamic loading (Strategy + Factory + dynamic loading)"
+  ],
+  "answer": [
+   3
+  ],
+  "explanation": "L14 slide 9: the factory centralises selection and creation (easy to add a new OracleImpl, with the change localised). L14 slide 14: only when it is combined with dynamic loading is there \"no need to change a single line of code to use new classes\"."
+ },
+ {
+  "id": "ch7-45",
+  "chapter": 7,
+  "subtopic": "which pattern gotcha",
+  "type": "single",
+  "level": 3,
+  "gotcha": true,
+  "question": "For \"payment methods (NETS, Visa, MasterCard) will expand to PayPal and mobile payment\", a student proposes **Observer** because \"the bank notifies the payment method\". Why is that weak?",
+  "options": [
+   "Nothing is changing state and fanning out to many dependents. The problem is interchangeable, extensible payment algorithms, so Strategy (optionally + Factory) fits",
+   "Observer is correct",
+   "Façade fits better because there are three methods",
+   "Singleton, because there is one bank"
+  ],
+  "answer": [
+   0
+  ],
+  "explanation": "Ask what varies. Here it is the payment algorithm, which should be interchangeable and extensible: Strategy (L13 slide 11), with a Factory if the creation must be hidden (L14 slide 8). Observer needs a one-to-many \"notify on change\" dependency (L13 slide 24), which is not present."
+ },
+ {
+  "id": "ch7-46",
+  "chapter": 7,
+  "subtopic": "MVC gotcha",
+  "type": "single",
+  "level": 3,
+  "gotcha": true,
+  "question": "A student writes: \"In MVC, the Controller is the Context and the View is the Strategy; the View observes the Controller.\" How many errors does it contain, according to L15?",
+  "options": [
+   "None",
+   "Two: the Strategy roles are reversed (View = Context, Controller = Strategy), and Views observe the **Model**",
+   "One: only the Observer part is wrong",
+   "It is right if push update is used"
+  ],
+  "answer": [
+   1
+  ],
+  "explanation": "L15 slide 23: the View (Context) delegates to the Controller (Strategy). Model is the Subject and Views are Observers. The Controller updates the Model, and the Model notifies its observers (slide 21)."
+ },
+ {
+  "id": "ch7-47",
+  "chapter": 7,
+  "subtopic": "Observer gotcha",
+  "type": "single",
+  "level": 3,
+  "gotcha": true,
+  "question": "Asked \"how do views learn about worksheet changes?\", a student writes \"each chart checks the worksheet every 10 seconds\". What is the issue, according to L15?",
+  "options": [
+   "It is a push update",
+   "It should be every 1 second",
+   "It is polling, not Observer: either slow refresh or excessive polling. Observer notifies the views when the change occurs",
+   "None; it is a valid Observer"
+  ],
+  "answer": [
+   2
+  ],
+  "explanation": "L15 slide 7 flags the timer: \"slow refresh, or excessive polling\". The observer side of the pattern says \"I cannot constantly check... because I do not know how frequent I should check\" (slide 10). The Subject must notify on change."
+ },
+ {
+  "id": "ch7-48",
+  "chapter": 7,
+  "subtopic": "exam technique",
+  "type": "single",
+  "level": 3,
+  "gotcha": true,
+  "question": "Q3(b)(i)-style: \"Identify TWO design problems\" for an extensible set of payment methods. Which answer earns the marks?",
+  "options": [
+   "\"Use the Strategy pattern\" and \"draw a class diagram\"",
+   "(1) Payment is a functional requirement; (2) security is non-functional",
+   "(1) The bank needs a database; (2) the UI is slow",
+   "(1) Several payment algorithms must be interchangeable and selectable at runtime without the client knowing which one; (2) new methods must be addable without modifying existing code (open for extension, closed for modification)"
+  ],
+  "answer": [
+   3
+  ],
+  "explanation": "A design problem states what has to be achieved, not the pattern name. Phrase it in the slides' words: \"interchangeable\" (L13 slide 11) and open-closed (L14 slide 16). Name the pattern in part (ii)."
+ }
+]

@@ -1,0 +1,127 @@
+{
+ "chapter": 8,
+ "title": "Black-box testing: EC + BV",
+ "intro": "How L16 frames testing and the exact L18 conventions for equivalence classes, boundary values and test case tables. This is past-paper Q4(a) (12 marks), worked through on Tutorial 8 (GES silo).",
+ "cards": [
+  {
+   "title": "Where black-box testing fits (L16)",
+   "body": "**Black-box** testing analyses the **requirements and specifications**. Its types are EC + BV testing and state-based testing. **White-box** testing analyses the implementation (internal paths and structure): control flow and data flow testing (L16 slide 13).\nLevels: **unit** (this course), integration, system, acceptance/UAT (slide 14).\nTesting = dynamic execution **to find bugs, rather than to prove there are none** (slide 19). Exhaustive testing of a 16-bit int (2^16 = 65536 inputs) is possible but too costly, so we pick representatives (slide 6).",
+   "keypoints": [
+    "Black box = from requirements; white box = from code (CFG, basis paths)",
+    "Black-box types: EC/BV testing + state-based testing",
+    "Testing finds bugs; it cannot prove there are none"
+   ]
+  },
+  {
+   "title": "Test case = 5 ingredients (L16 slide 15)",
+   "body": "**Name**: distinct name of the test case\n**Location**: path to the test program and its inputs\n**Input**: input data or commands\n**Oracle**: EXPECTED output\n**Log**: ACTUAL output produced by the test\nIn a test table (slide 16) each row is a test case. The input columns are the Input, 'Expected Result' is the Oracle, and 'Test Result' is the Log. When log ≠ oracle, you have found a bug (e.g. $1501, 8 mortgages: expected Reject, log Approval).\nOrder (slide 18): **cascading** tests (create → read → update → delete) are smaller and simpler, but one failure can invalidate the later ones. **Independent** tests can run in parallel but are larger and more complex.",
+   "code": "Income | #Mortgage | Applicant | Property | Expected | Test Result\n$5000  | 2         | Person    | Condo    | Approval | Approval\n$1501  | 8         | Person    | Condo    | Reject   | Approval  <- bug\n         (Input)                           (Oracle)   (Log)",
+   "keypoints": [
+    "Oracle = expected, Log = actual",
+    "Every test row needs an Expected Result column"
+   ]
+  },
+  {
+   "title": "Equivalence classes: what and how many",
+   "body": "An **EC** is a set of inputs that are all supposed to produce the **same output**. If one value catches a bug, the others probably will too (L18 slide 2).\nTester's process (slide 3): (1) identify **valid and invalid** ECs, (2) choose at least one value per EC of each parameter, (3) determine the expected outputs (oracle), (4) build the tests (e.g. JUnit). The engine runs them and compares the log with the oracle.\n**How many ECs (slide 17):**\nRange of values → **1 valid + 2 invalid**\nDiscrete values → **1 valid + 1 invalid** (all the other values share ONE invalid EC: Trust, Company, Partnership... on slide 5)",
+   "diagram": "flowchart LR\n  A[\"Invalid EC<br/>x ≤ 1499\"] --- B[\"Valid EC<br/>1500 ≤ x ≤ 80000\"] --- C[\"Invalid EC<br/>x ≥ 80001\"]",
+   "after": "Mortgage income example, L18 slide 4. Applicant type (slide 5): valid {Person}, invalid {Trust, Company, Partnership, ...}.",
+   "keypoints": [
+    "Range: 1 valid, 2 invalid (below and above, kept separate)",
+    "Discrete / yes-no: 1 valid, 1 invalid",
+    "Write integer bounds the lecture's way: x ≤ 1499, 1500 ≤ x ≤ 80000, x ≥ 80001"
+   ]
+  },
+  {
+   "title": "Test cases from ECs: the one-invalid rule",
+   "body": "**VALID inputs:** combine several in one test case, one valid value per parameter (L18 slide 6). If a valid EC is small (0–5 mortgages, HDB/Condo), you may enumerate all its values across rows, but not for an income range (slide 7).\n**INVALID inputs:** test **ONLY ONE invalid input per test case**, with valid values for every other parameter (slides 6 and 9). Why: so you learn the error handling for **each** type of invalid input (slide 9).\nWrong (slide 9): ($100, 8, Company, Mobilehome) → Reject has four invalid inputs in one row.",
+   "code": "Income | #Mort | Applicant | Property   | Expected\n$100   | 1     | Person    | Condo      | Reject\n$81000 | 2     | Person    | HDB        | Reject\n$5000  | -1    | Person    | Condo      | Reject\n$10000 | 8     | Person    | HDB        | Reject\n$12345 | 3     | Company   | HDB        | Reject\n$76543 | 4     | Person    | Mobilehome | Reject",
+   "after": "L18 slide 10: 6 invalid ECs (2 + 2 + 1 + 1), so 6 rows, each with exactly one invalid value.",
+   "keypoints": [
+    "Many valid inputs per row: OK",
+    "At most ONE invalid input per row",
+    "Min EC test cases = 1 (all valid) + number of invalid ECs"
+   ]
+  },
+  {
+   "title": "Boundary values: on, just below, just above",
+   "body": "BVT applies **only to ranges of values**. Discrete values have **no BVs** (L18 slide 11).\nFor each boundary of an EC, choose **three** values: on-the-boundary, just-below, just-above (slide 12). The step **depends on the value's unit**: 1 for integers, 0.01 for dollars and cents, 0.1 for a reading to one decimal place.\nClassify them (slides 16 and 18): **on-the-boundary = valid**, just-below / just-above = invalid. Neighbours that fall inside the current EC or another EC are **not duplicated** as test cases.",
+   "code": "Income 1500 ≤ x ≤ 80000 (L18 slide 13)\n  Lower boundary 1500 : 1499, 1500, 1501\n  Upper boundary 80000: 79999, 80000, 80001\n  Valid BVs  : {1500, 80000}\n  Invalid BVs: {1499, 80001}\n#Mortgage 0 ≤ x ≤ 5: -1,0,1 | 4,5,6 -> valid {0,5} invalid {-1,6}\nPassword len 4..8 : 3,4,5 | 7,8,9 -> valid {4,8} invalid {3,9}",
+   "keypoints": [
+    "3 values per boundary, 6 per range",
+    "Step = the value's unit (integer → 1)",
+    "Valid BVs = on-boundary; invalid BVs = just outside",
+    "Discrete: write 'no boundary values'"
+   ]
+  },
+  {
+   "title": "Several ECs side by side (hiring rules)",
+   "body": "When the domain is split into several ranges with different outputs, each range is an EC with its own boundaries (L18 slide 14). Just-below/just-above values often land in the **neighbouring EC**, so you don't create duplicate test cases for them (slide 12).\nOnly the values outside the whole domain are invalid: here {-1, 100}.\nSlide typos to ignore: the valid set ends in '00' (it means 99). The Add1Divide30000 slide (L18 slide 15 / L16 slide 8) says 'Upper boundary 32766' but means 32767.",
+   "code": "0  ≤ age ≤ 15 (no hire) : -1, 0, 1   | 14, 15, 16\n16 ≤ age ≤ 17 (part time): 15, 16, 17 | 16, 17, 18\n18 ≤ age ≤ 54 (full time): 17, 18, 19 | 53, 54, 55\n55 ≤ age ≤ 99 (no hire) : 54, 55, 56 | 98, 99, 100\nValid BVs  : {0,15,16,17,18,54,55,99}\nInvalid BVs: {-1, 100}",
+   "keypoints": [
+    "Adjacent ECs share neighbours, so don't duplicate",
+    "Invalid = outside the whole input domain"
+   ]
+  },
+  {
+   "title": "Test cases from BVs (L18 slides 16 and 18)",
+   "body": "Same rules as for ECs, but the inputs are boundary values:\n1. **Valid A + Valid B**: combine on-the-boundary values (e.g. both lower bounds in one row, both upper bounds in another).\n2. **Valid A + Invalid B**\n3. **Invalid A + Valid B**\nNever Invalid A + Invalid B: **at most ONE invalid input** per test case.\nUse on-the-boundary values as VALID inputs and just-below/just-above values (if not already in an EC being tested) as INVALID inputs.",
+   "keypoints": [
+    "Valid rows: combine on-boundary values of all parameters",
+    "Invalid rows: one just-outside value + valid values elsewhere",
+    "Invalid BV rows = number of invalid BVs (2 per range)"
+   ]
+  },
+  {
+   "title": "Worked: Tutorial 8(a), ECs and BVs (GES silo)",
+   "body": "Silo accepts grain only if humidity H (domain 0–100%) is normal, **35–50%**, and temperature T (domain -10–100 °C) is normal, **40–60 °C**.\n**Assumption (state it!):** H and T are read in whole units (step 1). If they were read to 0.1, use 34.9/35.1 etc. (L18 slide 12).\nEach is a range: 1 valid EC + 2 invalid ECs. 'Valid' = normal = silo accepts. Invalid = outside the normal range = silo rejects.",
+   "code": "EQUIVALENCE CLASSES\nParam | Valid EC          | Invalid ECs\nH (%) | EC1: 35 ≤ H ≤ 50  | EC2: H ≤ 34 (0..34)\n      |                   | EC3: H ≥ 51 (51..100)\nT (C) | EC4: 40 ≤ T ≤ 60  | EC5: T ≤ 39 (-10..39)\n      |                   | EC6: T ≥ 61 (61..100)\n\nBOUNDARY VALUES\nH lower 35: 34, 35, 36   H upper 50: 49, 50, 51\n  Valid BVs {35, 50}  Invalid BVs {34, 51}\nT lower 40: 39, 40, 41   T upper 60: 59, 60, 61\n  Valid BVs {40, 60}  Invalid BVs {39, 61}\n\n(Defensive, physical limits)\nH 0: -1,0,1  H 100: 99,100,101\nT -10: -11,-10,-9  T 100: 99,100,101",
+   "after": "Ambiguity: the tutorial says the silo rejects when readings EXCEED normal. Low humidity or temperature is treated as abnormal (invalid) too, because 35–50 and 40–60 are given as the normal ranges. Write this assumption down in the exam.",
+   "keypoints": [
+    "State the unit/step assumption",
+    "2 parameters × (1 valid + 2 invalid) = 6 ECs",
+    "Valid BVs H {35,50}, T {40,60}; invalid BVs H {34,51}, T {39,61}"
+   ]
+  },
+  {
+   "title": "Worked: Tutorial 8(b), test case table",
+   "body": "Build the rows systematically: all-valid first, then ONE invalid input per row (EC part), then the boundary rows (BV part). Columns follow L18: one column per input, then Expected Result. Add Test Result (log) when the test is run.",
+   "code": "TC  | Humidity | Temp | Covers        | Expected\n1   | 42       | 50   | EC1+EC4       | Accept\n2   | 20       | 50   | EC2 (H low)   | Reject\n3   | 75       | 50   | EC3 (H high)  | Reject\n4   | 42       | 0    | EC5 (T low)   | Reject\n5   | 42       | 80   | EC6 (T high)  | Reject\n6   | 35       | 40   | valid BVs low | Accept\n7   | 50       | 60   | valid BVs high| Accept\n8   | 34       | 50   | inv BV H      | Reject\n9   | 51       | 50   | inv BV H      | Reject\n10  | 42       | 39   | inv BV T      | Reject\n11  | 42       | 61   | inv BV T      | Reject\n-- defensive (outside physical range) --\n12  | -1       | 50   | H < 0         | Error/Reject\n13  | 101      | 50   | H > 100       | Error/Reject\n14  | 42       | -11  | T < -10       | Error/Reject\n15  | 42       | 101  | T > 100       | Error/Reject",
+   "keypoints": [
+    "11 core test cases: 1 + 4 (EC) + 2 + 4 (BV)",
+    "Never put 34% humidity and 39 °C in the same row",
+    "Defensive extras test out-of-domain readings"
+   ]
+  },
+  {
+   "title": "Non-numeric conditions + defensive testing (past Q4(a) style)",
+   "body": "Example scenario (a variant, not the past paper): a car loan needs **C1: applicant employed full time** AND **C2: annual income 30000 ≤ x ≤ 150000 (integer)**.\nC1 is **discrete** (yes/no): 1 valid EC (employed full time), 1 invalid EC (not full time: part time, unemployed, ... together). **No BVs**, so say so explicitly in part (ii).\nC2 is a range: 1 valid + 2 invalid ECs, BVs 29999/30000/30001 and 149999/150000/150001.\n**Defensive testing** (wording from the past paper; the L16/L18 slides don't define it): don't test only the happy path. Include a test case for every invalid EC and invalid BV, one invalid input at a time.",
+   "code": "TC | Full time? | Income  | Expected\n1  | Yes        | 80000   | Approve  (all valid)\n2  | No         | 80000   | Reject   (C1 invalid)\n3  | Yes        | 10000   | Reject   (C2 low EC)\n4  | Yes        | 200000  | Reject   (C2 high EC)\n5  | Yes        | 30000   | Approve  (valid BV)\n6  | Yes        | 150000  | Approve  (valid BV)\n7  | Yes        | 29999   | Reject   (invalid BV)\n8  | Yes        | 150001  | Reject   (invalid BV)",
+   "keypoints": [
+    "Yes/no condition: 1 valid + 1 invalid EC, no BVs",
+    "Defensive = cover every invalid EC/BV too, one per row",
+    "Past Q4(a): 3 + 4 + 5 marks = ECs, BVs, test cases"
+   ]
+  },
+  {
+   "title": "Exam recipe (write it in this order)",
+   "body": "**(i) ECs:** for each condition, say whether it is a range or discrete. Range: Valid ECn: a ≤ x ≤ b; Invalid: x ≤ a-1; Invalid: x ≥ b+1. Discrete: 1 valid, 1 invalid. Label EC1, EC2, ... and state the unit/step assumption.\n**(ii) BVs:** for each range boundary, write 'Lower boundary a: a-step, a, a+step' and 'Upper boundary b: b-step, b, b+step'. Then list Valid BVs {a, b} and Invalid BVs {a-step, b+step}. For a discrete condition, write 'no boundary values'.\n**(iii) Test cases:** a table with one column per input + Expected Result.\n  1. One all-valid row (more if you enumerate small valid ECs).\n  2. One row per invalid EC, with only that input invalid.\n  3. Valid BV rows combining on-boundary values.\n  4. One row per invalid BV, with all other inputs valid.\n  5. Tick each EC/BV against a row ('Covers' column).",
+   "keypoints": [
+    "Classify → EC table → BV table → test table",
+    "Count check: invalid rows = invalid ECs + invalid BVs",
+    "Every row: ≤ 1 invalid input + an expected result"
+   ]
+  },
+  {
+   "title": "Traps the marker penalises",
+   "body": "1. **Two invalid inputs in one test case**, e.g. (age 17, not employed) → loses the test design marks (L18 slide 9).\n2. **One merged invalid EC** for a range ('outside 1500–80000'): it needs TWO (slide 4).\n3. **BVs for a discrete/boolean condition**: there are none (slide 11).\n4. **Wrong step**: -0.1/0.1 for integers, or 1 for cents (slide 12).\n5. **Wrong boundary from loose wording**: 'not more than $100,000 ... specifically $0 to $99,999' means the boundary is 99999, and 100000 is just-above.\n6. **Strict inequalities**: '> 60 and < 120' means a valid EC of 61..119.\n7. **Dropping values the question asks for**: list all three values per boundary in part (ii). Remove in-EC duplicates only when building test cases (slides 13 and 18).\n8. **Just-above the upper bound marked valid** (80001 is invalid).\n9. **No Expected Result column**: a row without an oracle is not a test case (L16 slide 15).\n10. **Splitting 'not full time'** into part-time/unemployed ECs: it is ONE invalid EC (slide 5).",
+   "keypoints": [
+    "≤ 1 invalid per row",
+    "Range = 2 invalid ECs",
+    "Discrete = no BVs",
+    "Step = unit",
+    "Always an expected result"
+   ]
+  }
+ ]
+}

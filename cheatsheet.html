@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SC2006 Cheat Sheet: the course's rules</title>
+<style>
+body{margin:0;background:#0f1115;color:#e8eaf0;font:15.5px/1.5 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif}
+.w{max-width:720px;margin:0 auto;padding:14px 14px 60px}
+h1{font-size:21px;margin:6px 0}h2{font-size:17px;margin:22px 0 6px;color:#8fb8ff;border-bottom:1px solid #2c313c;padding-bottom:4px}
+.c{background:#181b22;border:1px solid #2c313c;border-radius:12px;padding:10px 12px;margin:8px 0}
+code{background:#2a2f3a;padding:1px 5px;border-radius:5px;font-size:.92em}
+pre{background:#11141a;border:1px solid #2c313c;border-radius:8px;padding:8px;overflow:auto;font-size:13px;margin:6px 0}
+table{width:100%;border-collapse:collapse;font-size:14px}td,th{border-bottom:1px solid #2c313c;padding:6px 4px;text-align:left;vertical-align:top}th{color:#9aa3b2;font-weight:600}
+.t{color:#f0b429;font-weight:700}.ok{color:#2fbf71}.bad{color:#ef5b5b}
+a{color:#5b9cff}ul{padding-left:20px;margin:6px 0}li{margin:3px 0}
+.mut{color:#9aa3b2;font-size:13px}
+@media print{body{background:#fff;color:#000;font-size:12px}.c{background:#fff;border-color:#999}h2{color:#000;border-color:#999}code,pre{background:#eee;color:#000}.mut{color:#444}.t,.ok,.bad{color:#000}a{display:none}}
+</style></head><body><div class="w">
+<a href="index.html">← Back to trainer</a>
+<h1>SC2006 cheat sheet: the course's rules</h1>
+<div class="mut">Every rule is taken from the lecture slides (L = lecture, s = slide). If the slides don't say it, it isn't here.</div>
+
+<h2>1. Requirements (L2)</h2>
+<div class="c"><ul>
+<li><b>FR</b> = what the system must do (interactions, inputs → outputs). <b>NFR</b> = properties not directly about functional behaviour: Usability, Reliability, Performance, Supportability examples (L2 s8–10).</li>
+<li><b>Atomic</b>: one requirement per numbered statement (1.1, 1.1.1 …), so the spec is verifiable and traceable (L2 s11–12).</li>
+<li><b>Verifiable</b> = specific enough to test. <span class="bad">"user-friendly"</span>, <span class="bad">"more than one drill press"</span> → <span class="ok">"up to seven drill presses concurrently"</span> (L2 s13).</li>
+<li><b>Don't guess</b>: mark unknowns <b>TBD</b> and clarify with the client (L4 s20).</li>
+</ul></div>
+
+<h2>2. Use cases (L3, L4)</h2>
+<div class="c"><table>
+<tr><th></th><th>&lt;&lt;include&gt;&gt;</th><th>&lt;&lt;extend&gt;&gt;</th></tr>
+<tr><td>Meaning</td><td>Reuse / decomposition. <b>Always</b> used by the parent (L3 s15)</td><td>Optional functionality. Only in <b>exceptional or unusual</b> circumstances (L3 s15)</td></tr>
+<tr><td>Arrow</td><td><b>Base → included</b>. "A delegates to B" (L3 s13)</td><td><b>Extension → base</b>. Help ──&lt;&lt;extend&gt;&gt;──▶ ReportEmergency (L3 s14)</td></tr>
+<tr><td>Cue words</td><td>always / before / must also</td><td>if / when / optionally</td></tr>
+</table>
+<div class="mut">The base of an extend is complete by itself ("ReportEmergency is complete by itself", L3 s14). Both are dashed arrows.</div></div>
+<div class="c"><b>Use case description</b> (L4 s4–5, template s17)
+<ul>
+<li><b>Participating actors</b>, marking the <b>initiating actor</b> (NULL if triggered by a system event or another use case).</li>
+<li><b>Entry conditions</b> (pre) and <b>Exit conditions</b> (post): system states.</li>
+<li><b>Flow of events</b>: numbered; step 1 = how the actor triggers it, step 2 = how the system responds, …</li>
+<li><b>Alternative flows</b>: variations or errors (wrong password); they <b>return to the normal flow</b>. Label them by step, e.g. <code>AF-S5</code> (L4 s10).</li>
+<li><b>Exceptions</b>: situations that make the use case <b>fail</b> (network down), e.g. <code>EX1</code> (L4 s11).</li>
+<li>Template also has: Use Case ID, Name, Created/Updated by + dates, Description, Priority, Frequency of Use, <b>Includes</b>, Special Requirements, Assumptions, Notes and Issues.</li>
+</ul></div>
+
+<h2>3. Boundary / Control / Entity (L5) + layered architecture (L12)</h2>
+<div class="c"><table>
+<tr><td><b>&lt;&lt;boundary&gt;&gt;</b></td><td>interaction between actor and system (L5 s17)</td></tr>
+<tr><td><b>&lt;&lt;control&gt;&gt;</b></td><td>logic to realise a use case</td></tr>
+<tr><td><b>&lt;&lt;entity&gt;&gt;</b></td><td>information tracked by the system</td></tr>
+</table>
+<pre>
+ Presentation  [Boundary]   UI classes
+      |  calls down only
+ App logic     [Control]    one per use case
+      |  calls down only
+ Data          [Entity]     persistent info
+</pre>
+<ul>
+<li><b>Rule</b>: "one layer can only call the service provided by the lower layer" (L12 s19). Layers in the course's Excel example: Presentation → App Logic → Persistent Data (L15 s6).</li>
+<li><b>Strengths</b> (L12 Thu s6): supports designs at increasing levels of abstraction · supports enhancement by adding new components · supports reuse of lower-layer components while upper layers vary.</li>
+<li><b>Weaknesses</b>: not all systems are easily layered · hard to find the right levels of abstraction · <b>lower performance</b>.</li>
+<li>Up-calls (a lower layer notifying a higher one) break layering. The fix is <b>Observer</b> for loose coupling between the two layers (L15 s16).</li>
+</ul></div>
+
+<h2>4. Design patterns (L13, L14, L15)</h2>
+<div class="c"><table>
+<tr><th>Pattern</th><th>One-liner</th><th>Use when</th></tr>
+<tr><td><b>Strategy</b></td><td>Context uses a Strategy interface, implemented by ConcreteStrategyA/B (L13 s11)</td><td>"A set of algorithms or objects should be interchangeable." Pros: encapsulation, hides implementation, behaviour changes at runtime. Con: complex if overused (s12)</td></tr>
+<tr><td><b>Observer</b></td><td>One-to-many dependency: when the Subject changes state, all dependents are notified and updated automatically (L13 s24)</td><td>Many objects (observers) need an update when another object (the subject) changes (s13). Mechanisms: observers register/unregister; the subject notifies on change (s25)</td></tr>
+<tr><td><b>Factory</b></td><td>An interface for creating objects without the client knowing which class is created (L14 s5)</td><td>You don't know which class to instantiate until runtime · create one of several classes with a common superclass without exposing the creation logic · localise instantiation (s5). Benefit: centralised creation, easy to add/replace subclasses (s9)</td></tr>
+<tr><td><b>Façade</b></td><td>A unified, higher-level interface to a set of interfaces in a subsystem (L14 s15)</td><td>Decouple a client from a complex subsystem. Pros: easier to use, fewer dependencies. Cons: rework if badly designed; many façades add complexity and slow runtime (s20)</td></tr>
+<tr><td><b>MVC</b></td><td>Model = data + processing. View = presents data and observes the Model. Controller = handles user input (L15 s19)</td><td>Interactive systems with multiple synchronised views of the same data. Built from Observer + Strategy + … (s20, s27)</td></tr>
+</table>
+<div class="mut">Combos the slides show: Strategy + Factory (DataStoreFactory, L14 s8); Strategy + Factory + dynamic loading (Eclipse, Swing, JDBC, s11–14).</div></div>
+
+<h2>5. EC + BV testing (L18)</h2>
+<div class="c"><table>
+<tr><th></th><th>Range of values</th><th>Discrete values</th></tr>
+<tr><td>ECs</td><td><b>1 valid, 2 invalid</b> (below, above)</td><td><b>1 valid, 1 invalid</b></td></tr>
+<tr><td>BVs</td><td>each boundary: <b>on, just below, just above</b></td><td><b>none</b></td></tr>
+</table>
+<ul>
+<li><b>Valid</b> test cases: combine valid inputs of several parameters in one test case (L18 s6–8).</li>
+<li><b>Invalid</b> test cases: <span class="t">ONLY ONE invalid input per test case</span>; all the other parameters get valid values. That way you learn how each invalid input is handled (s9–10).</li>
+<li>Example <code>1500 ≤ x ≤ 80000</code>: lower 1499, <b>1500</b>, 1501; upper 79999, <b>80000</b>, 80001. Valid BVs {1500, 80000}; invalid BVs {1499, 80001} (s13).</li>
+<li>"Just below/above" depends on the <b>unit</b>. <b>Don't duplicate</b> a value that already falls in another EC, including the current one (s12, s18).</li>
+<li>Test cases from BVs: on-the-boundary = valid input; just-below/just-above outside the valid EC = invalid input, one per test case (s16, s18).</li>
+<li>Process: identify ECs → pick ≥1 value per EC → expected output (oracle) → build the test cases (s3).</li>
+</ul></div>
+
+<h2>6. CFG, cyclomatic complexity, basis paths (L19–20)</h2>
+<div class="c"><ul>
+<li><b>Nodes</b>: a <b>process block</b> (sequential statements, one edge in, one out) or a <b>decision point</b> (if / while / for / switch). Label the nodes with <b>line numbers</b>, e.g. <code>2-3</code> (s6–11, s28).</li>
+<li><code>if</code>: 2 edges out (true/false). <code>while</code>/<code>for</code>: 2 edges out + a loop-back edge from the last body statement. Treat a <code>for</code> as init; while(cond){ body; update } (s9–10). <code>switch</code>: N edges out (s11).</li>
+<li><b>CC = |edges| − |nodes| + 2</b> &nbsp;=&nbsp; <b>|decision points| + 1</b> (when all decisions are binary) (s26). Show both. Example computeP: 8 − 7 + 2 = 3 = 2 + 1 (s27).</li>
+<li>Level 1 = 100% statement coverage. Level 2 = 100% branch coverage (every decision true AND false). Level 3 = basis path coverage, which <b>guarantees 100% statement + branch</b> (s16, s18, s22, s24).</li>
+</ul>
+<b>Basis-path recipe</b> (s28–31)
+<ol>
+<li>Draw the CFG, then compute CC = the number of basis paths you need.</li>
+<li>Path 1 = a <b>baseline</b>: a typical, important path.</li>
+<li>Next path: <b>flip the outcome of the first decision point</b> and keep as many other decisions the same as possible.</li>
+<li>Repeat, flipping the 2nd, 3rd … decision, until you have CC paths. Each must add at least one new edge.</li>
+<li>Write one <b>test case per path</b>: inputs + expected output. Flag any <b>infeasible</b> path (s33).</li>
+</ol>
+<div class="mut">The basis set is not unique, but every basis set has CC paths (s32).</div></div>
+
+<h2>7. Scrum (L9)</h2>
+<div class="c"><ul>
+<li><b>Velocity</b> = "an estimate of how much product backlog effort a team can cover in a single sprint" (L9 s33). For a T5 Q6-style sum: <b>velocity = total backlog points ÷ number of sprints</b> (64 ÷ 8 = 8 points/sprint). <span class="mut">(The slides only define velocity. This division follows from that definition.)</span></li>
+<li>Sprints are fixed length, normally 2–4 weeks. Planning starts from the product backlog. The ScrumMaster protects the team from distractions and is <b>not</b> a project manager (L9 s33, s35–36).</li>
+</ul></div>
+<a href="index.html">← Back to trainer</a> · <a href="morning.html">☀️ Exam morning</a>
+</div></body></html>

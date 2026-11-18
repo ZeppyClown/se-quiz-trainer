@@ -1,0 +1,161 @@
+{
+ "chapter": 7,
+ "title": "Design patterns: Strategy, Observer, Factory, Façade, MVC",
+ "intro": "Past-paper Q3(b) territory. Learn each pattern's design problem, the lecture's participant names and class diagram, and how to argue that a new variant needs no change to existing code.",
+ "cards": [
+  {
+   "title": "What a design pattern is",
+   "body": "A design pattern is **a proven solution to a problem in a context**. It abstracts a recurring design structure into a template of classes/objects with their dependencies, structures, interactions or conventions (L13 slide 8, GoF 1996).\nEvery pattern has 4 elements (L13 slide 9):\n- **Name**: shared vocabulary\n- **Problem**: when to apply it (what is it trying to solve?)\n- **Solution**: elements, relationships, responsibilities, collaborations\n- **Consequences**: benefits and costs\nGoF categories (L13 slide 10): **creational** (Abstract Factory, Factory Method, Singleton...), **structural** (Façade, Decorator, Composite...), **behavioural** (Observer, Strategy, Command...).",
+   "keypoints": [
+    "Exam answers follow the same order: problem, then pattern, then solution (class diagram + roles), then consequences",
+    "Strategy and Observer: behavioural. Façade: structural. Factory: creational",
+    "Patterns belong to Object Design: reuse existing libraries and patterns (L13 slide 5)"
+   ]
+  },
+  {
+   "title": "Design principles (only what the slides list)",
+   "body": "L13 slide 7 (\"the road to good design\"): **program to an interface, not an implementation**, **high cohesion**, **low coupling**, **open-closed**, **separation of concerns**. These give maintainability, extensibility, scalability, testability and reusability.\nL14 slide 16:\n1. Identify the aspects that **vary** and separate them from what stays the same\n2. **Program to an interface**, not an implementation\n3. **Favour composition over inheritance**\n4. Strive for **loosely coupled** designs between interacting objects\n5. Classes should be **open for extension, closed for modification**\n6. **Principle of least knowledge**: talk only to your immediate friends",
+   "keypoints": [
+    "Strategy: separates what varies, programs to an interface, uses composition (Context HAS-A Strategy), and is open-closed",
+    "Observer: loose coupling (\"a benefit for both sides\")",
+    "Façade: least knowledge (the client talks only to the façade)",
+    "Quote the principle by name when you justify a pattern: it earns marks"
+   ]
+  },
+  {
+   "title": "Strategy pattern",
+   "body": "**Design problem:** a set of algorithms or objects should be **interchangeable** (L13 slide 11).\n**Participants:**\n- **Context**: uses the Strategy and holds a reference to the interface only\n- **Strategy**: interface or abstract class declaring `doSomething()`\n- **ConcreteStrategyA/B**: each implements one algorithm",
+   "diagram": "classDiagram\nclass Context\nclass Strategy {\n<<interface>>\n+doSomething()\n}\nclass ConcreteStrategyA {\n+doSomething()\n}\nclass ConcreteStrategyB {\n+doSomething()\n}\nContext ..> Strategy : uses\nStrategy <|.. ConcreteStrategyA : implements\nStrategy <|.. ConcreteStrategyB : implements",
+   "after": "L14 slide 8 draws the same thing with an association (ResourceManager --datastore--> DataStoreInterface). Either a 'uses' dependency or an association with a role name is fine, as long as the Context points at the INTERFACE.",
+   "keypoints": [
+    "Context ..> Strategy is labelled 'uses'. ConcreteStrategy ..|> Strategy (dashed line, hollow triangle AT Strategy) is 'implements or realizes'",
+    "Pros: encapsulation, hides the implementation, allows behaviour change at runtime (L13 slide 12)",
+    "Con: complex, hard-to-understand code if overused",
+    "A new variant is a new ConcreteStrategy class; Context is unchanged (open-closed)"
+   ]
+  },
+  {
+   "title": "Worked: GES network protocols (Tutorial 6 Q2)",
+   "body": "**Problem:** the manager's mobile device must deal with LAN, WiFi, Bluetooth, 3G and 4G, and new protocols should have minimal impact. Design problems: (1) the protocols must be **interchangeable** at runtime; (2) new protocols must be addable **without modifying** the application (open-closed).\n**Pattern:** Strategy.\n**Roles:** `MobileApp` = Context. `NetworkProtocol` = Strategy. `LAN`, `WiFi`, `Bluetooth`, `Cellular3G`, `Cellular4G` = ConcreteStrategies.",
+   "diagram": "classDiagram\nclass MobileApp {\n-protocol: NetworkProtocol\n+setProtocol(NetworkProtocol)\n+sendShipment(data)\n}\nclass NetworkProtocol {\n<<interface>>\n+connect()\n+send(data)\n}\nMobileApp ..> NetworkProtocol : uses\nNetworkProtocol <|.. LAN\nNetworkProtocol <|.. WiFi\nNetworkProtocol <|.. Bluetooth\nNetworkProtocol <|.. Cellular3G\nNetworkProtocol <|.. Cellular4G",
+   "keypoints": [
+    "Use the scenario's class names in the diagram and label each role",
+    "A new protocol (e.g. 5G) is one new class implementing NetworkProtocol; MobileApp is unchanged",
+    "Tutorial 7 Q2 then asks what is missing: who creates the right protocol object (see the Factory card)"
+   ]
+  },
+  {
+   "title": "Observer: when and why",
+   "body": "**When:** many objects (**observers**) need an update when another object (the **subject**) changes (L13 slide 13). Also known as Publisher–Subscriber or Producer–Consumer.\n**Design problem (L13 slide 24):** a **one-to-many dependency**, so that when one object changes state, all its dependents are **notified and updated automatically**.\n**Solved by two mechanisms (slide 25):**\n- **Subscription**: observers freely register/unregister their interest\n- **Notification**: the subject propagates the change when it occurs\nThe slides argue from both sides (baby/caregiver, course/student, stock market/investor): the subject doesn't care who or how many are watching; observers don't know when the change will happen and can't keep checking. **\"Loose coupling is a benefit for both sides!\"**",
+   "keypoints": [
+    "Use the subject-side and observer-side wording to justify Observer in the exam",
+    "Pros: abstracts coupling, broadcast communication, subjects and observers reusable independently (L13 slide 46)",
+    "Cons: slower performance; unnecessary complexity if used carelessly",
+    "Polling with a timer is NOT Observer (L15 slide 7: slow refresh or excessive polling)"
+   ]
+  },
+  {
+   "title": "Observer template (PULL)",
+   "body": "L13 slide 33. The 1-to-* association is between the abstract classes (roles `subject` / `observers`).\n- `Subject.notify()`: `for each o in observers o.update();`\n- `Observer.update()`: `subject.getData();` (calls back for the details)\n- `ConcreteObserver.update()`: `super.update(); observerSpecificUpdate();`\n- `ConcreteSubject` holds `- data` and implements `getData() : Details`",
+   "diagram": "classDiagram\nclass Subject {\n<<abstract>>\n+register(Observer)\n+unregister(Observer)\n+notify()\n+getData()* Details\n}\nclass ConcreteSubject {\n-data\n+getData() Details\n}\nclass Observer {\n<<abstract>>\n+update()\n}\nclass ConcreteObserver {\n+update()\n}\nSubject \"1\" -- \"*\" Observer : subject / observers\nSubject <|-- ConcreteSubject\nObserver <|.. ConcreteObserver",
+   "keypoints": [
+    "Subject ops: register(Observer), unregister(Observer), notify(), getData()",
+    "Pull: update() has NO parameter, and the observer calls back getData()",
+    "L15's Excel version names them attach(WSObserver)/detach(WSObserver). Both namings appear in the course",
+    "The subject only knows the abstract Observer, never a concrete class"
+   ]
+  },
+  {
+   "title": "PUSH vs PULL vs PUSH+PULL",
+   "body": "L13 slide 36:\n- **Pull update**: the subject sends a **simple notification** (`update()`). The observer **calls back** (`subject.getData()`) for details, if it is interested. This is **two-way** communication.\n- **Push update**: the subject sends **detailed information** about the change (`update(Anncment)`), whether the observer wants it or not. The observer does not call back. This is **one-way** communication.\n- **Push + Pull** (slide 37): `update(SomeDetail)` pushes some details. If the observer is interested, it calls `subject.getMoreData()`.\nThe slides ask \"which one is better?\" and leave it as a trade-off. Pull avoids sending unwanted data; push saves the call back.",
+   "diagram": "classDiagram\nclass Subject {\n<<abstract>>\n+register(Observer)\n+unregister(Observer)\n+notify()\n+getAnncment()* Anncment\n}\nclass ConcreteSubject {\n-data\n+getAnncment() Anncment\n}\nclass Observer {\n<<abstract>>\n+update(Anncment)\n}\nclass ConcreteObserver {\n+update(Anncment)\n}\nSubject \"1\" -- \"*\" Observer : subject / observers\nSubject <|-- ConcreteSubject\nObserver <|.. ConcreteObserver",
+   "after": "Above: the PUSH template (L13 slide 35). Compare it with the pull card: the data moved into update()'s parameter, and the observer's call back disappeared.",
+   "keypoints": [
+    "To tell push from pull: is the data a parameter of update() (push), or does the observer call getData() (pull)?",
+    "In both variants the subject calls update(), so that does not tell them apart",
+    "Push template: notify() { anncment = getAnncment(); for each o: o.update(anncment); }"
+   ]
+  },
+  {
+   "title": "Interest subscription + selective notification; Java Swing",
+   "body": "When observers care about only part of the subject's changes (L13 slides 38–40):\n- `register(Observer, Interest)` / `unregister(Observer, Interest)`: **interest subscription**\n- `notify(Interest)`: `for each o in observers of the given interest o.update(interest);` gives **selective notification**\n- `update(Interest)`, and the observer then calls `subject.getData(interest)`\n**Java Swing** (slides 43–45): AbstractButton = Subject (JButton, JMenuItem concrete). ActionListener = Observer (MyActionListener concrete). `addActionListener`/`removeActionListener` = register/unregister. `fireActionPerformed` = notify. `actionPerformed(ActionEvent)` = update (push some details). `ActionEvent.getSource().getText()` = pull more data.",
+   "keypoints": [
+    "GES plants interested in specific grain types: Interest = GrainType",
+    "Swing combines different interests, selective notification and push + pull",
+    "Event handling is Observer: event source = subject, event handlers = observers (slide 42)"
+   ]
+  },
+  {
+   "title": "Worked: GES plant notifications (Tutorial 7 Q1)",
+   "body": "**Scenario:** when grain arrives or leaves, GES notifies processing plants. Plants register interest in grain types and pick email, SMS or both. Interests and means change over time, and new means must be easy to add.\n**Design problems:** (1) a one-to-many dependency: plants must be notified automatically, can subscribe and unsubscribe freely, and GES shouldn't depend on concrete plants. (2) The communication means must be **interchangeable** and **extensible**.\n**Patterns:** Observer (with interest subscription + selective notification) **+** Strategy (communication means).\n**Roles:** `GrainSubject` = Subject. `GES` = ConcreteSubject. `PlantObserver` = Observer. `ProcessingPlant` = ConcreteObserver, and also the Context for `CommMeans` (Strategy), whose ConcreteStrategies are `Email`, `SMS` and `EmailAndSMS`.",
+   "diagram": "classDiagram\nclass GrainSubject {\n<<abstract>>\n+register(PlantObserver, GrainType)\n+unregister(PlantObserver, GrainType)\n+notify(GrainType)\n+getData(GrainType)* Details\n}\nclass GES {\n-grainData\n+getData(GrainType) Details\n}\nclass PlantObserver {\n<<interface>>\n+update(GrainType)\n}\nclass ProcessingPlant {\n-means: CommMeans\n+update(GrainType)\n+setCommMeans(CommMeans)\n}\nclass CommMeans {\n<<interface>>\n+send(msg)\n}\nGrainSubject <|-- GES\nGrainSubject \"1\" -- \"*\" PlantObserver : subject / observers\nPlantObserver <|.. ProcessingPlant\nProcessingPlant ..> CommMeans : uses\nCommMeans <|.. Email\nCommMeans <|.. SMS\nCommMeans <|.. EmailAndSMS",
+   "keypoints": [
+    "One scenario can need two patterns: the slides say \"may need more than one design pattern\" (L15 slide 16)",
+    "Changing a plant's preferred means is `setCommMeans(new SMS())`. That is a runtime swap",
+    "A new means (e.g. WhatsApp) is a new class implementing CommMeans, and nothing else changes"
+   ]
+  },
+  {
+   "title": "Factory pattern (L14's Static Factory)",
+   "body": "**When (L14 slide 5):** you don't know which class to instantiate until runtime; you need one of several classes sharing a common superclass **without exposing the creation logic** to the client; you want to **localize** instantiation logic.\n**Template (slide 7, \"Factory Pattern a.k.a. Static Factory Pattern\"):** `Context` **uses** `StaticFactory`, whose static (underlined) `+createProduct():AbstractProduct` **creates** objects that implement the `<<interface>> AbstractProduct`. `ConcreteProductA/B/C` realize the interface.\n**Benefits (slide 9):** encapsulates creation; removes duplicate creation code from clients; centralises class selection and creation; makes it easy to replace or add subclasses (e.g. a new OracleImpl); makes the creation logic easy to change; supports Singleton and lazy initialization.",
+   "diagram": "classDiagram\nclass Context\nclass StaticFactory {\n+createProduct()$ AbstractProduct\n}\nclass AbstractProduct {\n<<interface>>\n}\nContext ..> StaticFactory : uses\nStaticFactory ..> AbstractProduct : create\nAbstractProduct <|.. ConcreteProductA\nAbstractProduct <|.. ConcreteProductB\nAbstractProduct <|.. ConcreteProductC",
+   "keypoints": [
+    "L14's 'Factory' is a static factory method on a separate factory class. GoF's Factory Method uses subclasses instead. Draw L14's version",
+    "Note the wording on slide 5 ('lets subclasses decide which class to instantiate') is GoF wording, but the template is a static factory",
+    "Adding a product: the client is unchanged and only the factory's selection logic changes"
+   ]
+  },
+  {
+   "title": "Strategy + Factory (Tutorial 7 Q2, L14 slides 8–14)",
+   "body": "**What's missing from a Strategy-only design:** something has to decide which ConcreteStrategy to use and create it. Without a factory, the Context (or every client) does `new WiFi()` itself, so it knows the concrete classes, the creation code is duplicated, and adding a protocol means editing clients.\n**Fix:** add a factory that returns the Strategy interface (like L14's `DataStoreFactory.getDatastore() : DataStoreInterface`).\n**Strategy + Factory + Dynamic Loading** (slides 10–14: Eclipse views, Swing Look & Feel, JDBC drivers): the factory creates classes by name at runtime, so there is **\"no need to change a single line of code to use new classes\"**.",
+   "diagram": "classDiagram\nclass MobileApp\nclass ProtocolFactory {\n+getProtocol(type)$ NetworkProtocol\n}\nclass NetworkProtocol {\n<<interface>>\n+connect()\n+send(data)\n}\nMobileApp ..> ProtocolFactory : uses\nMobileApp --> NetworkProtocol : protocol\nProtocolFactory ..> NetworkProtocol : create\nNetworkProtocol <|.. LAN\nNetworkProtocol <|.. WiFi\nNetworkProtocol <|.. Bluetooth\nNetworkProtocol <|.. Cellular4G",
+   "keypoints": [
+    "Basic factory: clients are untouched, and the factory's if/switch gets one new branch",
+    "With dynamic loading, nothing existing changes. This is the foundation of plug-in frameworks",
+    "In the diagram: Context --> Strategy interface, Context ..> Factory, Factory ..> Strategy labelled <<create>>"
+   ]
+  },
+  {
+   "title": "Façade pattern",
+   "body": "**Definition (L14 slide 15):** provides a **unified interface to a set of interfaces in a subsystem**. Façade defines a **higher-level interface** that makes the subsystem easier to use.\n**L14 example:** without a façade, `NonFacadeExample.main()` instantiates HardDrive, CPU and Memory and calls freeze, load, jump and execute in order (slide 18). With one, `FacadeExample` only calls `Computer.startComputer()`, and Computer owns and drives the three parts (slide 19).\n**Pros (slide 20):** code easier to use and understand; fewer dependencies; decouples the client from a complex system. **Cons:** more rework if the Façade class is badly designed; more complexity and lower runtime performance with many Façade classes.",
+   "diagram": "classDiagram\nclass FacadeExample {\n+main()\n}\nclass Computer {\n+startComputer()\n}\nclass HardDrive {\n+read(long, bytes) bytes\n}\nclass CPU {\n+freeze()\n+jump()\n+execute()\n}\nclass Memory {\n+load(long, bytes)\n}\nFacadeExample ..> Computer : startComputer\nComputer *-- HardDrive\nComputer *-- CPU\nComputer *-- Memory",
+   "keypoints": [
+    "Use it when a client must coordinate many subsystem classes in a fixed sequence",
+    "It is a structural pattern. It makes a subsystem simpler to use; it does not make algorithms interchangeable",
+    "Diagram: Client ..> Facade; Facade composes the subsystem classes"
+   ]
+  },
+  {
+   "title": "MVC = a combination of patterns",
+   "body": "**Problem (L15 slide 2):** interactive, event-driven systems. UIs change often, the same data is shown in several ways, displays must reflect data changes immediately, and the UI must not be tightly coupled to core data.\n**Roles (slide 19):** **Model** = app logic + data. **View** = presents the data and observes the Model. **Controller** = captures user input and modifies the Model.\n**Patterns (slides 22–25):**\n- **Observer** (View–Model, also Controller–Model): Model is the Subject (`register/unregister/notify/getData`); Views are Observers (`update()`: `model.getData(); redraw view`)\n- **Strategy** (View–Controller, also View–Look&Feel): **View = Context, Controller = Strategy**. Swap the Controller to respond differently to input\n- **Abstract Factory**: creates the controller or look & feel for a view\n- Others: Composite (nested views), Decorator (scrolling), Command (undo/redo)",
+   "diagram": "classDiagram\nclass Model {\n-data\n+service()\n+register(Observer)\n+unregister(Observer)\n+notify()\n+getData()\n}\nclass Observer {\n<<interface>>\n+update()\n}\nclass Controller {\n+handleEvent()\n}\nclass View {\n+scroll()\n+update()\n}\nModel \"1\" -- \"*\" Observer : model / observers\nObserver <|.. Controller\nObserver <|.. View\nController \"*\" --> \"1\" Model : model\nController --> View : view\nView ..> Controller : create",
+   "keypoints": [
+    "Observer, Strategy and Abstract Factory are THE key MVC patterns (L15 slide 25)",
+    "Flow (slide 21): the Controller updates the Model, the Model notifies all Views, and each View calls getData and redraws",
+    "Observer also lets lower layers make up-calls to higher layers without a dependency (slide 16)",
+    "Pros: multiple views, high cohesion, low coupling. Cons: harder code navigation, multi-artifact consistency"
+   ]
+  },
+  {
+   "title": "Traps",
+   "body": "- **Writing the pattern name as the \"design problem\".** A design problem says what must be achieved (\"algorithms must be interchangeable\", \"new methods without modifying existing code\").\n- **if/else on type inside the Context.** That is the thing Strategy removes. It breaks open-closed.\n- **Realization triangle on the wrong end.** The hollow triangle sits on the **interface** (Strategy, Observer, AbstractProduct).\n- **Subject holding concrete observer lists** (`List<EmailPlant>`). The association is abstract Subject 1 to * abstract Observer.\n- **Push vs pull mixed up.** A data parameter in update() means push. A call back to getData() means pull.\n- **Polling with a timer and calling it Observer.** L15 slide 7 rejects polling.\n- **MVC roles reversed.** View = Context and Controller = Strategy. Views observe the **Model**, not the Controller.\n- **\"Factory = zero code change\".** That is only true with dynamic loading. A basic factory's selection logic changes.\n- **Observer chosen for an \"extensible set of methods\" problem.** Nothing is being notified there, so it is Strategy (+ Factory).\n- **Generic class names (Context, ConcreteStrategyA) in an exam diagram.** Use the scenario's names and label each class's role.",
+   "keypoints": [
+    "Ask first: what VARIES (Strategy), who must be TOLD (Observer), who CREATES it (Factory), or what is too COMPLEX to call (Façade)?"
+   ]
+  },
+  {
+   "title": "Exam recipe: Q3(b)-style pattern question",
+   "body": "**Worked on the past paper's scenario** (XYZ Bank repayments by NETS, Visa or MasterCard, to be extended to PayPal and mobile payment). This is a model answer; there is no official solution.\n**(i) Design problems** (in the slides' words):\n1. Several payment algorithms must be **interchangeable**: the borrower picks one at runtime, and the repayment logic should not depend on which one it is.\n2. New payment methods must be addable **without modifying existing code** (open for extension, closed for modification). Hard-coding if/else on the method type would force edits every time.\n**(ii) Pattern:** **Strategy** (L13 slide 11). Optionally add a **Factory** (L14 slide 8) so that the controller doesn't create concrete payment objects itself.\n**(iii) Class diagram + roles** (below):\n- `RepaymentController` = **Context**: holds a `PaymentMethod` reference and calls `pay(amount)` without knowing the concrete class\n- `PaymentMethod` = **Strategy** interface: declares `pay(amount)`\n- `NETSPayment`, `VisaPayment`, `MasterCardPayment` = **ConcreteStrategies**: each implements one payment algorithm\n- (`PaymentFactory` = **factory**: creates the right PaymentMethod from the borrower's choice)\n**Extensibility sentence:** to add PayPal, write `PayPalPayment implements PaymentMethod` (and one factory branch). RepaymentController and the existing payment classes are **not modified**: this is open-closed, programming to an interface.",
+   "diagram": "classDiagram\nclass RepaymentController {\n-method: PaymentMethod\n+setPaymentMethod(PaymentMethod)\n+makeRepayment(amount)\n}\nclass PaymentMethod {\n<<interface>>\n+pay(amount)\n}\nclass PaymentFactory {\n+create(type)$ PaymentMethod\n}\nRepaymentController --> PaymentMethod : uses\nRepaymentController ..> PaymentFactory\nPaymentFactory ..> PaymentMethod : create\nPaymentMethod <|.. NETSPayment\nPaymentMethod <|.. VisaPayment\nPaymentMethod <|.. MasterCardPayment\nPaymentMethod <|.. PayPalPayment",
+   "after": "PayPalPayment is the future variant. It plugs in with no change to RepaymentController or to the three existing payment classes.",
+   "keypoints": [
+    "Step 1: state 2 problems (what varies + extensibility), not the pattern name",
+    "Step 2: name the pattern and cite why: 'interchangeable' points to Strategy",
+    "Step 3: draw the diagram with the SCENARIO's class names, the interface marked <<interface>>, dashed realization triangles at the interface, and Context pointing at the interface",
+    "Step 4: give each class its role (Context / Strategy / ConcreteStrategy)",
+    "Step 5: one sentence on how a new variant is just a new class, with no change to existing code",
+    "Observer version: Subject / ConcreteSubject / Observer / ConcreteObserver, plus push or pull, stated explicitly"
+   ]
+  }
+ ]
+}

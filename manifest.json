@@ -1,0 +1,25 @@
+{
+ "updated": "2026-11-18 19:01",
+ "banks": [
+  "ch1.json",
+  "ch2.json",
+  "ch3.json",
+  "ch4.json",
+  "ch5.json",
+  "ch6.json",
+  "ch7.json",
+  "ch8.json",
+  "ch9.json"
+ ],
+ "lessons": [
+  "ch1.json",
+  "ch2.json",
+  "ch3.json",
+  "ch4.json",
+  "ch5.json",
+  "ch6.json",
+  "ch7.json",
+  "ch8.json",
+  "ch9.json"
+ ]
+}

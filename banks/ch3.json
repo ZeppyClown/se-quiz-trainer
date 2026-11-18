@@ -1,0 +1,696 @@
+[
+ {
+  "id": "ch3-01",
+  "chapter": 3,
+  "subtopic": "analysis vs elicitation",
+  "type": "single",
+  "level": 1,
+  "gotcha": false,
+  "question": "Requirements **elicitation** produces actors + use cases. What does requirements **analysis** produce, per L5?",
+  "options": [
+   "A refined use case diagram with more include/extend links",
+   "The SRS document and the test plan",
+   "A conceptual model (system structure) plus a dynamic model (system behaviour)",
+   "The layered architecture and subsystem decomposition"
+  ],
+  "answer": [
+   2
+  ],
+  "explanation": "L5 slide 4: analysis turns the use cases into a correct, complete, consistent, unambiguous system model = conceptual model (structure) + dynamic model (behaviour). The architecture comes later in system design (L12), not analysis."
+ },
+ {
+  "id": "ch3-02",
+  "chapter": 3,
+  "subtopic": "conceptual model purpose",
+  "type": "single",
+  "level": 1,
+  "gotcha": false,
+  "question": "Which aspect of the system does the **conceptual model** capture?",
+  "options": [
+   "The structural aspect: the objects/classes involved and their roles (attributes, operations)",
+   "The dynamic aspect: which objects carry out each use case process",
+   "The deployment aspect: which hardware nodes run which components",
+   "The user-interface aspect: the screens and navigation between them"
+  ],
+  "answer": [
+   0
+  ],
+  "explanation": "L5 slide 6: the conceptual model is the structural aspect (identify objects and their roles from the use cases); the dynamic model covers how the processes are fulfilled. Screens and navigation belong to a dialog map (L6)."
+ },
+ {
+  "id": "ch3-03",
+  "chapter": 3,
+  "subtopic": "class box",
+  "type": "single",
+  "level": 1,
+  "gotcha": false,
+  "question": "In a class box, which part is the **only mandatory** information?",
+  "options": [
+   "At least one attribute with its type",
+   "At least one operation with its signature",
+   "The stereotype, e.g. `<<entity>>`",
+   "The class name"
+  ],
+  "answer": [
+   3
+  ],
+  "explanation": "L5 slide 9: 'The class name is the only mandatory information.' Attributes (with types) and operations (with signatures) are optional compartments, and so are stereotypes."
+ },
+ {
+  "id": "ch3-04",
+  "chapter": 3,
+  "subtopic": "multiplicity",
+  "type": "single",
+  "level": 1,
+  "gotcha": false,
+  "question": "An association end is labelled `*`. What does that multiplicity mean?",
+  "options": [
+   "Exactly one object",
+   "A large unspecified number (many) of objects",
+   "Zero or one object",
+   "The association is optional and can be ignored"
+  ],
+  "answer": [
+   1
+  ],
+  "explanation": "L5 slide 10: multiplicity is a number (e.g. 3), a range (1..6) or a large unspecified number, many (`*`). It says how many objects an instance can legitimately reference."
+ },
+ {
+  "id": "ch3-05",
+  "chapter": 3,
+  "subtopic": "finding classes",
+  "type": "multi",
+  "level": 1,
+  "gotcha": false,
+  "question": "Per L5's 'Look for' slide, where do you look to identify the initial classes? (Pick all that apply.)",
+  "options": [
+   "Recurring nouns / concepts in the use cases",
+   "Real-world entities the system must track",
+   "Application (problem) domain terms in the data dictionary",
+   "The verbs in the use case flow of events"
+  ],
+  "answer": [
+   0,
+   1,
+   2
+  ],
+  "explanation": "L5 slide 16 lists exactly three: recurring nouns/concepts, real-world entities the system must track, and domain terms in the data dictionary (then review with stakeholders). Verbs suggest operations, not classes."
+ },
+ {
+  "id": "ch3-06",
+  "chapter": 3,
+  "subtopic": "stereotypes",
+  "type": "single",
+  "level": 1,
+  "gotcha": false,
+  "question": "Which stereotype does L5 give to a class that holds **information tracked by the system**?",
+  "options": [
+   "`<<boundary>>`",
+   "`<<control>>`",
+   "`<<entity>>`",
+   "`<<interface>>`"
+  ],
+  "answer": [
+   2
+  ],
+  "explanation": "L5 slide 17: Entity = information tracked by the system; Boundary = interaction between actor and system; Control = logic to realise the use case. `<<interface>>` is a Java-style interface, not one of the three analysis stereotypes."
+ },
+ {
+  "id": "ch3-07",
+  "chapter": 3,
+  "subtopic": "stereotypes",
+  "type": "single",
+  "level": 1,
+  "gotcha": false,
+  "question": "Per L5 slide 17, a `<<boundary>>` class represents...",
+  "options": [
+   "the interaction between an actor and the system",
+   "the logic needed to realise one use case",
+   "persistent data such as a database table",
+   "the boundary of the system box in the use case diagram"
+  ],
+  "answer": [
+   0
+  ],
+  "explanation": "L5 slide 17: boundary = interaction between actor & system (forms, screens, device interfaces). Control = the use case logic. The use case 'system box' is unrelated notation."
+ },
+ {
+  "id": "ch3-08",
+  "chapter": 3,
+  "subtopic": "stereotypes",
+  "type": "single",
+  "level": 1,
+  "gotcha": false,
+  "question": "Per L5 slide 17, a `<<control>>` class is responsible for...",
+  "options": [
+   "displaying data to the actor",
+   "storing information the system must remember",
+   "checking user access rights only",
+   "the logic to realise a use case"
+  ],
+  "answer": [
+   3
+  ],
+  "explanation": "L5 slide 17: control = logic to realise the use case (it coordinates boundary and entity objects). Displaying is boundary; storing is entity."
+ },
+ {
+  "id": "ch3-09",
+  "chapter": 3,
+  "subtopic": "composition",
+  "type": "single",
+  "level": 1,
+  "gotcha": false,
+  "question": "Which description matches **composition** as L5 defines it?",
+  "options": [
+   "'Is part of'; clear white diamond",
+   "'Is entirely made of'; parts live and die with the whole; black diamond",
+   "'Uses temporarily'; dotted line",
+   "'Is a kind of'; arrow pointing to the parent"
+  ],
+  "answer": [
+   1
+  ],
+  "explanation": "L5 slide 14: composition is the stronger form of aggregation: 'is entirely made of', the parts live and die with the whole, black (filled) diamond. 'Is part of' with a white diamond is aggregation."
+ },
+ {
+  "id": "ch3-10",
+  "chapter": 3,
+  "subtopic": "aggregation",
+  "type": "single",
+  "level": 1,
+  "gotcha": false,
+  "question": "On L5 slide 14, Car and Engine are linked by aggregation. Where is the white diamond drawn?",
+  "options": [
+   "At the Engine end (the part)",
+   "In the middle of the line",
+   "At the Car end (the whole)",
+   "At both ends"
+  ],
+  "answer": [
+   2
+  ],
+  "explanation": "The diamond always sits at the **whole** (Car), and the plain end touches the part (Engine) (L5 slide 14). Same for composition: Book has the black diamond, Page is the part."
+ },
+ {
+  "id": "ch3-11",
+  "chapter": 3,
+  "subtopic": "dependency",
+  "type": "single",
+  "level": 1,
+  "gotcha": false,
+  "question": "On L5 slide 14, `LotteryTicket` uses `Random` only inside a method to generate numbers. Which relationship and line style?",
+  "options": [
+   "Dependency: dotted line with an arrow to Random",
+   "Aggregation: white diamond at LotteryTicket",
+   "Composition: black diamond at LotteryTicket",
+   "Association: solid line with multiplicities"
+  ],
+  "answer": [
+   0
+  ],
+  "explanation": "L5 slide 14: dependency = 'uses temporarily', a dotted line; it is often an implementation detail, not part of the object's state. Aggregation/composition imply the part is part of the object's state."
+ },
+ {
+  "id": "ch3-12",
+  "chapter": 3,
+  "subtopic": "generalization",
+  "type": "single",
+  "level": 1,
+  "gotcha": false,
+  "question": "Per L5 slide 13, how do you draw a class **implementing an interface**?",
+  "options": [
+   "Solid line, black arrow, pointing to the interface",
+   "Solid line, white arrow, pointing to the interface",
+   "Dashed line, white arrow, pointing to the implementing class",
+   "Dashed line, white arrow, pointing to the interface"
+  ],
+  "answer": [
+   3
+  ],
+  "explanation": "L5 slide 13: interface parent = dashed line, white arrow; abstract-class parent = solid line, white arrow; class parent = solid line, black arrow. Arrows always point up to the parent."
+ },
+ {
+  "id": "ch3-13",
+  "chapter": 3,
+  "subtopic": "conceptual modelling steps",
+  "type": "single",
+  "level": 1,
+  "gotcha": false,
+  "question": "What order does L5 slide 15 give for building the conceptual model from the use case model?",
+  "options": [
+   "Associations → classes → attributes → operations",
+   "Classes → attributes → operations → associations",
+   "Operations → classes → associations → attributes",
+   "Classes → associations → stereotypes → attributes"
+  ],
+  "answer": [
+   1
+  ],
+  "explanation": "L5 slide 15: 1 identify classes, 2 find attributes, 3 find operations/methods, 4 find associations. Use case model → class diagram."
+ },
+ {
+  "id": "ch3-14",
+  "chapter": 3,
+  "subtopic": "stereotype icons",
+  "type": "single",
+  "level": 1,
+  "gotcha": false,
+  "question": "On L5 slide 21, which icon marks a **control** class such as FacilityAccessSystem?",
+  "options": [
+   "A circle with a vertical T-bar on its left",
+   "A circle sitting on a horizontal line",
+   "A circle with a small arrowhead on top (circular arrow)",
+   "A stick figure"
+  ],
+  "answer": [
+   2
+  ],
+  "explanation": "L5 slide 21 uses the robustness icons: boundary = circle with a T-bar on the left (FingerPrintReader, EntryGate), control = circle with an arrowhead (FacilityAccessSystem), entity = circle on a line (Employee). The stick figure is an actor."
+ },
+ {
+  "id": "ch3-15",
+  "chapter": 3,
+  "subtopic": "multiplicity",
+  "type": "single",
+  "level": 2,
+  "gotcha": false,
+  "question": "How do you read this diagram?",
+  "diagram": "classDiagram\nclass Polygon {\n+draw()\n}\nclass Point {\nx: Integer\ny: Integer\n}\nPolygon \"1\" -- \"*\" Point",
+  "options": [
+   "Each Polygon has many Points; each Point belongs to one Polygon",
+   "Each Point has many Polygons; each Polygon has one Point",
+   "Each Polygon has exactly one Point",
+   "A Polygon is composed of Points that die with it"
+  ],
+  "answer": [
+   0
+  ],
+  "explanation": "Read a multiplicity at the FAR end: from Polygon, look across to `*` → one Polygon has many Points; from Point, look across to `1` → each Point belongs to one Polygon (L5 slide 11). It is a plain association, so no diamond and no lifetime rule."
+ },
+ {
+  "id": "ch3-16",
+  "chapter": 3,
+  "subtopic": "multiplicity (GES)",
+  "type": "single",
+  "level": 2,
+  "gotcha": false,
+  "question": "GES para C: 'There are 12 silos in the elevator.' Which association is correct?",
+  "options": [
+   "`Elevator \"12\" -- \"1\" Silo`",
+   "`Elevator \"1\" -- \"1..*\" Silo`",
+   "`Elevator \"*\" -- \"*\" Silo`",
+   "`Elevator \"1\" -- \"12\" Silo`"
+  ],
+  "answer": [
+   3
+  ],
+  "explanation": "The number goes next to the class it counts: 12 Silos per Elevator, so `12` sits at the Silo end and `1` at the Elevator end. A plain number is a valid multiplicity (L5 slide 10), and 12 is more precise than `1..*`."
+ },
+ {
+  "id": "ch3-17",
+  "chapter": 3,
+  "subtopic": "finding classes",
+  "type": "multi",
+  "level": 2,
+  "gotcha": false,
+  "question": "Library use case: 'The member presents a library card. The librarian scans each book. The system creates a loan with a due date for each book.' Which are the best candidate **classes**? (Pick all that apply.)",
+  "options": [
+   "Member",
+   "Book",
+   "Loan",
+   "Due date"
+  ],
+  "answer": [
+   0,
+   1,
+   2
+  ],
+  "explanation": "Recurring nouns / real-world things the system must track become classes (L5 slide 16): Member, Book, Loan. 'Due date' is a simple value that describes a Loan, so it is an attribute (`Loan.dueDate`), not a class."
+ },
+ {
+  "id": "ch3-18",
+  "chapter": 3,
+  "subtopic": "attributes vs classes (GES)",
+  "type": "multi",
+  "level": 2,
+  "gotcha": false,
+  "question": "GES para G/H: 'the manager informs the system of the type of grain, its grade, and its quantity... and enters data about the truck, the driver, and the seller.' Which nouns are better as **attributes**? (Pick all that apply.)",
+  "options": [
+   "quantity",
+   "grade",
+   "truck",
+   "plate number"
+  ],
+  "answer": [
+   0,
+   1,
+   3
+  ],
+  "explanation": "Simple values that describe something else are attributes: quantity and grade describe a Shipment, plate number describes a Truck. Truck is a real-world entity the system must track (GES para D/F), so it is a class (L5 slides 7, 16)."
+ },
+ {
+  "id": "ch3-19",
+  "chapter": 3,
+  "subtopic": "B/C/E (GES)",
+  "type": "multi",
+  "level": 2,
+  "gotcha": false,
+  "question": "Arrival + allocation use case in GES. Which of these are `<<entity>>` classes? (Pick all that apply.)",
+  "options": [
+   "Silo",
+   "Shipment",
+   "TransactionLog",
+   "AllocationController"
+  ],
+  "answer": [
+   0,
+   1,
+   2
+  ],
+  "explanation": "Entity = information the system tracks (L5 slide 17). Silo contents/capacity, the Shipment details and the TransactionLog (GES para F) must all be remembered. AllocationController holds the use case logic of choosing silos, so it is `<<control>>`."
+ },
+ {
+  "id": "ch3-20",
+  "chapter": 3,
+  "subtopic": "B/C/E (GES)",
+  "type": "single",
+  "level": 2,
+  "gotcha": false,
+  "question": "In GES, the screen where the elevator manager types the grain type, grade and quantity of an arriving truck, then accepts or overrules the chosen silos, is a...",
+  "options": [
+   "`<<entity>>` class, because it holds shipment data",
+   "`<<boundary>>` class, because it is where the actor interacts with the system",
+   "`<<control>>` class, because it triggers the allocation",
+   "not a class; UI is a design detail"
+  ],
+  "answer": [
+   1
+  ],
+  "explanation": "Boundary = interaction between actor and system (L5 slide 17). The form only collects input and shows results. It passes the data on and does not track it (entity) or decide silos (control)."
+ },
+ {
+  "id": "ch3-21",
+  "chapter": 3,
+  "subtopic": "B/C/E (GES)",
+  "type": "single",
+  "level": 2,
+  "gotcha": false,
+  "question": "GES para G: 'The system must find one or more silos to store the grain and tell the manager which silos it has chosen.' The class that decides the silos is...",
+  "options": [
+   "`<<entity>>`, because it needs to know silo capacities",
+   "`<<boundary>>`, because it tells the manager the result",
+   "`<<control>>`, because it is the logic that realises the use case",
+   "`<<entity>>`, because Silo is an entity"
+  ],
+  "answer": [
+   2
+  ],
+  "explanation": "Choosing silos is use case logic → control (L5 slide 17). It *reads* Silo entities for capacity/type/grade, but reading entity data doesn't make it an entity, just as FacilityAccessSystem reads Employee and is still control (L5 slide 21)."
+ },
+ {
+  "id": "ch3-22",
+  "chapter": 3,
+  "subtopic": "B/C/E (GES)",
+  "type": "single",
+  "level": 2,
+  "gotcha": false,
+  "question": "GES para E: humidity/temperature sensors in each silo send data and alerts to the system. How do you stereotype the class that receives sensor data?",
+  "options": [
+   "`<<boundary>>`, because it is the interface between an external device (actor) and the system",
+   "`<<entity>>`, because it measures the silo",
+   "`<<control>>`, because sensors are automatic",
+   "It should be modelled as an attribute of Silo only"
+  ],
+  "answer": [
+   0
+  ],
+  "explanation": "Like FingerPrintReader in L5 slide 21, a device that feeds the system is a boundary. The *readings* it delivers (temperature, humidity, normal/alert status) are stored on an entity (e.g. Silo), and the decision 'silo cannot accept grain' is control/entity logic."
+ },
+ {
+  "id": "ch3-23",
+  "chapter": 3,
+  "subtopic": "B/C/E (new scenario)",
+  "type": "single",
+  "level": 2,
+  "gotcha": false,
+  "question": "Car park: '1. Driver taps card on CardReader. 2. ParkingSystem checks the SeasonPass and raises the Barrier. 3. ParkingSystem records a ParkingSession.' Which stereotyping matches the L5 EnterSecureFacility pattern?",
+  "options": [
+   "CardReader control; ParkingSystem boundary; SeasonPass entity; Barrier entity",
+   "CardReader boundary; ParkingSystem entity; SeasonPass control; Barrier boundary",
+   "CardReader entity; ParkingSystem control; SeasonPass boundary; ParkingSession boundary",
+   "CardReader boundary; ParkingSystem control; SeasonPass entity; Barrier boundary; ParkingSession entity"
+  ],
+  "answer": [
+   3
+  ],
+  "explanation": "This mirrors L5 slide 21 one-for-one: FingerPrintReader→CardReader (boundary), FacilityAccessSystem→ParkingSystem (control), Employee→SeasonPass (entity read by control), EntryGate→Barrier (boundary signalled by control). The logged session is tracked info → entity."
+ },
+ {
+  "id": "ch3-24",
+  "chapter": 3,
+  "subtopic": "aggregation vs composition",
+  "type": "single",
+  "level": 2,
+  "gotcha": false,
+  "question": "Which relationship should be **composition** (black diamond)?",
+  "options": [
+   "Team ◇— Player (players can move to another team)",
+   "Order ◆— OrderLine (order lines are deleted with the order)",
+   "Department ◇— Lecturer (lecturers exist without the department)",
+   "Playlist ◇— Song (songs exist in the catalogue anyway)"
+  ],
+  "answer": [
+   1
+  ],
+  "explanation": "Composition = 'the parts live and die with the whole' (L5 slide 14). An OrderLine has no meaning without its Order. Players, lecturers and songs survive if the whole is deleted, so those are aggregation ('is part of')."
+ },
+ {
+  "id": "ch3-25",
+  "chapter": 3,
+  "subtopic": "generalization (GES)",
+  "type": "single",
+  "level": 2,
+  "gotcha": false,
+  "question": "GES records arrivals (truck, driver, seller) and departures (rail car, conductor, buyer). Both have quantity, type, grade, date. How do you model this?",
+  "options": [
+   "`Shipment` points arrows down to Arrival and Departure",
+   "Arrival ◆— Departure composition",
+   "Arrival and Departure each point a solid line + white arrow up to an abstract `Shipment`",
+   "One `Shipment` class with no subclasses, because generalization is only for design"
+  ],
+  "answer": [
+   2
+  ],
+  "explanation": "Pull the common attributes into a parent and draw arrows from each child **up to the parent** (L5 slide 13). If `Shipment` is abstract, use a solid line with a white arrow. Arrows pointing down to the children is the classic reversal mistake."
+ },
+ {
+  "id": "ch3-26",
+  "chapter": 3,
+  "subtopic": "layered B/C/E",
+  "type": "single",
+  "level": 2,
+  "gotcha": false,
+  "question": "Past-paper Q3(a) style: GES classes go into a 3-layer architecture. Which dependency chain is allowed?",
+  "options": [
+   "ArrivalUI → AllocationController → Silo",
+   "Silo → AllocationController → ArrivalUI",
+   "ArrivalUI → Silo → AllocationController",
+   "AllocationController → ArrivalUI → Silo"
+  ],
+  "answer": [
+   0
+  ],
+  "explanation": "Layers top-down are Boundary / Control / Entity, and 'one layer can only call the service provided by the lower layer' (L12 slide 19). So UI calls the controller, and the controller reads/updates entities. Calls never go upward from entity."
+ },
+ {
+  "id": "ch3-27",
+  "chapter": 3,
+  "subtopic": "noun analysis (GES)",
+  "type": "single",
+  "level": 2,
+  "gotcha": false,
+  "question": "GES text uses 'grower', 'seller' and 'farm' for whoever sells grain arriving by truck (para A, D). How should the conceptual model treat these?",
+  "options": [
+   "Three separate classes: Grower, Seller, Farm",
+   "Ignore them; only the truck matters",
+   "Make Seller a subclass of Truck",
+   "One class (e.g. Seller), with the synonyms recorded in the data dictionary"
+  ],
+  "answer": [
+   3
+  ],
+  "explanation": "L5 slide 16 says to use domain terms from the data dictionary and review the definitions with stakeholders. Synonyms for one concept collapse into one class. The transaction log needs the seller's details (para F), so it is a tracked entity, not something to ignore."
+ },
+ {
+  "id": "ch3-28",
+  "chapter": 3,
+  "subtopic": "association vs dependency",
+  "type": "single",
+  "level": 2,
+  "gotcha": false,
+  "question": "In GES, `AllocationController` reads Silo data only while running one allocation and keeps no reference afterwards. On L5's slides, which line suits it best?",
+  "options": [
+   "Composition, black diamond at AllocationController",
+   "Dashed/dotted usage dependency from AllocationController to Silo",
+   "Generalization arrow to Silo",
+   "Aggregation, white diamond at Silo"
+  ],
+  "answer": [
+   1
+  ],
+  "explanation": "L5 slide 14: dependency = 'uses temporarily', not part of the object's state. L5 slide 21 draws exactly this kind of control→entity link as a dashed usage dependency (`<<read>>` from FacilityAccessSystem to Employee)."
+ },
+ {
+  "id": "ch3-29",
+  "chapter": 3,
+  "subtopic": "B/C/E traps",
+  "type": "single",
+  "level": 3,
+  "gotcha": true,
+  "question": "In EnterSecureFacility, the Employee presses a finger on the reader. How does L5 slide 21 stereotype **Employee**?",
+  "options": [
+   "`<<boundary>>`, because the employee is the actor interacting with the system",
+   "`<<control>>`, because the employee starts the use case",
+   "`<<entity>>`, because the system reads stored employee information",
+   "It is not a class at all, only an actor"
+  ],
+  "answer": [
+   2
+  ],
+  "explanation": "Slide 21 draws Employee with the entity icon and a `<<read>>` dependency from FacilityAccessSystem. The class holds the *data about* the person (e.g. enrolled fingerprint). The actor's interaction point is the boundary (FingerPrintReader), not the person."
+ },
+ {
+  "id": "ch3-30",
+  "chapter": 3,
+  "subtopic": "B/C/E traps",
+  "type": "single",
+  "level": 3,
+  "gotcha": true,
+  "question": "A student drops `FacilityAccessSystem` from the class list: 'it's just the system itself, not a class.' What does L5 do?",
+  "options": [
+   "Keeps it, as the `<<control>>` class that validates and coordinates",
+   "Agrees; the system is the boundary of the diagram, not a class",
+   "Keeps it, as an `<<entity>>`",
+   "Keeps it, as a `<<boundary>>` around all classes"
+  ],
+  "answer": [
+   0
+  ],
+  "explanation": "L5 slide 20 lists FacilityAccessSystem as a possible class, and slide 21 stereotypes it as control: it validates the fingerprint, unlocks/locks the gate and logs entry, which is the logic realising the use case."
+ },
+ {
+  "id": "ch3-31",
+  "chapter": 3,
+  "subtopic": "diamond placement",
+  "type": "single",
+  "level": 3,
+  "gotcha": true,
+  "question": "A student draws Book and Page like this. What is wrong?",
+  "diagram": "classDiagram\nPage \"*\" *-- \"1\" Book",
+  "options": [
+   "Nothing; composition is drawn this way",
+   "The diamond should be white",
+   "Multiplicity must be 1..1 at both ends",
+   "The black diamond belongs at the Book (whole) end, not the Page end"
+  ],
+  "answer": [
+   3
+  ],
+  "explanation": "In mermaid `A *-- B`, the diamond is at A. Here it is drawn at Page, which says 'a Page is entirely made of Books'. L5 slide 14 puts the black diamond at Book, the whole, with 1 at Book and * at Page."
+ },
+ {
+  "id": "ch3-32",
+  "chapter": 3,
+  "subtopic": "layered B/C/E",
+  "type": "single",
+  "level": 3,
+  "gotcha": true,
+  "question": "In a layered B/C/E diagram, a student draws `ArrivalUI → Silo` directly (no controller) 'to save time'. What does the marker see?",
+  "options": [
+   "Fine; boundary may read entities directly",
+   "A layering violation: boundary skips control, so the use case logic leaks into the UI",
+   "Fine as long as the arrow is dashed",
+   "Only wrong if Silo is abstract"
+  ],
+  "answer": [
+   1
+  ],
+  "explanation": "L12 slide 19: a layer only calls the services of the layer below it. Boundary → Entity skips the control layer and puts allocation logic in the UI, which defeats the separation that Q3(a)(iii) asks you to explain."
+ },
+ {
+  "id": "ch3-33",
+  "chapter": 3,
+  "subtopic": "layered B/C/E",
+  "type": "single",
+  "level": 3,
+  "gotcha": true,
+  "question": "Which arrow in a GES layered diagram is the error?",
+  "options": [
+   "ArrivalUI → AllocationController",
+   "AllocationController → Silo",
+   "Silo → ArrivalUI (to refresh the screen when contents change)",
+   "AllocationController → TransactionLog"
+  ],
+  "answer": [
+   2
+  ],
+  "explanation": "Entity is the lowest layer, and calls go downward only (L12 slide 19). An entity calling the boundary reverses the dependency. Show the result by having the controller return data to the boundary instead."
+ },
+ {
+  "id": "ch3-34",
+  "chapter": 3,
+  "subtopic": "multiplicity (GES)",
+  "type": "single",
+  "level": 3,
+  "gotcha": true,
+  "question": "GES para G: a load may be split over several silos, or **none** of it accepted. Each shipment is recorded even if refused. At the Silo end of `Shipment -- Silo`, which multiplicity?",
+  "options": [
+   "`0..*`",
+   "`1`",
+   "`1..*`",
+   "`12`"
+  ],
+  "answer": [
+   0
+  ],
+  "explanation": "'One or more silos' tempts `1..*`, but para G also allows accepting none of the load, so a recorded shipment can have zero silos → `0..*`. Read the whole scenario for edge cases before fixing a lower bound."
+ },
+ {
+  "id": "ch3-35",
+  "chapter": 3,
+  "subtopic": "generalization notation",
+  "type": "single",
+  "level": 3,
+  "gotcha": true,
+  "question": "L5 slide 13: the parent is an ordinary (concrete) **class**. How does the slide say to draw the inheritance line?",
+  "options": [
+   "Solid line, white arrow, pointing up to the parent",
+   "Dashed line, white arrow, pointing up to the parent",
+   "Solid line, black arrow, pointing down to the child",
+   "Solid line, black arrow, pointing up to the parent"
+  ],
+  "answer": [
+   3
+  ],
+  "explanation": "The slide's rule is: concrete class = solid line, black arrow; abstract class = solid line, white arrow; interface = dashed line, white arrow. Note: standard UML uses a hollow triangle for every generalization; follow the slide in this course."
+ },
+ {
+  "id": "ch3-36",
+  "chapter": 3,
+  "subtopic": "noun analysis traps",
+  "type": "single",
+  "level": 3,
+  "gotcha": true,
+  "question": "From 'The FacilityAccessSystem validates fingerprint and unlocks EntryGate', a student lists `Fingerprint` as a class. L5 slide 20 marks it `(Fingerprint?)`. Best treatment?",
+  "options": [
+   "Always a class, since every noun is a class",
+   "Question it: it may just be data (an attribute of Employee / scanned image) unless it has its own behaviour/state worth tracking",
+   "Never mention it",
+   "Make it the control class"
+  ],
+  "answer": [
+   1
+  ],
+  "explanation": "Noun analysis gives *candidates* (L5 slides 16, 20). The '?' on the slide signals doubt: a fingerprint is likely an attribute (stored template on Employee). Not every noun becomes a class. Justify the choice in the exam."
+ }
+]

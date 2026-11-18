@@ -1,0 +1,579 @@
+[
+ {
+  "id": "ch4-01",
+  "chapter": 4,
+  "subtopic": "state definition",
+  "type": "single",
+  "level": 1,
+  "gotcha": false,
+  "question": "Per L6, what is a **state**?",
+  "options": [
+   "A single step of processing, like a box in a flowchart",
+   "A screen element such as a button",
+   "A stable condition that lasts for some time until an event/action drives the system to another state",
+   "The instant during which a transition fires"
+  ],
+  "answer": [
+   2
+  ],
+  "explanation": "L6 slide 3: a state is a stable condition of a system that can exist for a period of time (or forever) until some action drives it into another stable state. Steps of processing are activities (activity diagram), and transitions are instantaneous."
+ },
+ {
+  "id": "ch4-02",
+  "chapter": 4,
+  "subtopic": "transition label",
+  "type": "single",
+  "level": 1,
+  "gotcha": false,
+  "question": "In the transition label `select(i:item)[amount is enough for i]/dispense(i)`, which part is the **guard**?",
+  "options": [
+   "`[amount is enough for i]`",
+   "`select(i:item)`",
+   "`dispense(i)`",
+   "`i:item`"
+  ],
+  "answer": [
+   0
+  ],
+  "explanation": "L6 slide 5: the format is `event(arguments)[guard]/action`. The guard is the condition in square brackets, which must be true to take the transition. `select(...)` is the event and what follows `/` is the action."
+ },
+ {
+  "id": "ch4-03",
+  "chapter": 4,
+  "subtopic": "transition label",
+  "type": "single",
+  "level": 1,
+  "gotcha": false,
+  "question": "Per L6 slide 5, which parts of a transition label are **optional**?",
+  "options": [
+   "Only the action; event and guard are mandatory",
+   "Only the guard; every transition needs an event and an action",
+   "None; all three must appear",
+   "Event, guard and action are all optional"
+  ],
+  "answer": [
+   3
+  ],
+  "explanation": "L6 slide 5: 'A transition can have optionally: event, guard, action.' The vending machine (slide 7) has guard-only transitions (`[amount=0]`) and an unlabelled one (ReturnChange → Idle)."
+ },
+ {
+  "id": "ch4-04",
+  "chapter": 4,
+  "subtopic": "internal activities",
+  "type": "single",
+  "level": 1,
+  "gotcha": false,
+  "question": "Inside a state box, what does `do / display(amount)` mean?",
+  "options": [
+   "An action done once on entering the state",
+   "An ongoing activity performed while the system is in the state",
+   "An action done once on leaving the state",
+   "An event that triggers a transition"
+  ],
+  "answer": [
+   1
+  ],
+  "explanation": "L6 slide 4 lists three compartments: `entry / action` (on entering), `exit / action` (on leaving), `do / activity` (performed while in the state). The vending machine's Accumulate state keeps displaying the amount while it waits."
+ },
+ {
+  "id": "ch4-05",
+  "chapter": 4,
+  "subtopic": "transition timing",
+  "type": "single",
+  "level": 1,
+  "gotcha": false,
+  "question": "How long does a transition take in an L6 state machine?",
+  "options": [
+   "As long as the source state's do-activity",
+   "Until the guard becomes false",
+   "It is assumed instantaneous, in response to an event",
+   "One clock tick"
+  ],
+  "answer": [
+   2
+  ],
+  "explanation": "L6 slide 5: a transition from one state to the next is assumed to be instantaneous in response to an event. Time is spent *in* states, not on transitions."
+ },
+ {
+  "id": "ch4-06",
+  "chapter": 4,
+  "subtopic": "start / end nodes",
+  "type": "single",
+  "level": 1,
+  "gotcha": false,
+  "question": "Must every state machine diagram have an end (final) node?",
+  "options": [
+   "No; if the system runs in an infinite loop there may be no end node",
+   "Yes, UML requires exactly one",
+   "Yes, one per state",
+   "No; end nodes are only for activity diagrams"
+  ],
+  "answer": [
+   0
+  ],
+  "explanation": "L6 slide 5: a diagram begins with a start node, goes through states and transitions, 'and finally an end node (unless the system is in an infinite loop and there is no end node)'."
+ },
+ {
+  "id": "ch4-07",
+  "chapter": 4,
+  "subtopic": "dialog map",
+  "type": "single",
+  "level": 1,
+  "gotcha": false,
+  "question": "What is a **dialog map**, per L6 slide 6?",
+  "options": [
+   "A sequence diagram of messages between UI objects",
+   "An activity diagram of the user's tasks",
+   "A mock-up showing the screen layout in detail",
+   "A state machine where each screen/window is a state and navigation conditions are transitions"
+  ],
+  "answer": [
+   3
+  ],
+  "explanation": "L6 slide 6: many UIs behave like finite state machines with one screen active at a time (a state) and defined conditions for moving between them (transitions). That state machine is called a dialog map."
+ },
+ {
+  "id": "ch4-08",
+  "chapter": 4,
+  "subtopic": "dialog map",
+  "type": "multi",
+  "level": 1,
+  "gotcha": false,
+  "question": "Why use a dialog map with a prototype? (Pick all that apply.)",
+  "options": [
+   "Find missing or incorrect navigation pathways early, when they are cheap to fix",
+   "Spot reuse opportunities and redundancies in the UI",
+   "Do this without worrying about screen design details too early",
+   "Prove that the response-time NFRs are met"
+  ],
+  "answer": [
+   0,
+   1,
+   2
+  ],
+  "explanation": "L6 slide 6 lists exactly these three benefits, in the context of prototyping to reduce the risk of building the wrong product. It is a navigation model and says nothing about performance."
+ },
+ {
+  "id": "ch4-09",
+  "chapter": 4,
+  "subtopic": "activity notation",
+  "type": "single",
+  "level": 1,
+  "gotcha": false,
+  "question": "In an activity diagram, a **fork** is...",
+  "options": [
+   "a diamond choosing one of several flows by a condition",
+   "one incoming flow splitting into two or more concurrent flows",
+   "several alternative branches coming back into one",
+   "two or more concurrent flows synchronising into one"
+  ],
+  "answer": [
+   1
+  ],
+  "explanation": "L6 slide 10: fork = one input, two or more outputs (concurrent activities); join = concurrent flows come together; decision = one of several directions by condition; merge = several branches into one."
+ },
+ {
+  "id": "ch4-10",
+  "chapter": 4,
+  "subtopic": "activity notation",
+  "type": "single",
+  "level": 1,
+  "gotcha": false,
+  "question": "What is the difference between a **join** and a **merge**?",
+  "options": [
+   "No difference; both are drawn as a bar",
+   "Merge brings concurrent flows together; join ends the diagram",
+   "Join brings concurrent flows together (all must arrive); merge brings alternative branches back into one",
+   "Join is a diamond; merge is a bar"
+  ],
+  "answer": [
+   2
+  ],
+  "explanation": "L6 slide 10: join = two or more (concurrent) control flows come together into one, drawn as a bar like a fork. Merge = several branches into one, drawn as a diamond (L6 slides 12, 15). Use a join after a fork and a merge after a decision."
+ },
+ {
+  "id": "ch4-11",
+  "chapter": 4,
+  "subtopic": "swimlanes",
+  "type": "single",
+  "level": 1,
+  "gotcha": false,
+  "question": "In L6's ATM activity diagram, the columns 'Customer', 'ATM Machine' and 'Bank' are...",
+  "options": [
+   "swimlanes showing who performs each activity",
+   "states",
+   "use cases",
+   "subsystems in a layered architecture"
+  ],
+  "answer": [
+   0
+  ],
+  "explanation": "L6 slide 15 labels the columns as swimlanes. Each activity sits in the lane of the participant that does it (Customer inserts card, Bank authorizes, ATM shows balance). Flows can cross lanes."
+ },
+ {
+  "id": "ch4-12",
+  "chapter": 4,
+  "subtopic": "SM vs activity",
+  "type": "single",
+  "level": 1,
+  "gotcha": false,
+  "question": "Per L6 slide 16, how does an activity diagram differ from a state machine diagram?",
+  "options": [
+   "Activity diagram = structure; state machine = behaviour",
+   "They are the same diagram with different names",
+   "Activity diagrams cannot show conditions",
+   "Activity diagram = flow chart of activities (workflow); state machine = the states an object/system can be in"
+  ],
+  "answer": [
+   3
+  ],
+  "explanation": "L6 slide 16: activity diagrams describe workflow behaviour as a flow chart of activities, and a state machine models a system/object by the states it can be in. Both are behavioural (dynamic) models. Activity diagrams do show conditions (decision guards)."
+ },
+ {
+  "id": "ch4-13",
+  "chapter": 4,
+  "subtopic": "reading a state machine",
+  "type": "single",
+  "level": 2,
+  "gotcha": false,
+  "question": "The vending machine is in **Accumulate** with amount 50 and a 20-cent coin is inserted. What happens?",
+  "diagram": "stateDiagram-v2\n[*] --> Idle : Power On / Reset\nIdle : entry / amount = 0\nIdle : do / display(greeting)\nIdle --> Accumulate : insert(c)\nAccumulate : entry / amount = amount + c.amount\nAccumulate : do / display(amount)\nAccumulate --> Accumulate : insert(c)\nAccumulate --> Vend : select(i) [amount enough for i]\nVend : entry / amount = amount - i.cost\nVend : do / dispense(i)\nVend --> Idle : [amount = 0]\nVend --> ReturnChange : [amount > 0]\nReturnChange : do / return(amount)\nReturnChange --> Idle\nIdle --> [*] : Power Off",
+  "options": [
+   "Nothing; insert(c) is only handled in Idle",
+   "Self-transition back into Accumulate; its entry action runs again, so amount becomes 70",
+   "Moves to Vend because amount increased",
+   "Goes to Idle and resets amount to 0"
+  ],
+  "answer": [
+   1
+  ],
+  "explanation": "L6 slide 7 has an `insert(c:Coin)` self-loop on Accumulate. Re-entering the state re-runs `entry / amount := amount + c.amount`, which is how each coin is added. Vend needs the `select(i)` event with a true guard."
+ },
+ {
+  "id": "ch4-14",
+  "chapter": 4,
+  "subtopic": "reading a state machine",
+  "type": "single",
+  "level": 2,
+  "gotcha": false,
+  "question": "Same machine. In Vend, the transitions to Idle and ReturnChange have **no event**, only guards. When do they fire?",
+  "diagram": "stateDiagram-v2\n[*] --> Idle : Power On / Reset\nIdle : entry / amount = 0\nIdle : do / display(greeting)\nIdle --> Accumulate : insert(c)\nAccumulate : entry / amount = amount + c.amount\nAccumulate : do / display(amount)\nAccumulate --> Accumulate : insert(c)\nAccumulate --> Vend : select(i) [amount enough for i]\nVend : entry / amount = amount - i.cost\nVend : do / dispense(i)\nVend --> Idle : [amount = 0]\nVend --> ReturnChange : [amount > 0]\nReturnChange : do / return(amount)\nReturnChange --> Idle\nIdle --> [*] : Power Off",
+  "options": [
+   "Never; a transition without an event is invalid",
+   "When the user presses select again",
+   "When Vend's work is done, taking whichever guard is true: `[amount = 0]` → Idle, `[amount > 0]` → ReturnChange",
+   "Both fire at once"
+  ],
+  "answer": [
+   2
+  ],
+  "explanation": "Events are optional (L6 slide 5). These transitions fire once Vend has done its work, and the mutually exclusive guards pick the target. ReturnChange → Idle has no label at all and fires once the change is returned."
+ },
+ {
+  "id": "ch4-15",
+  "chapter": 4,
+  "subtopic": "reading a state machine",
+  "type": "single",
+  "level": 2,
+  "gotcha": false,
+  "question": "Stopwatch (L6 slide 9). The user is in **Continuous Update** and clicks Reset. According to this diagram...",
+  "diagram": "stateDiagram-v2\n[*] --> Ready\nReady : entry / Reset time\nReady --> ContinuousUpdate : Click Start\nContinuousUpdate : do / Display time elapsed\nContinuousUpdate --> TimePaused : Click Stop\nTimePaused --> ContinuousUpdate : Click Start\nTimePaused --> Ready : Click Reset\nReady --> [*] : Click Close Window\nContinuousUpdate --> [*] : Click Close Window\nTimePaused --> [*] : Click Close Window",
+  "options": [
+   "no transition is defined for Click Reset in this state, so the click has no effect",
+   "it goes to Ready and resets time",
+   "it goes to Time Paused",
+   "the stopwatch closes"
+  ],
+  "answer": [
+   0
+  ],
+  "explanation": "Only Ready, Continuous Update and Time Paused have the transitions drawn. From Continuous Update the only events are Click Stop and Click Close Window. Reset works only from Time Paused. If the requirement says otherwise, the dialog map has exposed a missing pathway (L6 slide 6)."
+ },
+ {
+  "id": "ch4-16",
+  "chapter": 4,
+  "subtopic": "reading a state machine",
+  "type": "single",
+  "level": 2,
+  "gotcha": false,
+  "question": "Stopwatch: why is there no 'set time to 0' action on the `Click Reset` transition?",
+  "diagram": "stateDiagram-v2\n[*] --> Ready\nReady : entry / Reset time\nReady --> ContinuousUpdate : Click Start\nContinuousUpdate : do / Display time elapsed\nContinuousUpdate --> TimePaused : Click Stop\nTimePaused --> ContinuousUpdate : Click Start\nTimePaused --> Ready : Click Reset\nReady --> [*] : Click Close Window\nContinuousUpdate --> [*] : Click Close Window\nTimePaused --> [*] : Click Close Window",
+  "options": [
+   "Because Reset doesn't reset the time",
+   "Because actions are not allowed on transitions",
+   "Because Time Paused has an exit action",
+   "Because Ready has `entry / Reset time`, which runs every time Ready is entered"
+  ],
+  "answer": [
+   3
+  ],
+  "explanation": "L6 slide 9 puts `entry / Reset time` in Ready, so any transition into Ready (the start, or Click Reset) resets the time. Actions on transitions are allowed (L6 slide 5); the entry action just avoids repeating it."
+ },
+ {
+  "id": "ch4-17",
+  "chapter": 4,
+  "subtopic": "writing a transition",
+  "type": "single",
+  "level": 2,
+  "gotcha": false,
+  "question": "Requirement: 'In Cart, when the user presses Pay and the cart is not empty, compute the total and go to Payment.' Which label is correct on Cart → Payment?",
+  "options": [
+   "`[pressPay] computeTotal() / cart not empty`",
+   "`pressPay [cart not empty] / computeTotal()`",
+   "`cart not empty (pressPay) / computeTotal()`",
+   "`computeTotal() [pressPay] / cart not empty`"
+  ],
+  "answer": [
+   1
+  ],
+  "explanation": "Use the format `event(arguments)[guard]/action` (L6 slide 5): the trigger is the button press (event), the condition is the guard in brackets, and the work done during the transition goes after `/`."
+ },
+ {
+  "id": "ch4-18",
+  "chapter": 4,
+  "subtopic": "projector (T3 Q2)",
+  "type": "single",
+  "level": 2,
+  "gotcha": false,
+  "question": "Tutorial 3 projector: 'As it warms up, it first gives a beep and a red indicator light continues to blink.' Best way to model this?",
+  "options": [
+   "Two states: 'Beep' then 'Blink Red'",
+   "A transition labelled `beep / blink red`",
+   "One state Warming Up with `entry / beep` and `do / blink red light`",
+   "A guard `[red light blinking]` on Off → Warming Up"
+  ],
+  "answer": [
+   2
+  ],
+  "explanation": "The beep happens once on entering warm-up (entry action), and the blinking continues while warming up (do activity) (L6 slide 4). They describe one stable condition, Warming Up, so they are not separate states."
+ },
+ {
+  "id": "ch4-19",
+  "chapter": 4,
+  "subtopic": "projector (T3 Q2)",
+  "type": "single",
+  "level": 2,
+  "gotcha": false,
+  "question": "Which set of **states** best models the Tutorial 3 projector?",
+  "options": [
+   "Off, Warming Up, Ready (PC input), Projecting Laptop",
+   "Turn On, Beep, Press LAPTOP, Press OFF",
+   "Off, On",
+   "Professor Jane, Projector, Laptop"
+  ],
+  "answer": [
+   0
+  ],
+  "explanation": "States are stable conditions (L6 slide 3). 'Turn On' and 'Press LAPTOP' are events that label transitions. Off/On alone loses the warm-up and the input source the scenario describes. People and devices are objects, not states."
+ },
+ {
+  "id": "ch4-20",
+  "chapter": 4,
+  "subtopic": "activity diagram",
+  "type": "single",
+  "level": 2,
+  "gotcha": false,
+  "question": "L6 Do Laundry: after sorting, Wash Whites and Wash Darks happen at the same time, then Dry Clothes. Which notation?",
+  "options": [
+   "Decision diamond after sorting, merge diamond before drying",
+   "Two separate activity diagrams",
+   "Swimlanes for Whites and Darks with no bars",
+   "Fork bar after sorting, join bar before drying"
+  ],
+  "answer": [
+   3
+  ],
+  "explanation": "Concurrent activities need a fork (one in, many out) and a join (many in, one out) (L6 slides 10, 11). A decision would mean only ONE wash happens."
+ },
+ {
+  "id": "ch4-21",
+  "chapter": 4,
+  "subtopic": "activity diagram",
+  "type": "single",
+  "level": 2,
+  "gotcha": false,
+  "question": "L6 Dry Clothes: run the dryer; if still wet run it again, else fold. How is the loop built?",
+  "options": [
+   "A fork after Run Dryer back to the start",
+   "A decision after Run Dryer: `[still wet]` loops back to a merge before Run Dryer, `[else]` goes to Fold Clothes",
+   "A state machine with states Wet and Dry",
+   "A join before Fold Clothes"
+  ],
+  "answer": [
+   1
+  ],
+  "explanation": "L6 slide 12: a decision diamond with guards `[still wet]` / `[else]`. The loop-back enters a merge diamond placed before Run Dryer. Loops in activity diagrams are decision + merge, not fork/join."
+ },
+ {
+  "id": "ch4-22",
+  "chapter": 4,
+  "subtopic": "activity diagram",
+  "type": "single",
+  "level": 2,
+  "gotcha": false,
+  "question": "L6 ATM diagram: after `[balance >= amount]`, a fork leads to 'Take money from slot' (Customer) and 'Debit account' (Bank), then a join. What does this say?",
+  "options": [
+   "The customer takes money only after the debit completes",
+   "Exactly one of the two happens",
+   "Both happen concurrently, and the flow continues only after both are done",
+   "The bank lane is optional"
+  ],
+  "answer": [
+   2
+  ],
+  "explanation": "Fork = start concurrent flows; join = wait for all of them to come together (L6 slides 10, 15). For 'one of the two', use a decision diamond instead."
+ },
+ {
+  "id": "ch4-23",
+  "chapter": 4,
+  "subtopic": "choosing a diagram",
+  "type": "single",
+  "level": 2,
+  "gotcha": false,
+  "question": "Which diagram fits: 'Show how a loan application flows between Clerk, Manager and the System, including the approve/reject decision.'",
+  "options": [
+   "Activity diagram with swimlanes Clerk / Manager / System",
+   "State machine of the LoanApplication object",
+   "Dialog map",
+   "Class diagram with B/C/E stereotypes"
+  ],
+  "answer": [
+   0
+  ],
+  "explanation": "A workflow of activities across participants is an activity diagram (L6 slide 16), with a swimlane per participant (slide 15) and a decision for approve/reject. A state machine would show the application's states (Submitted, Approved...), not who does what."
+ },
+ {
+  "id": "ch4-24",
+  "chapter": 4,
+  "subtopic": "dialog map (GES)",
+  "type": "single",
+  "level": 2,
+  "gotcha": false,
+  "question": "A GES dialog map: Main Menu → Arrival Form → (submit) → Silo Proposal → (accept/overrule) → Deposit Entry → (save) → Main Menu. What does the map expose?",
+  "options": [
+   "Nothing; it is complete",
+   "Too many states; screens should be merged",
+   "Deposit Entry should come before Silo Proposal",
+   "There is no way to cancel/back out of Arrival Form or Silo Proposal (e.g. 'no silo available')"
+  ],
+  "answer": [
+   3
+  ],
+  "explanation": "Finding missing navigation pathways early is the dialog map's point (L6 slide 6). GES para G allows 'none of it' to be accepted, so the manager needs a path back to Main Menu from the proposal screen, plus a cancel from the form."
+ },
+ {
+  "id": "ch4-25",
+  "chapter": 4,
+  "subtopic": "correcting a state machine",
+  "type": "single",
+  "level": 3,
+  "gotcha": true,
+  "question": "A student models the projector like this. What is the main error?",
+  "diagram": "stateDiagram-v2\n[*] --> PressON\nPressON --> Beep\nBeep --> GreenLight\nGreenLight --> PressLAPTOP\nPressLAPTOP --> PressOFF",
+  "options": [
+   "There must be an end node",
+   "States are named after events/actions (`Press ON`, `Press LAPTOP`); states should be conditions like Off, Warming Up, Projecting Laptop",
+   "Transitions need guards",
+   "The initial arrow must go to Press LAPTOP"
+  ],
+  "answer": [
+   1
+  ],
+  "explanation": "A state is a stable condition that lasts (L6 slide 3). Button presses are instantaneous events and belong on transitions (`press LAPTOP`). Renaming the boxes and moving the presses onto the arrows fixes it."
+ },
+ {
+  "id": "ch4-26",
+  "chapter": 4,
+  "subtopic": "correcting a state machine",
+  "type": "single",
+  "level": 3,
+  "gotcha": true,
+  "question": "On Projecting Laptop → Off, a student writes `[press OFF]`. What is wrong?",
+  "options": [
+   "Nothing",
+   "It should be `/press OFF`",
+   "Pressing OFF is an event, so write `press OFF`; brackets are for guard conditions that must be true",
+   "Off transitions cannot have labels"
+  ],
+  "answer": [
+   2
+  ],
+  "explanation": "In `event[guard]/action` (L6 slide 5) the event triggers the transition and the guard is a boolean condition checked at that moment. A button press is a trigger, not a condition. `/press OFF` would make it an action the system performs."
+ },
+ {
+  "id": "ch4-27",
+  "chapter": 4,
+  "subtopic": "projector final state",
+  "type": "single",
+  "level": 3,
+  "gotcha": true,
+  "question": "Jane leaves the projector ON after the lecture. A student adds an end node after Projecting Laptop 'because the scenario ends'. Better?",
+  "options": [
+   "Drop it: the projector keeps cycling (OFF → Off, ON again next day), and L6 allows no end node for such a system",
+   "Keep it; every story ending needs an end node",
+   "Replace it with a join bar",
+   "Put the end node after Warming Up"
+  ],
+  "answer": [
+   0
+  ],
+  "explanation": "The diagram models the projector's lifecycle, not one lecture. L6 slide 5 says the end node is omitted when the system loops forever. Model `press OFF` back to the Off state, and leaving it on simply means staying in Projecting Laptop."
+ },
+ {
+  "id": "ch4-28",
+  "chapter": 4,
+  "subtopic": "fork vs decision",
+  "type": "single",
+  "level": 3,
+  "gotcha": true,
+  "question": "An activity diagram puts a **fork bar** after 'Authorize' with outgoing flows `[valid PIN]` and `[invalid PIN]`. What is wrong?",
+  "options": [
+   "Nothing",
+   "Guards are not allowed in activity diagrams",
+   "It should be a join bar",
+   "A fork starts ALL outgoing flows concurrently; mutually exclusive choices need a decision diamond"
+  ],
+  "answer": [
+   3
+  ],
+  "explanation": "L6 slide 10: fork = concurrent outputs; decision (branch) = ONE direction depending on a condition. The ATM diagram (slide 15) uses a branch diamond with guard expressions exactly here."
+ },
+ {
+  "id": "ch4-29",
+  "chapter": 4,
+  "subtopic": "join vs merge",
+  "type": "single",
+  "level": 3,
+  "gotcha": true,
+  "question": "After a decision `[onsite]` / `[offsite]`, the two branches meet at a **join bar** before 'Meet with the Client'. What happens?",
+  "options": [
+   "Works fine",
+   "The join waits for BOTH branches, but only one ever runs, so the flow is stuck; use a merge diamond",
+   "Both branches will run concurrently",
+   "The diagram just ends at the join"
+  ],
+  "answer": [
+   1
+  ],
+  "explanation": "A join synchronises concurrent flows (L6 slide 10), so it needs all of them to arrive. After a decision only one branch is taken, so they must come back together with a merge (slide 10: merge several branches into one)."
+ },
+ {
+  "id": "ch4-30",
+  "chapter": 4,
+  "subtopic": "initial transition",
+  "type": "single",
+  "level": 3,
+  "gotcha": true,
+  "question": "A student claims the arrow from the start node can never carry a label. What does L6's vending machine show?",
+  "options": [
+   "Correct; the start arrow is always unlabelled",
+   "The start arrow carries a guard only",
+   "The start arrow is labelled `Power On / Reset`, an event with an action",
+   "The start node itself is a state named Power On"
+  ],
+  "answer": [
+   2
+  ],
+  "explanation": "L6 slide 7: the arrow from the start node into Idle is labelled `Power On / Reset`, and the arrow to the end node is labelled `Power Off`. (Strict UML allows only an action, not a trigger event, on the initial transition. For this course, follow the slide.)"
+ }
+]

@@ -1,0 +1,155 @@
+{
+ "chapter": 2,
+ "title": "Use case modelling: diagram, include/extend, descriptions",
+ "intro": "A use case model is the use case diagram (static) plus a use case description for every use case (dynamic). Marks go on arrow direction, include vs extend, actor vs use case, and filling the course template correctly.",
+ "cards": [
+  {
+   "title": "Use case model basics",
+   "body": "**UML** is a graphical notation with textual annotation for specifying, documenting and communicating a system. It is NOT a programming language (L3 slide 3).\n**Use Case Model = Use Case Diagram (static) + Use Case Description (dynamic)** (L3 slide 8). Each use case must have a description (L4 slide 4).\nFunctional requirements say **what**; use cases say **how** actors interact with that functionality. FRs are the starting point for use case modelling (L3 slide 7).",
+   "keypoints": [
+    "Diagram = static, description = dynamic",
+    "FR = what, use case = how; FRs come first",
+    "Use cases are prioritised for implementation in iterative development"
+   ]
+  },
+  {
+   "title": "Diagram elements: actor vs use case",
+   "body": "**Actor**: an external entity that interacts with the system. It can be a person, an external system or a device.\n**Use case**: a unit of functionality performed by the system, which yields a result/value for an actor.\n**Association**: connects an actor to the use case(s) it participates in (L3 slide 9). Use cases sit inside the system boundary and actors outside.",
+   "diagram": "flowchart LR\nC[\"Customer (actor)\"] --- W([\"Withdraw Money\"])\nC --- CB([\"Check Balance\"])\nV([\"Verify Customer\"]) --- B[\"Bank (actor)\"]",
+   "after": "Solid lines with no arrowheads are associations. The two kinds of use-case-to-use-case association are include and extend (L3 slide 11).",
+   "keypoints": [
+    "Who/what interacts = actor; what gets done = use case",
+    "External systems and devices are actors: Bank, University Account System, CITS Email System, Library Dropoff Kiosk (L3 slide 22)",
+    "'Click Submit' is a UI step, not a use case; use a goal like 'Submit Assignment'"
+   ]
+  },
+  {
+   "title": "<<include>>: always performed",
+   "body": "An include association from A to B means an instance of A performs **all** the behaviour described in B: \"A delegates to B\" (L3 slide 13). Included use cases are **always** used in the parent (slide 15).\nTwo uses:\n- **Functional decomposition**: a complex function is split into simpler use cases (Manage Incident includes Create, Handle and Close Incident, slide 12)\n- **Reuse**: overlapping behaviour is shared (Open Incident and Allocate Resources both include View Map, slide 13)",
+   "diagram": "flowchart LR\nO([\"Open Incident\"]) -.->|\"«include»\"| VM([\"View Map\"])\nA([\"Allocate Resources\"]) -.->|\"«include»\"| VM",
+   "keypoints": [
+    "Arrow: BASE --> INCLUDED (dashed, labelled <<include>>)",
+    "The base is incomplete without the included one",
+    "FR cue words: before, always, every, must also"
+   ]
+  },
+  {
+   "title": "<<extend>>: optional",
+   "body": "An extend association adds **optional** functionality. The base is complete by itself: \"ReportEmergency is complete by itself, but can be extended by use case Help for a scenario in which the user requires help\" (L3 slide 14). Extensions run only in exceptional or unusual circumstances (slide 15).",
+   "diagram": "flowchart LR\nH([\"Help\"]) -.->|\"«extend»\"| R([\"Report Emergency\"])",
+   "code": "                include              extend\nMeaning         always performed     optional / unusual case\nArrow           base -> included     extension -> base\nBase complete?  no                   yes\nUsed for        decomposition, reuse adding optional behaviour",
+   "keypoints": [
+    "Arrow: EXTENSION --> BASE (dashed, labelled <<extend>>)",
+    "The base never needs the extension to be complete",
+    "FR cue words: if, when (something unusual), may, optionally",
+    "Memory: the arrow points at the use case that does NOT know about the other"
+   ]
+  },
+  {
+   "title": "Worked example: Library FRs to diagram",
+   "body": "FRs (L3 slide 16): 1 member searches materials; 2 member loans materials; 3 system verifies membership with the University Account System **before** a loan; 4 member returns materials via the dropoff kiosk; 5 system sends overdue notices via the CITS Email Server; 6 **when** there are network issues with CITS, the system logs the event.",
+   "diagram": "flowchart LR\nM[\"Member (actor)\"] --- S([\"Search Material\"])\nM --- L([\"Loan Material\"])\nM --- R([\"Return Material\"])\nK[\"Library Dropoff Kiosk (actor)\"] --- R\nL -.->|\"«include»\"| VM([\"Verify Member\"])\nVM --- U[\"University Account System (actor)\"]\nSO([\"Send Overdue Notice\"]) --- E[\"CITS Email System (actor)\"]\nLN([\"Log Network Issues\"]) -.->|\"«extend»\"| SO",
+   "after": "This diagram is assembled from the FRs and L3 slides 20–22. The extracted slide text does not show every arrow, so justify each include/extend with the FR wording in your answer.",
+   "keypoints": [
+    "FR3 'before' -> Loan Material includes Verify Member",
+    "FR6 'when there are network issues' -> Log Network Issues extends Send Overdue Notice",
+    "Slides 20–22 are alternative versions (one uses Member Login, Diagram 3 adds the Kiosk actor)"
+   ]
+  },
+  {
+   "title": "Generalisation",
+   "body": "Tutorial 2(a) asks you to use **generalisation, include and extend** 'wherever appropriate'. Use generalisation for a genuine **'is a kind of'** relationship between actors or between use cases, e.g. in GES, 'Generate Elevator Status Report' and 'List Transaction Log' are kinds of 'Generate Report'.\nNotation (standard UML): a solid line with a **hollow triangle** at the parent (general) end.",
+   "keypoints": [
+    "The L3/L4 slides do not draw generalisation, so in an exam add a one-line justification",
+    "Generalisation = 'kind of'; include = 'always does'; extend = 'optionally does'",
+    "Do not force it in; only use it if the scenario gives a real specialisation"
+   ]
+  },
+  {
+   "title": "Use case description template",
+   "body": "Every use case needs a description, written with the template on L4 slide 17. Fields:",
+   "code": "Use Case ID:            Use Case Name:\nCreated By:            Last Updated By:\nDate Created:          Date Last Updated:\nActor:\nDescription:\nPreconditions:\nPostconditions:\nPriority:\nFrequency of Use:\nFlow of Events:\nAlternative Flows:\nExceptions:\nIncludes:\nSpecial Requirements:\nAssumptions:\nNotes and Issues:",
+   "keypoints": [
+    "Preconditions = entry conditions; Postconditions = exit conditions (L4 slide 4)",
+    "'Includes:' lists the included use cases",
+    "Alternative Flows and Exceptions are separate fields; do not merge them"
+   ]
+  },
+  {
+   "title": "Actors, entry and exit conditions",
+   "body": "**Participating actors**: a use case can have more than one. The **initiating actor** triggers it. If the use case is triggered by a **system event or another use case**, the initiating actor is **NULL** (L4 slide 4).\n**Entry condition**: the system state that must hold before the use case can run. **Exit condition**: the state reached afterwards, covering every ending, including failure (L4 slide 7).",
+   "code": "Participating actor: Bank Customer (Initiating Actor), Bank\nEntry Conditions:\n 1. Bank Customer has a Bank Account with the Bank and\n 2. Bank Customer has an ATM Card and PIN\nExit Conditions:\n 1. Bank Customer receives the requested cash or\n 2. Bank Customer receives an explanation from the ATM\n    why the cash could not be dispensed      (L4 slide 7)",
+   "keypoints": [
+    "Included use cases (e.g. Verify Member) -> initiating actor NULL",
+    "Timed/automatic use cases (Send Overdue Notice) -> NULL",
+    "Entry conditions joined with AND; exit outcomes listed with OR"
+   ]
+  },
+  {
+   "title": "Flow of events",
+   "body": "The normal (main successful) flow: Step 1 = how the **actor triggers** the use case, Step 2 = how the **system responds**, and so on (L4 slide 5). The ATM example alternates actor steps and system steps (L4 slide 8).",
+   "code": "1. The Bank Customer inputs the card into the ATM\n2. The ATM requests the input of a six-digit PIN\n3. The Bank Customer enters a PIN\n4. The ATM verifies the card and PIN with the Bank\n5. If the card and PIN are verified, the ATM requests\n   the amount to withdraw\n6. The Bank Customer enters an amount\n7. The ATM verifies the amount is available in the account\n8. If sufficient funds, the ATM outputs the money, card\n   and a receipt\n9. The Bank Customer removes card, receipt and money",
+   "keypoints": [
+    "Step 1 is always the actor's trigger",
+    "Number every step: AFs and the 'return to step N' depend on it",
+    "Name the actor and the system explicitly in each step"
+   ]
+  },
+  {
+   "title": "Alternative flows vs exceptions",
+   "body": "**Alternative flow**: a variation or error in the interaction that **returns to the normal flow**. It is named after the step where it branches: **AF-S5** branches at step 5.\n**Exception**: an exceptional situation that causes the **use case to fail**. Exceptions are numbered **EX1, EX2...** (L4 slides 5, 10, 11).",
+   "code": "AF-S5: If the card and PIN are invalid\n 1. ATM displays \"Invalid card and PIN. Please try again!\" (2 s)\n 2. The ATM returns to the step 2\nAF-S8: If the customer account has insufficient funds\n 1. ATM displays \"Insufficient funds... enter a smaller amount!\"\n 2. The ATM returns to the step 6\nEX1: If the Bank Customer enters invalid PIN three times\n 1. ATM displays \"Card is suspended! ...\" for 2 seconds\n 2. The ATM outputs the card\nEX2: If the ATM has insufficient funds\n 1. ATM displays \"off-service\" at the start screen\n 2. The ATM does not accept the card",
+   "keypoints": [
+    "AF ends with 'returns to step N'; EX ends with the use case failing",
+    "Wrong PIN once = AF; wrong PIN three times = EX",
+    "Insufficient funds in the ACCOUNT = AF (retry a smaller amount); in the ATM = EX"
+   ]
+  },
+  {
+   "title": "Includes inside a flow (Course Registration)",
+   "body": "On the diagram, Select Courses, Manage Curriculum and Find Course Schedule each <<include>> Login (L4 slide 14). Manage Curriculum also includes AddCourse, DeleteCourse and ReviewCourses (slide 15). In the description, the included use case is named inside a normal step (L4 slide 16) and listed in the 'Includes:' field.",
+   "diagram": "flowchart LR\nSC([\"Select Courses\"]) -.->|\"«include»\"| L([\"Login\"])\nMC([\"Manage Curriculum\"]) -.->|\"«include»\"| L\nFS([\"Find Course Schedule\"]) -.->|\"«include»\"| L\nMC -.->|\"«include»\"| AC([\"AddCourse\"])",
+   "code": "1. The system uses the included use case Login to verify\n   the Registrar.\n2. On successful login, the system prompts the Registrar to\n   select the current semester or a future semester.\n3. The Registrar selects the desired semester.\n4. The system prompts: ADD, DELETE, REVIEW, or QUIT.\n5. If the Registrar selects ADD, he uses the included use\n   case AddCourse to add a course.      (L4 slide 16)",
+   "keypoints": [
+    "Write: 'The system uses the included use case Login to verify the Registrar.'",
+    "Also list it under Includes: in the template",
+    "Arrow direction stays base -> Login"
+   ]
+  },
+  {
+   "title": "GES worked diagram (Tutorial 2(a) shape)",
+   "body": "Actors: **Elevator Manager** (enters arrivals and departures, requests reports, GES G–K) and the **humidity and temperature sensors** (send data and alerts, E). Silos and the transaction log are domain things, not actors.\nA truck arrival always triggers silo allocation (include). The manager **may** overrule it (extend).",
+   "diagram": "flowchart LR\nEM[\"Elevator Manager (actor)\"] --- RA([\"Record Grain Arrival\"])\nEM --- RD([\"Record Grain Departure\"])\nEM --- GR([\"Generate Status Report\"])\nEM --- LT([\"List Transaction Log\"])\nRA -.->|\"«include»\"| AS([\"Allocate Silos\"])\nOV([\"Overrule Silo Allocation\"]) -.->|\"«extend»\"| RA\nRA -.->|\"«include»\"| UL([\"Update Transaction Log\"])\nRD -.->|\"«include»\"| UL\nSN[\"Humidity/Temp Sensor (actor)\"] --- RS([\"Record Silo Conditions\"])\nHA([\"Handle Silo Alert\"]) -.->|\"«extend»\"| RS",
+   "keypoints": [
+    "Every GES paragraph A–K should map to a use case or to a rule inside a description",
+    "Grain Dryer: the sensors alert it, not the system, so leaving it out is defensible; justify either choice",
+    "Login is not in the case study, so add it only as a stated assumption"
+   ]
+  },
+  {
+   "title": "Traps",
+   "body": "The mistakes markers penalise in use case answers.",
+   "keypoints": [
+    "Reversed arrows: include = base -> included; extend = extension -> base",
+    "A device or external system (kiosk, bank, email server, sensor) is an ACTOR, not a use case",
+    "UI actions ('Click Submit') are flow steps, not use cases",
+    "'May / if / when unusual' = extend; 'before / always / every' = include",
+    "Initiating actor = NULL when triggered by a system event or another use case",
+    "An AF returns to a step; if the use case fails, it is an EXCEPTION (EXn)",
+    "Exit conditions cover failure outcomes too ('receives an explanation why...')",
+    "Entry condition = state before; 'Customer inserts card' is Step 1, not a precondition",
+    "Don't invent features (e.g. Login) that the scenario doesn't state; mark them as assumptions"
+   ]
+  },
+  {
+   "title": "Exam recipe: diagram + description",
+   "body": "**Diagram**\n1. Underline external nouns that interact with the system: actors (include systems and devices).\n2. Underline goal verb phrases: use cases (verb + noun, inside the boundary).\n3. Solid association lines from actors to use cases.\n4. 'before/always/every' -> <<include>> base -> included. 'if/may/when' -> <<extend>> extension -> base.\n5. Draw the boundary with the system name. Check that every requirement is covered.\n**Description** (template on L4 slide 17)",
+   "code": "Use Case Name: Book Study Room\nActor: Student (initiating), Room Booking Server\nPreconditions: 1. Student is logged in\nPostconditions: 1. Student receives a booking confirmation OR\n  2. Student receives an explanation why no room was booked\nFlow of Events:\n 1. The Student selects a date and time slot.\n 2. The system displays the rooms free in that slot.\n 3. The Student selects a room.\n 4. The system checks the Student has not exceeded the\n    booking quota.\n 5. The system records the booking and shows confirmation.\nAlternative Flows:\n AF-S2: If no room is free in that slot\n  1. The system displays \"No rooms free\". 2. Returns to step 1.\nExceptions:\n EX1: If the Room Booking Server is unreachable\n  1. The system displays \"Booking unavailable\"; use case ends.\n EX2: If the Student has reached the booking quota\n  1. The system displays \"Quota reached\"; use case ends.\nIncludes: (none)",
+   "keypoints": [
+    "Number the normal flow; actor trigger first",
+    "AF-S<n> ... returns to step <m>; EX<n> ... use case fails",
+    "Fill Includes: and name the include inside the step"
+   ]
+  }
+ ]
+}

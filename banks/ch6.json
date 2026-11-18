@@ -1,0 +1,795 @@
+[
+ {
+  "id": "ch6-01",
+  "chapter": 6,
+  "subtopic": "components and connectors",
+  "type": "single",
+  "level": 1,
+  "gotcha": false,
+  "question": "L12 defines Software Architecture = {Components, Connectors}. Which of these is a **component**, not a connector?",
+  "options": [
+   "A remote procedure call",
+   "A communication protocol",
+   "A database",
+   "A data stream"
+  ],
+  "answer": [
+   2
+  ],
+  "explanation": "Components are units of software that do some function at run-time: programs, objects, processes, clients, servers, **databases** (L12 slide 12). Connectors are the interactions between them: shared variable access, procedure calls, RPCs, protocols, data streams."
+ },
+ {
+  "id": "ch6-02",
+  "chapter": 6,
+  "subtopic": "components and connectors",
+  "type": "single",
+  "level": 2,
+  "gotcha": false,
+  "question": "In the WWW client-server architecture (L12 slide 13; L12-Thu slide 3), what is the **HTTP protocol** between the WWW Client and the WWW Server?",
+  "options": [
+   "A component",
+   "A connector",
+   "An architectural style",
+   "A constraint"
+  ],
+  "answer": [
+   1
+  ],
+  "explanation": "HTTP is the communication between the two components, so it is a **connector**. Communication protocols are listed as connector examples on L12 slide 12. The client and server are components."
+ },
+ {
+  "id": "ch6-03",
+  "chapter": 6,
+  "subtopic": "architecture vs class diagram",
+  "type": "single",
+  "level": 1,
+  "gotcha": false,
+  "question": "How does an architecture diagram differ from a class diagram (L12 slides 14–15)?",
+  "options": [
+   "It is abstract: it hides component details and shows the topology of components and their data and control interactions",
+   "It shows every attribute and operation of each class",
+   "It only shows inheritance",
+   "It is the same diagram drawn at a larger scale"
+  ],
+  "answer": [
+   0
+  ],
+  "explanation": "L12 slide 15: architecture is abstract (details of components and connectors are hidden), it is about structure and interactions (the topology), and it is purposeful (used to analyse properties of interest). A class diagram shows class-level detail such as operations, interfaces and realisation (slide 14)."
+ },
+ {
+  "id": "ch6-04",
+  "chapter": 6,
+  "subtopic": "why architecture",
+  "type": "multi",
+  "level": 1,
+  "gotcha": false,
+  "question": "Which are reasons for doing system architecture design given in L12 slides 7–9? Select all that apply.",
+  "options": [
+   "Systems are larger: code size, users, developers, decades of life, many versions",
+   "Cost, schedule constraints and maintenance",
+   "Non-functional requirements such as performance, availability, security, scalability, extensibility",
+   "It removes the need for requirements analysis"
+  ],
+  "answer": [
+   0,
+   1,
+   2
+  ],
+  "explanation": "'The Reasons 1–3' on L12 slides 7–9 are size and complexity, then cost, schedule and maintenance, then NFRs. Architecture builds on the analysis model; it does not replace it (slide 2 shows requirements analysis, then system design, then object design)."
+ },
+ {
+  "id": "ch6-05",
+  "chapter": 6,
+  "subtopic": "how NFRs drive design",
+  "type": "single",
+  "level": 1,
+  "gotcha": false,
+  "question": "On L12 slide 16 ('How to develop a system architecture?'), under which heading are **Layered Architecture, Client and Server, Data Centered** listed?",
+  "options": [
+   "Non-functional Requirement",
+   "Design Principles",
+   "Design Patterns",
+   "Constraints"
+  ],
+  "answer": [
+   2
+  ],
+  "explanation": "The slide 16 pipeline is: Functional Requirement (dynamic and analysis object models), then Non-functional Requirement (efficiency, reliability, robustness, security, maintainability), then Design Principles (modularity, abstraction, open-closed, reusability), then **Design Patterns** (layered, client-server, data centered), then Constraints (languages, libraries, communications)."
+ },
+ {
+  "id": "ch6-06",
+  "chapter": 6,
+  "subtopic": "how NFRs drive design",
+  "type": "single",
+  "level": 1,
+  "gotcha": false,
+  "question": "Which statement belongs under **Constraints** on L12 slide 16?",
+  "options": [
+   "The system must respond within 2 seconds",
+   "The system must be written in Java and talk to the bank over its existing ISO-8583 link",
+   "Each class should have a single responsibility",
+   "Use a three-layer architecture"
+  ],
+  "answer": [
+   1
+  ],
+  "explanation": "Constraints on slide 16 are languages, libraries and communications. A 2-second response is an NFR (efficiency). Single responsibility is a design principle (slide 17). Three-layer is a design pattern or architectural style."
+ },
+ {
+  "id": "ch6-07",
+  "chapter": 6,
+  "subtopic": "how NFRs drive design",
+  "type": "single",
+  "level": 2,
+  "gotcha": false,
+  "question": "A bank wants the **same** business logic and database to serve a web UI now, plus a mobile app and a kiosk later. Which style does this requirement point to, per the slides?",
+  "options": [
+   "Layered: lower layers are reused while the upper layer varies",
+   "Pipe-and-filter: each UI is a filter",
+   "Batch sequential",
+   "Interpreter"
+  ],
+  "answer": [
+   0
+  ],
+  "explanation": "Reusing lower-layer components while upper-layer components vary is a listed advantage of the layered style (L12-Thu slide 6). Swapping or adding presentation-layer classes leaves the App Logic and Persistent Data layers untouched. This is how an NFR (extensibility, reusability) drives the choice of style (L12 slides 16 and 26)."
+ },
+ {
+  "id": "ch6-08",
+  "chapter": 6,
+  "subtopic": "how NFRs drive design",
+  "type": "single",
+  "level": 2,
+  "gotcha": false,
+  "question": "Hundreds of staff PCs must access shared records held on one central machine over the network. Which style from the L12 catalogue fits?",
+  "options": [
+   "Main program and subroutine",
+   "Batch sequential",
+   "Rule-based system",
+   "Communicating processes: client and server"
+  ],
+  "answer": [
+   3
+  ],
+  "explanation": "Many clients requesting services from a shared server over a network is client-server, listed under Independent components, Communicating processes (L12 slide 21). The WWW example is on L12 slide 13 and L12-Thu slide 3. The protocol between them is the connector."
+ },
+ {
+  "id": "ch6-09",
+  "chapter": 6,
+  "subtopic": "styles catalogue",
+  "type": "single",
+  "level": 2,
+  "gotcha": false,
+  "question": "Sensor readings pass through stages: clean, then smooth, then aggregate, then raise an alert. Each stage transforms a data stream and shares no state with the others. Which style is this?",
+  "options": [
+   "Repository",
+   "Layered system",
+   "Pipe-and-filter",
+   "Blackboard"
+  ],
+  "answer": [
+   2
+  ],
+  "explanation": "Independent stages that transform a stream and don't share state are filters joined by pipes: **pipe-and-filter**, in the Data flow family (L12 slides 19 and 21). Slide 19 gives 'filters do not share states' as that style's semantic constraint."
+ },
+ {
+  "id": "ch6-10",
+  "chapter": 6,
+  "subtopic": "styles catalogue",
+  "type": "single",
+  "level": 2,
+  "gotcha": false,
+  "question": "An editor, a parser, a simulator and a model checker all read and write one shared central store of models. Which family from L12 slide 21 does this match?",
+  "options": [
+   "Data flow",
+   "Data-centered (repository)",
+   "Virtual machine",
+   "Call and return"
+  ],
+  "answer": [
+   1
+  ],
+  "explanation": "Components organised around a shared central data store are **Data-centered**, with repository and blackboard as its two variants (L12 slide 21). The 'Real Architecture Diagrams' on slide 27 show model collections shared by several tools."
+ },
+ {
+  "id": "ch6-11",
+  "chapter": 6,
+  "subtopic": "styles catalogue",
+  "type": "single",
+  "level": 1,
+  "gotcha": false,
+  "question": "In the L12 catalogue of architectural styles (slide 21), which family is **layered system** under?",
+  "options": [
+   "Call and return",
+   "Independent components",
+   "Data-centered",
+   "Virtual machine"
+  ],
+  "answer": [
+   0
+  ],
+  "explanation": "Slide 21: Call and return = main program and subroutine, object-oriented, layered system. Independent components = communicating processes (client and server) and event systems (implicit or explicit invocation). Data flow = batch sequential, pipe-and-filter. Data-centered = repository, blackboard. Virtual machine = interpreter, rule-based system."
+ },
+ {
+  "id": "ch6-12",
+  "chapter": 6,
+  "subtopic": "styles catalogue",
+  "type": "multi",
+  "level": 1,
+  "gotcha": false,
+  "question": "Which **two** styles are listed under **Data-centered** in L12 slide 21? Select all that apply.",
+  "options": [
+   "Repository",
+   "Pipe-and-filter",
+   "Blackboard",
+   "Implicit invocation"
+  ],
+  "answer": [
+   0,
+   2
+  ],
+  "explanation": "Data-centered = repository and blackboard. Pipe-and-filter is Data flow. Implicit invocation is an Event system, under Independent components (L12 slide 21)."
+ },
+ {
+  "id": "ch6-13",
+  "chapter": 6,
+  "subtopic": "styles catalogue",
+  "type": "single",
+  "level": 3,
+  "gotcha": true,
+  "question": "A student writes: \"Pipe-and-filter is a data-centered style because the filters process data.\" Why would this lose marks?",
+  "options": [
+   "Pipe-and-filter is a Virtual machine style",
+   "Pipe-and-filter is a kind of layered system",
+   "Pipe-and-filter is in the **Data flow** family; Data-centered means components sharing a central store (repository or blackboard)",
+   "The statement is correct"
+  ],
+  "answer": [
+   2
+  ],
+  "explanation": "Use the catalogue's family names exactly (L12 slide 21). Data flow = batch sequential and pipe-and-filter, where data moves through stages. Data-centered = repository and blackboard, where components work around a shared store. 'Processes data' describes almost any style, so it can't be the classification rule."
+ },
+ {
+  "id": "ch6-14",
+  "chapter": 6,
+  "subtopic": "architectural style",
+  "type": "single",
+  "level": 1,
+  "gotcha": false,
+  "question": "Per L12 slide 18, an architectural style defines a family of systems by a pattern of structural organisation. Which is **not** part of that definition?",
+  "options": [
+   "A vocabulary of component and connector types",
+   "The source code of each component",
+   "A set of constraints on how they can be combined",
+   "One or more semantic models for working out system properties from its parts"
+  ],
+  "answer": [
+   1
+  ],
+  "explanation": "Slide 18 lists vocabulary, constraints and semantic models. A style is a reusable pattern of organisation, so it never fixes the code. Architecture hides component details (slide 15)."
+ },
+ {
+  "id": "ch6-15",
+  "chapter": 6,
+  "subtopic": "architectural style",
+  "type": "single",
+  "level": 1,
+  "gotcha": false,
+  "question": "Which is the semantic constraint that L12 slide 19 gives for a **layered** system?",
+  "options": [
+   "One layer can only call the service provided by the lower layer",
+   "Filters do not share state with each other",
+   "All components share one central database",
+   "Every component must run concurrently"
+  ],
+  "answer": [
+   0
+  ],
+  "explanation": "Slide 19: 'One layer can only call the service provided by the lower layer in a layered system.' 'Filters do not share states' is the pipe-and-filter constraint on the same slide. This one sentence is the rule behind every dependency question on layered B/C/E diagrams."
+ },
+ {
+  "id": "ch6-16",
+  "chapter": 6,
+  "subtopic": "architectural style",
+  "type": "single",
+  "level": 2,
+  "gotcha": false,
+  "question": "In a 3-layer system, the App Logic layer moves to a separate server, and the Presentation layer now calls it by **remote procedure call**. Per L12, is it still a layered style?",
+  "options": [
+   "No; layered systems require local calls",
+   "No; it is now pipe-and-filter",
+   "Only if the database also moves",
+   "Yes; a style allows variation, and a call to the lower layer can be a local call, an RPC or another IPC mechanism"
+  ],
+  "answer": [
+   3
+  ],
+  "explanation": "L12 slide 20: within a style, the mechanism of interaction can vary. 'In a layered system, the call to the lower layer can be local procedure calls, or remote procedure calls, or other process communication mechanisms.' The number of components can vary too (2 filters or 20)."
+ },
+ {
+  "id": "ch6-17",
+  "chapter": 6,
+  "subtopic": "independent components",
+  "type": "multi",
+  "level": 1,
+  "gotcha": false,
+  "question": "Which are advantages of the **Independent component** style listed on L12 slide 24? Select all that apply.",
+  "options": [
+   "Modifiability by decoupling the computation",
+   "Concurrent execution",
+   "Correctness is easy to achieve",
+   "Scalability and easy integration"
+  ],
+  "answer": [
+   0,
+   1,
+   3
+  ],
+  "explanation": "L12 slide 24, 'Analysis of Independent Component'. Advantages: modifiability by decoupling, concurrent execution, scalability, easy integration. Disadvantages: components are independent (was the message received? this needs complicated protocols) and **correctness is hard to achieve**."
+ },
+ {
+  "id": "ch6-18",
+  "chapter": 6,
+  "subtopic": "3-layered architecture",
+  "type": "single",
+  "level": 1,
+  "gotcha": false,
+  "question": "In the 3-layered architecture on L12 slide 22 (and L12-Thu slide 4), which layer holds the **control** classes such as ResourceManagement and IncidentManagement?",
+  "options": [
+   "Presentation",
+   "App Logic",
+   "Persistent Data",
+   "Kernel"
+  ],
+  "answer": [
+   1
+  ],
+  "explanation": "The three layers are Presentation (boundary symbol; FieldOfficerUI, DispatcherUI), App Logic (control symbol; Resource, Map and Incident Management) and Persistent Data (entity symbol; Database)."
+ },
+ {
+  "id": "ch6-19",
+  "chapter": 6,
+  "subtopic": "stereotype symbols",
+  "type": "single",
+  "level": 1,
+  "gotcha": false,
+  "question": "On the layered diagram (L12 slide 22), each layer carries a stereotype icon. Which icon marks the **Persistent Data / entity** layer?",
+  "options": [
+   "A circle sitting on a horizontal line",
+   "A circle with a T-bar attached on its left",
+   "A circle with an arrowhead on top",
+   "A stick figure"
+  ],
+  "answer": [
+   0
+  ],
+  "explanation": "Boundary = circle with a vertical bar joined on the left (|-O, on Presentation). Control = circle with an arrowhead on its rim (on App Logic). Entity = circle resting on a line underneath (on Persistent Data). A stick figure is an actor. Q3(a)(i) allows these symbols in place of the words."
+ },
+ {
+  "id": "ch6-20",
+  "chapter": 6,
+  "subtopic": "B/C/E responsibilities",
+  "type": "single",
+  "level": 1,
+  "gotcha": false,
+  "question": "Per L5 slide 17, what is the core responsibility of an **entity** class?",
+  "options": [
+   "Interaction between the actor and the system",
+   "Logic to realise a use case",
+   "Drawing the screens",
+   "Information tracked by the system"
+  ],
+  "answer": [
+   3
+  ],
+  "explanation": "L5 slide 17: Entity = information tracked by the system; Boundary = interaction between actor and system; Control = logic to realise the use case. These three definitions are the backbone of a Q3(a)(iii) answer."
+ },
+ {
+  "id": "ch6-21",
+  "chapter": 6,
+  "subtopic": "B/C/E responsibilities",
+  "type": "single",
+  "level": 1,
+  "gotcha": false,
+  "question": "Per L5 slide 17, what is the core responsibility of a **control** class?",
+  "options": [
+   "Storing persistent data",
+   "Interaction between the actor and the system",
+   "Logic to realise a use case, coordinating boundary and entity objects",
+   "Handling only database transactions"
+  ],
+  "answer": [
+   2
+  ],
+  "explanation": "Control = the logic that realises a use case (L5 slide 17). In the layered view it sits in App Logic, between boundary and entity (L12 slide 22). 'Coordinating boundary and entity objects' is the elaboration you add to make the answer 1–2 full sentences."
+ },
+ {
+  "id": "ch6-22",
+  "chapter": 6,
+  "subtopic": "B/C/E classification",
+  "type": "single",
+  "level": 2,
+  "gotcha": false,
+  "question": "GES: silo humidity and temperature sensors send readings and alerts to the system. Which stereotype fits the class that **receives** these sensor messages?",
+  "options": [
+   "Entity, because sensors are physical things",
+   "Boundary",
+   "Control",
+   "Actor, drawn inside the Presentation layer"
+  ],
+  "answer": [
+   1
+  ],
+  "explanation": "The sensors are external actors (GES para E). The class through which the system interacts with an actor is a **boundary** class (L5 slide 17), so it goes in the Presentation layer. The silo's stored temperature and humidity values are entity data (Silo attributes)."
+ },
+ {
+  "id": "ch6-23",
+  "chapter": 6,
+  "subtopic": "B/C/E classification",
+  "type": "single",
+  "level": 2,
+  "gotcha": false,
+  "question": "GES: when a truck arrives, the system must choose one or more silos and work out how much grain goes in each. Which stereotype fits the class doing this?",
+  "options": [
+   "Control",
+   "Boundary",
+   "Entity",
+   "None; it belongs in the database"
+  ],
+  "answer": [
+   0
+  ],
+  "explanation": "Choosing silos is use-case logic (the allocation step of 'Process Shipment Arrival'), so it is a **control** class (L5 slide 17), e.g. AllocationController in the App Logic layer. It asks the Silo entities for their type, grade and remaining capacity."
+ },
+ {
+  "id": "ch6-24",
+  "chapter": 6,
+  "subtopic": "B/C/E classification",
+  "type": "multi",
+  "level": 2,
+  "gotcha": false,
+  "question": "GES: which classes belong in the **Persistent Data (entity)** layer? Select all that apply.",
+  "options": [
+   "Silo",
+   "TransactionLog",
+   "ShipmentArrivalUI",
+   "Truck",
+   "AllocationController"
+  ],
+  "answer": [
+   0,
+   1,
+   3
+  ],
+  "explanation": "Silo, TransactionLog and Truck hold information the system tracks (GES paras C, D and F), so they are entity classes (L5 slide 17). ShipmentArrivalUI is boundary (Presentation). AllocationController is control (App Logic)."
+ },
+ {
+  "id": "ch6-25",
+  "chapter": 6,
+  "subtopic": "layer dependencies",
+  "type": "multi",
+  "level": 2,
+  "gotcha": false,
+  "question": "In a 3-layer B/C/E architecture drawn the course way, which dependencies are **allowed**? Select all that apply.",
+  "diagram": "flowchart TD\n  subgraph P[\"Presentation (boundary)\"]\n    UI[\"ShipmentUI\"]\n  end\n  subgraph A[\"App Logic (control)\"]\n    AC[\"AllocationController\"]\n  end\n  subgraph D[\"Persistent Data (entity)\"]\n    S[\"Silo\"]\n  end\n  UI -.-> AC\n  AC -.-> S",
+  "options": [
+   "Boundary depends on Control",
+   "Control depends on Entity",
+   "Entity depends on Control",
+   "Control depends on Boundary",
+   "Boundary depends on Entity directly"
+  ],
+  "answer": [
+   0,
+   1
+  ],
+  "explanation": "L12 slide 19: one layer can only call the service of the layer below. The slide 22 diagram shows only Presentation-to-App-Logic and App-Logic-to-Persistent-Data arrows, all pointing down, with no skipping. Entity-to-Control and Control-to-Boundary point upward. Boundary-to-Entity skips the App Logic layer."
+ },
+ {
+  "id": "ch6-26",
+  "chapter": 6,
+  "subtopic": "layer dependencies",
+  "type": "single",
+  "level": 2,
+  "gotcha": false,
+  "question": "ShipmentUI (boundary) calls AllocationController (control). How do you show this on the layered diagram, following L12 slide 22?",
+  "options": [
+   "A dashed arrow from AllocationController pointing up to ShipmentUI",
+   "A dashed arrow from ShipmentUI pointing down to AllocationController",
+   "A solid line with a hollow triangle at ShipmentUI",
+   "A filled diamond at AllocationController"
+  ],
+  "answer": [
+   1
+  ],
+  "explanation": "A dependency is a dashed arrow drawn **from** the class that uses **to** the class being used. On slide 22, every dashed arrow points down from the upper layer to the lower one. A hollow triangle means generalisation and a filled diamond means composition; neither is a dependency."
+ },
+ {
+  "id": "ch6-27",
+  "chapter": 6,
+  "subtopic": "layer dependencies",
+  "type": "single",
+  "level": 3,
+  "gotcha": true,
+  "question": "A student adds a call from Silo (entity) to ManagerUI (boundary) so the screen refreshes when the silo's capacity changes. What is the problem?",
+  "options": [
+   "It is an up-call from a lower to a higher layer, which breaks 'a layer only calls the layer below'. L15 suggests the Observer pattern for loose coupling instead",
+   "None; entities may call any layer",
+   "Silo should call the database instead",
+   "It should be a solid association instead of a dependency"
+  ],
+  "answer": [
+   0
+  ],
+  "explanation": "L12 slide 19 allows only downward calls. L15 slide 16 names this exact problem: many situations need up-calls from lower to higher layers, and these create dependencies. Its fix is the Observer pattern, which gives loose coupling between the two layers."
+ },
+ {
+  "id": "ch6-28",
+  "chapter": 6,
+  "subtopic": "layer dependencies",
+  "type": "single",
+  "level": 3,
+  "gotcha": true,
+  "question": "To \"save time\", a student's ReportUI (boundary) reads Silo (entity) objects directly, skipping the controller. How should a marker following L12 treat this?",
+  "options": [
+   "Accept it; skipping layers improves cohesion",
+   "Accept it, provided the arrow is dashed",
+   "Penalise it only if Silo is abstract",
+   "Penalise it; the course rule is that a layer calls only the layer below, so the request should go through a control class"
+  ],
+  "answer": [
+   3
+  ],
+  "explanation": "L12 slide 19 and the slide 22 diagram show Presentation depending only on App Logic. Industry sometimes allows 'open' layering, where a layer may skip down, but the slides don't present that option, so draw strict downward, adjacent dependencies. Route the report request through a control class, e.g. ReportController."
+ },
+ {
+  "id": "ch6-29",
+  "chapter": 6,
+  "subtopic": "layered strengths",
+  "type": "multi",
+  "level": 1,
+  "gotcha": false,
+  "question": "Which are **advantages** of the layered style listed in L12-Thu slide 6? Select all that apply.",
+  "options": [
+   "Supports designs based on increasing levels of abstraction",
+   "Supports enhancement of functionality by introducing new components",
+   "Concurrent execution",
+   "Supports reuse of lower-layer components while upper-layer components vary",
+   "Higher performance"
+  ],
+  "answer": [
+   0,
+   1,
+   3
+  ],
+  "explanation": "L12-Thu slide 6, 'Analysis of Layered Structure Style', lists exactly these three advantages. Concurrent execution belongs to the Independent component style (L12 slide 24). Performance is a **weakness** of layering: 'Lower performance'."
+ },
+ {
+  "id": "ch6-30",
+  "chapter": 6,
+  "subtopic": "layered weaknesses",
+  "type": "single",
+  "level": 1,
+  "gotcha": false,
+  "question": "Which is a **disadvantage** of the layered style per L12-Thu slide 6?",
+  "options": [
+   "Correctness is hard to achieve",
+   "It is difficult to find the right levels of abstraction",
+   "Loss of control over evolution of reused elements",
+   "It is hard to add new components"
+  ],
+  "answer": [
+   1
+  ],
+  "explanation": "Slide 6 disadvantages: not all systems are easily structured in layers; it is difficult to find the right levels of abstraction; lower performance. 'Correctness is hard' is the Independent component style (L12 slide 24). 'Loss of control' is reuse-oriented development (L8 slide 17). Adding components is a layered **strength**."
+ },
+ {
+  "id": "ch6-31",
+  "chapter": 6,
+  "subtopic": "layered weaknesses",
+  "type": "single",
+  "level": 2,
+  "gotcha": false,
+  "question": "A high-frequency trading engine must answer in microseconds. Which listed weakness of layered architecture is most relevant?",
+  "options": [
+   "Lower performance",
+   "Not all systems are easily structured in layers",
+   "Difficult to find the right levels of abstraction",
+   "Requirements compromises are inevitable"
+  ],
+  "answer": [
+   0
+  ],
+  "explanation": "Every request in a layered system passes down through each layer and back up, which adds overhead. That is why 'Lower performance' is a listed disadvantage (L12-Thu slide 6). Requirements compromises belong to reuse-oriented development (L8 slide 17)."
+ },
+ {
+  "id": "ch6-32",
+  "chapter": 6,
+  "subtopic": "layered strengths",
+  "type": "single",
+  "level": 2,
+  "gotcha": false,
+  "question": "In Android's architecture (L12 slide 23; L12-Thu slide 5), the Contacts and Phone apps both use the Application Framework's managers. Which layered advantage does this show?",
+  "options": [
+   "Lower performance",
+   "Concurrent execution",
+   "Correctness is easy to prove",
+   "Reuse of lower-layer components while upper-layer components vary"
+  ],
+  "answer": [
+   3
+  ],
+  "explanation": "Many different apps (the varying upper layer) reuse the same framework, libraries and Linux kernel below them. That is the third advantage on L12-Thu slide 6. Android's layers, top to bottom: Applications, Application Framework, Libraries + Android Runtime, Linux Kernel."
+ },
+ {
+  "id": "ch6-33",
+  "chapter": 6,
+  "subtopic": "layered strengths",
+  "type": "single",
+  "level": 3,
+  "gotcha": true,
+  "question": "Q3(a)(ii)-style answer: \"Strengths: scalability, concurrent execution, easy integration. Weakness: lower performance.\" How many of the three strengths match the layered slide?",
+  "options": [
+   "All three",
+   "Two",
+   "One",
+   "None"
+  ],
+  "answer": [
+   3
+  ],
+  "explanation": "Scalability, concurrent execution and easy integration are the advantages of **Independent component** (L12 slide 24), not layered. Only the weakness is correct. The layered strengths are increasing levels of abstraction, enhancement by adding new components, and reuse of lower layers while upper layers vary (L12-Thu slide 6). This slide exists only in the Thursday deck."
+ },
+ {
+  "id": "ch6-34",
+  "chapter": 6,
+  "subtopic": "layered weaknesses",
+  "type": "single",
+  "level": 3,
+  "gotcha": true,
+  "question": "Which proposed 'weakness of layered architecture' would **lose** marks?",
+  "options": [
+   "Lower performance",
+   "It is hard to reuse lower-layer code in other systems",
+   "Not all systems are easily structured in a layered fashion",
+   "Difficult to find the right levels of abstraction"
+  ],
+  "answer": [
+   1
+  ],
+  "explanation": "Reuse of lower-layer components is listed as an **advantage** (L12-Thu slide 6), so calling it a weakness contradicts the slide. The other three are the slide's disadvantages word for word."
+ },
+ {
+  "id": "ch6-35",
+  "chapter": 6,
+  "subtopic": "B/C/E responsibilities",
+  "type": "single",
+  "level": 3,
+  "gotcha": true,
+  "question": "Q3(a)(iii) asks for each class type's core responsibility. Which statement would **lose** marks?",
+  "options": [
+   "Control: controls the user interface screens and widgets",
+   "Boundary: handles the interaction between an actor and the system (input and output)",
+   "Entity: represents information the system tracks and stores, e.g. Silo",
+   "Control: contains the logic that realises a use case, coordinating boundary and entity objects"
+  ],
+  "answer": [
+   0
+  ],
+  "explanation": "Control does not mean 'controls the UI'. Screens and widgets are boundary. Control = logic to realise a use case (L5 slide 17). In the layered view the boundary calls the control, not the other way round (L12 slide 22)."
+ },
+ {
+  "id": "ch6-36",
+  "chapter": 6,
+  "subtopic": "B/C/E classification",
+  "type": "single",
+  "level": 3,
+  "gotcha": true,
+  "question": "A student puts a `TemperatureSensor` class in the Persistent Data layer because \"it is a real physical device\". What is wrong?",
+  "options": [
+   "Nothing; physical things are always entities",
+   "Sensors belong in App Logic",
+   "Sensors should not appear on any architecture diagram",
+   "The physical sensor is an actor; the system's class that talks to it is boundary, while the stored readings are entity data"
+  ],
+  "answer": [
+   3
+  ],
+  "explanation": "'Real-world thing' does not automatically mean entity. Ask what the class does in the system. The interface to an external device is a boundary (interaction between actor and system, L5 slide 17). The temperature or humidity values the system tracks per silo are entity information."
+ },
+ {
+  "id": "ch6-37",
+  "chapter": 6,
+  "subtopic": "two L12 files",
+  "type": "single",
+  "level": 2,
+  "gotcha": false,
+  "question": "You need the strengths and weaknesses of layered architecture for Q3(a)(ii). Which L12 file has them?",
+  "options": [
+   "Only `Lecture 12 System Design` (slide 24)",
+   "Both, with the same wording",
+   "Only `Lecture_12_System_Design_2026_Thursday` (slide 6)",
+   "Neither; they come from L15"
+  ],
+  "answer": [
+   2
+  ],
+  "explanation": "The older 28-slide L12 deck has 'Analysis of Independent Component' on slide 24 but no layered strengths and weaknesses. 'Analysis of Layered Structure Style' appears only on L12-Thu slide 6. Print that slide for the open-book exam."
+ },
+ {
+  "id": "ch6-38",
+  "chapter": 6,
+  "subtopic": "design process",
+  "type": "single",
+  "level": 1,
+  "gotcha": false,
+  "question": "L12 slide 28's 'Summary of System Design' runs Why, What, How over five boxes. Which order matches it?",
+  "options": [
+   "Constraints, design patterns, design principles, NFR, FR",
+   "FR, NFR, design principles, design patterns, constraints",
+   "Design patterns, FR, NFR, constraints, design principles",
+   "NFR, FR, constraints, design principles, design patterns"
+  ],
+  "answer": [
+   1
+  ],
+  "explanation": "The arrow on slides 16 and 28 (and L12-Thu slide 2) runs Functional Requirement, then Non-functional Requirement, then Design Principles, then Design Patterns, then Constraints. Requirements (the why) drive principles and patterns (the what and how), all bounded by constraints."
+ },
+ {
+  "id": "ch6-39",
+  "chapter": 6,
+  "subtopic": "B/C/E classification",
+  "type": "single",
+  "level": 2,
+  "gotcha": false,
+  "question": "New scenario: a library system's use case 'Borrow Book' has the classes BorrowBookUI, LoanController, Book, Member and Loan. Which layering is correct?",
+  "options": [
+   "Presentation: BorrowBookUI | App Logic: LoanController | Persistent Data: Book, Member, Loan",
+   "Presentation: BorrowBookUI, Member | App Logic: LoanController, Loan | Persistent Data: Book",
+   "Presentation: LoanController | App Logic: BorrowBookUI | Persistent Data: Book, Member, Loan",
+   "Presentation: BorrowBookUI | App Logic: LoanController, Book | Persistent Data: Member, Loan"
+  ],
+  "answer": [
+   0
+  ],
+  "explanation": "The UI is boundary, the class that runs the borrowing logic is control, and the things the library tracks (books, members, loans) are entities (L5 slide 17; L12 slide 22). Member is the actor's **record**, not the actor, so it stays in the entity layer."
+ },
+ {
+  "id": "ch6-40",
+  "chapter": 6,
+  "subtopic": "layered strengths",
+  "type": "single",
+  "level": 2,
+  "gotcha": false,
+  "question": "GES must now notify processing plants by SMS as well as email. The team adds an SmsSender class beside EmailSender and nothing else changes. Which layered advantage is this?",
+  "options": [
+   "Supports designs based on increasing levels of abstraction",
+   "Lower performance",
+   "Concurrent execution",
+   "Supports enhancement of functionality by introducing new components"
+  ],
+  "answer": [
+   3
+  ],
+  "explanation": "Adding a new component inside a layer without disturbing the others is 'support enhancement of functionality by introducing new components' (L12-Thu slide 6). Concurrent execution is an Independent component advantage (L12 slide 24)."
+ },
+ {
+  "id": "ch6-41",
+  "chapter": 6,
+  "subtopic": "layered weaknesses",
+  "type": "single",
+  "level": 2,
+  "gotcha": false,
+  "question": "A swarm of peer drones, where every drone exchanges messages directly with every other drone, has no natural top-to-bottom ordering. Which layered weakness applies?",
+  "options": [
+   "Lower performance",
+   "Requirements compromises are inevitable",
+   "Not all systems are easily structured in a layered fashion",
+   "Loss of control over reused components"
+  ],
+  "answer": [
+   2
+  ],
+  "explanation": "Peer-to-peer interaction has no 'upper uses lower' hierarchy, so it fits the first disadvantage on L12-Thu slide 6: not all systems are easily structured in a layered fashion. An independent-components style (communicating processes or event systems, L12 slide 21) is the more natural fit."
+ }
+]

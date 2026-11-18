@@ -1,0 +1,731 @@
+[
+ {
+  "id": "ch5-01",
+  "chapter": 5,
+  "subtopic": "process activities",
+  "type": "single",
+  "level": 1,
+  "gotcha": false,
+  "question": "L8 says every software process involves four basic activities. Which of these is **not** one of them?",
+  "options": [
+   "Specification",
+   "Procurement",
+   "Validation",
+   "Evolution"
+  ],
+  "answer": [
+   1
+  ],
+  "explanation": "The four are specification, design and implementation, validation, and evolution (L8 slide 3). Procurement is not on the list. Waterfall runs the four in sequence, while incremental development interleaves them (L8 slide 18)."
+ },
+ {
+  "id": "ch5-02",
+  "chapter": 5,
+  "subtopic": "waterfall",
+  "type": "single",
+  "level": 1,
+  "gotcha": false,
+  "question": "According to L8, what is the **main drawback** of the waterfall model?",
+  "options": [
+   "It is difficult to accommodate change once the process is underway",
+   "System structure tends to degrade as new increments are added",
+   "Requirements compromises are inevitable",
+   "The process is not visible to managers"
+  ],
+  "answer": [
+   0
+  ],
+  "explanation": "L8 slide 9 says the main drawback is the difficulty of accommodating change after the process is underway, because a phase should be complete before the next one starts. Degrading structure and poor visibility are problems of incremental development (slide 13). Requirements compromises are a problem of reuse (slide 17)."
+ },
+ {
+  "id": "ch5-03",
+  "chapter": 5,
+  "subtopic": "waterfall",
+  "type": "multi",
+  "level": 1,
+  "gotcha": false,
+  "question": "Per L8, when is the waterfall model appropriate? Select all that apply.",
+  "options": [
+   "A start-up whose requirements change every week",
+   "Requirements are well understood and changes during design will be fairly limited",
+   "The customer wants to use part of the system as early as possible",
+   "A large systems engineering project developed at several sites"
+  ],
+  "answer": [
+   1,
+   3
+  ],
+  "explanation": "L8 slide 10: use waterfall only when requirements are well understood and changes will be limited, and for large systems engineering projects spread across several sites, where its plan-driven nature helps coordinate the work. Early use of part of the system is a benefit of incremental development (slide 12)."
+ },
+ {
+  "id": "ch5-04",
+  "chapter": 5,
+  "subtopic": "incremental",
+  "type": "multi",
+  "level": 1,
+  "gotcha": false,
+  "question": "Which are benefits of incremental development listed in L8? Select all that apply.",
+  "options": [
+   "Accommodating changing requirements costs less",
+   "Managers get a document for every version, so progress is very visible",
+   "It is easier to get customer feedback on the work done so far",
+   "Useful software can be delivered and deployed more quickly"
+  ],
+  "answer": [
+   0,
+   2,
+   3
+  ],
+  "explanation": "L8 slide 12 lists lower cost of change, easier customer feedback, and faster delivery and deployment. Poor visibility is actually a problem of incremental development: producing documents for every version is not cost-effective (slide 13)."
+ },
+ {
+  "id": "ch5-05",
+  "chapter": 5,
+  "subtopic": "incremental",
+  "type": "single",
+  "level": 1,
+  "gotcha": false,
+  "question": "Per L8 slide 13, why does system structure tend to degrade in incremental development?",
+  "options": [
+   "Each phase must be complete before the next can start",
+   "Regular change corrupts the structure unless time and money are spent on refactoring",
+   "Reused components evolve outside the team's control",
+   "Customers are not involved after the first increment"
+  ],
+  "answer": [
+   1
+  ],
+  "explanation": "Slide 13: unless time and money are spent on refactoring, regular change tends to corrupt the structure, so later changes become harder and more costly. The 'phase must be complete' option describes waterfall (slide 9), and 'loss of control' describes reuse (slide 17)."
+ },
+ {
+  "id": "ch5-06",
+  "chapter": 5,
+  "subtopic": "reuse",
+  "type": "single",
+  "level": 1,
+  "gotcha": false,
+  "question": "In the reuse-oriented process (L8 slide 16), which step comes straight after **requirements specification**?",
+  "options": [
+   "Software discovery and evaluation",
+   "Requirements refinement",
+   "Application system configuration",
+   "Component adaptation and integration"
+  ],
+  "answer": [
+   0
+  ],
+  "explanation": "The order on slide 16 is: requirements specification, then software discovery and evaluation, then requirements refinement, then configuration or adaptation and integration. Requirements are refined only after you know what reusable software exists, because you may have to compromise."
+ },
+ {
+  "id": "ch5-07",
+  "chapter": 5,
+  "subtopic": "reuse",
+  "type": "single",
+  "level": 1,
+  "gotcha": false,
+  "question": "Which is a **disadvantage** of integration and configuration (reuse-oriented development) per L8?",
+  "options": [
+   "Higher cost and risk, because more software is built from scratch",
+   "Slower delivery and deployment",
+   "Change is hard to accommodate once a phase is complete",
+   "Requirements compromises are inevitable, so the system may not meet users' real needs"
+  ],
+  "answer": [
+   3
+  ],
+  "explanation": "L8 slide 17 lists two disadvantages: requirements compromises (the system may not meet real needs) and loss of control over how reused elements evolve. Reuse actually reduces cost and risk and speeds up delivery. 'Change is hard to accommodate once a phase is complete' is the waterfall drawback."
+ },
+ {
+  "id": "ch5-08",
+  "chapter": 5,
+  "subtopic": "choosing a process",
+  "type": "single",
+  "level": 2,
+  "gotcha": false,
+  "question": "A clinic needs a billing system on a tight budget and deadline. A commercial billing package already covers most of its needs and can be configured. Which process model fits best per L8?",
+  "options": [
+   "Waterfall",
+   "Incremental development from scratch",
+   "Integration and configuration (reuse-oriented)",
+   "Extreme Programming"
+  ],
+  "answer": [
+   2
+  ],
+  "explanation": "When existing configurable (COTS) systems cover most needs, reuse gives lower cost and risk and faster delivery (L8 slides 14 and 17). Mention the trade-off in an exam answer: some requirements will be compromised, and you lose control over how the package evolves."
+ },
+ {
+  "id": "ch5-09",
+  "chapter": 5,
+  "subtopic": "choosing a process",
+  "type": "single",
+  "level": 2,
+  "gotcha": false,
+  "question": "A defence contractor builds a radar system at three sites. Requirements are fixed by contract and very unlikely to change. Which model does L8 recommend?",
+  "options": [
+   "Incremental development",
+   "Waterfall",
+   "Scrum",
+   "Reuse-oriented"
+  ],
+  "answer": [
+   1
+  ],
+  "explanation": "L8 slide 10 says waterfall suits stable, well-understood requirements and large systems engineering projects developed at several sites, where the plan-driven approach helps coordinate the work. Agile or incremental would be favoured if requirements were unstable."
+ },
+ {
+  "id": "ch5-10",
+  "chapter": 5,
+  "subtopic": "agile manifesto",
+  "type": "single",
+  "level": 1,
+  "gotcha": false,
+  "question": "Which line is quoted **correctly** from the Agile Manifesto?",
+  "options": [
+   "Working software over comprehensive documentation",
+   "Processes and tools over individuals and interactions",
+   "Following a plan over responding to change",
+   "Contract negotiation over customer collaboration"
+  ],
+  "answer": [
+   0
+  ],
+  "explanation": "The four values are: individuals and interactions over processes and tools, working software over comprehensive documentation, customer collaboration over contract negotiation, and responding to change over following a plan (L9 slide 8). The distractors swap the two sides."
+ },
+ {
+  "id": "ch5-11",
+  "chapter": 5,
+  "subtopic": "agile manifesto",
+  "type": "single",
+  "level": 3,
+  "gotcha": true,
+  "question": "A student writes: \"The Agile Manifesto says documentation and plans have no value.\" Why would this lose marks?",
+  "options": [
+   "It is correct; agile bans documentation",
+   "The manifesto only covers documentation, not plans",
+   "The manifesto says documentation is more valuable than working software",
+   "The manifesto says there is value in the items on the right, but agile values the items on the left **more**"
+  ],
+  "answer": [
+   3
+  ],
+  "explanation": "L9 slide 8: \"while there is value in the items on the right, we value the items on the left more.\" Agile limits documentation to reduce overheads. It does not ban it. L9 slide 65 even notes that large systems still need up-front design and some documentation."
+ },
+ {
+  "id": "ch5-12",
+  "chapter": 5,
+  "subtopic": "agile principles",
+  "type": "single",
+  "level": 1,
+  "gotcha": false,
+  "question": "Which agile principle (L9 slide 9) says the team's skills should be recognised and that members should develop their own ways of working without prescriptive processes?",
+  "options": [
+   "Customer involvement",
+   "Embrace change",
+   "People not process",
+   "Maintain simplicity"
+  ],
+  "answer": [
+   2
+  ],
+  "explanation": "That is 'People not process'. The five principles on slide 9 are customer involvement, incremental delivery, people not process, embrace change, and maintain simplicity."
+ },
+ {
+  "id": "ch5-13",
+  "chapter": 5,
+  "subtopic": "agile applicability",
+  "type": "single",
+  "level": 2,
+  "gotcha": false,
+  "question": "Using L9 slides 10–11 and 65, which project is **least** suited to an agile approach?",
+  "options": [
+   "A software company building a medium-sized app for sale",
+   "A large, heavily regulated system built by a big organisation with fixed quality procedures and a long waterfall history",
+   "An in-house system where the customer commits to being involved throughout",
+   "A small product with a highly skilled team"
+  ],
+  "answer": [
+   1
+  ],
+  "explanation": "Agile fits small to medium products and custom systems with committed customers and few external regulations (slide 10). Large organisations with bureaucratic quality procedures, cultural resistance and mixed skill levels make agile hard (slide 11), and large systems need up-front design (slide 65)."
+ },
+ {
+  "id": "ch5-14",
+  "chapter": 5,
+  "subtopic": "XP practices",
+  "type": "single",
+  "level": 1,
+  "gotcha": false,
+  "question": "Which XP practice says \"enough design is carried out to meet the current requirements and no more\"?",
+  "options": [
+   "Simple design",
+   "Refactoring",
+   "Small releases",
+   "Incremental planning"
+  ],
+  "answer": [
+   0
+  ],
+  "explanation": "That is Simple design (L9 slide 15). Refactoring is continuous code improvement. Small releases means delivering the minimal useful set of functionality first. Incremental planning records requirements on story cards and splits them into tasks."
+ },
+ {
+  "id": "ch5-15",
+  "chapter": 5,
+  "subtopic": "XP practices",
+  "type": "single",
+  "level": 2,
+  "gotcha": false,
+  "question": "An XP team's customer representative is away for three weeks and nobody can answer requirements questions. Which XP practice is broken?",
+  "options": [
+   "Collective ownership",
+   "Sustainable pace",
+   "Continuous integration",
+   "On-site customer"
+  ],
+  "answer": [
+   3
+  ],
+  "explanation": "On-site customer: a representative of the end user should be available full time to the XP team and is responsible for bringing requirements to it (L9 slide 16). The customer is a member of the team in XP (slide 18)."
+ },
+ {
+  "id": "ch5-16",
+  "chapter": 5,
+  "subtopic": "TDD",
+  "type": "single",
+  "level": 1,
+  "gotcha": false,
+  "question": "Per L9 slide 25, what is a key benefit of writing the tests **before** the code (test-first / TDD)?",
+  "options": [
+   "It removes the need to re-run old tests",
+   "Tests can be written as data rather than programs",
+   "It clarifies the requirements to be implemented",
+   "It replaces user involvement in testing"
+  ],
+  "answer": [
+   2
+  ],
+  "explanation": "Slide 25: writing tests first clarifies the requirements. Tests are written as executable programs, not data, and all previous and new tests are re-run automatically whenever functionality is added. XP also keeps users involved in test development (slide 24)."
+ },
+ {
+  "id": "ch5-17",
+  "chapter": 5,
+  "subtopic": "pair programming",
+  "type": "multi",
+  "level": 1,
+  "gotcha": false,
+  "question": "Which are benefits of pair programming stated in L9? Select all that apply.",
+  "options": [
+   "Sharing knowledge reduces risk when team members leave",
+   "It acts as an informal review, because every line is seen by more than one person",
+   "Each pair stays fixed for the whole project, so they learn to work well together",
+   "It encourages refactoring and common ownership of code"
+  ],
+  "answer": [
+   0,
+   1,
+   3
+  ],
+  "explanation": "L9 slides 27–28 list knowledge sharing, informal review, common ownership and encouraging refactoring. Pairs are created **dynamically** so that everyone works with everyone. Fixed pairs would bring back the 'islands of expertise' that collective ownership is meant to avoid (slide 16)."
+ },
+ {
+  "id": "ch5-18",
+  "chapter": 5,
+  "subtopic": "pair programming",
+  "type": "single",
+  "level": 3,
+  "gotcha": true,
+  "question": "A manager says: \"Pair programming halves our output, since two people write one program.\" What do the slides say?",
+  "options": [
+   "It is not necessarily inefficient; some evidence suggests a pair is more efficient than two programmers working separately",
+   "The manager is right; pair programming trades speed for quality",
+   "Pair programming is only used for testing, so output is unaffected",
+   "XP forbids measuring output"
+  ],
+  "answer": [
+   0
+  ],
+  "explanation": "L9 slide 27 says pair programming is not necessarily inefficient and cites evidence that a pair can be more efficient than two people working separately. In a T4 Q5 answer, add the other benefits: knowledge sharing, informal review, and common ownership."
+ },
+ {
+  "id": "ch5-19",
+  "chapter": 5,
+  "subtopic": "refactoring",
+  "type": "multi",
+  "level": 1,
+  "gotcha": false,
+  "question": "Which of these are examples of **refactoring** given in L9? Select all that apply.",
+  "options": [
+   "Re-organising a class hierarchy to remove duplicate code",
+   "Adding a new export feature the customer asked for",
+   "Renaming attributes and methods to make them easier to understand",
+   "Replacing inline code with calls to methods in a program library"
+  ],
+  "answer": [
+   0,
+   2,
+   3
+  ],
+  "explanation": "L9 slide 23 lists exactly these three. Refactoring improves the structure without adding functionality, so a new feature is not refactoring."
+ },
+ {
+  "id": "ch5-20",
+  "chapter": 5,
+  "subtopic": "refactoring",
+  "type": "single",
+  "level": 3,
+  "gotcha": true,
+  "question": "Which statement about refactoring in XP matches the slides?",
+  "options": [
+   "XP designs for change up front because anticipating changes lowers later costs",
+   "Once code is refactored, every future change is cheap, including architectural ones",
+   "XP refactors constantly because changes cannot be reliably anticipated",
+   "Refactoring is done only when a customer requests a change"
+  ],
+  "answer": [
+   2
+  ],
+  "explanation": "L9 slide 21: conventional wisdom says design for change, but XP holds that changes cannot be reliably anticipated, so it improves the code constantly. Slide 22 adds that refactoring happens even when there is no immediate need, and that **architecture** refactoring is much more expensive."
+ },
+ {
+  "id": "ch5-21",
+  "chapter": 5,
+  "subtopic": "XP when to use",
+  "type": "single",
+  "level": 2,
+  "gotcha": false,
+  "question": "Tutorial 4 Q5(i): which project best suits XP, based on L9?",
+  "options": [
+   "A safety-critical avionics system with fixed contractual requirements",
+   "A small, skilled team building a product whose requirements change often, with a customer who can sit with the team",
+   "A 60-person team spread over four countries",
+   "A project whose organisation requires full documentation before any coding"
+  ],
+  "answer": [
+   1
+  ],
+  "explanation": "XP needs a customer available full time (on-site customer, slide 16), a skilled team (slide 11) and changing requirements (embrace change, slide 9). L9 slide 17 notes that XP has a technical focus and is hard to fit with management practice in most organisations, so large distributed or heavily documented projects are poor fits."
+ },
+ {
+  "id": "ch5-22",
+  "chapter": 5,
+  "subtopic": "Scrum roles",
+  "type": "single",
+  "level": 1,
+  "gotcha": false,
+  "question": "Who owns the Product Backlog and is responsible for its content, availability and ordering?",
+  "options": [
+   "The Product Owner",
+   "The ScrumMaster",
+   "The Development Team",
+   "The project manager"
+  ],
+  "answer": [
+   0
+  ],
+  "explanation": "The Product Owner owns the Product Backlog: creation, management and prioritisation (L9 slides 39 and 42). The PO is responsible for maximising the value of the product."
+ },
+ {
+  "id": "ch5-23",
+  "chapter": 5,
+  "subtopic": "Scrum roles",
+  "type": "single",
+  "level": 1,
+  "gotcha": false,
+  "question": "Which description of the **ScrumMaster** matches the slides?",
+  "options": [
+   "A project manager who assigns tasks to developers",
+   "The person who prioritises the Product Backlog",
+   "A senior developer who reviews all the code",
+   "A servant-leader who coaches the team in Scrum, facilitates events, removes impediments and shields the team from outside interference"
+  ],
+  "answer": [
+   3
+  ],
+  "explanation": "L9 slides 33, 36 and 40. The slides stress that the ScrumMaster should **not** be thought of as a project manager. Team members sign up for tasks; they are not assigned (slide 44). Prioritising the backlog is the PO's job."
+ },
+ {
+  "id": "ch5-24",
+  "chapter": 5,
+  "subtopic": "Scrum roles",
+  "type": "single",
+  "level": 2,
+  "gotcha": false,
+  "question": "In Sprint Planning, the Product Owner insists the team commits to 40 points. Per the slides, who decides how much work the sprint can take?",
+  "options": [
+   "The Product Owner",
+   "The ScrumMaster",
+   "Only the Development Team",
+   "The customer"
+  ],
+  "answer": [
+   2
+  ],
+  "explanation": "L9 slide 47: only the Development Team can assess how much can be accomplished in the sprint. The PO presents the **ordered** PBIs, and the ScrumMaster facilitates. The Dev Team also owns the Sprint Backlog (slide 41)."
+ },
+ {
+  "id": "ch5-25",
+  "chapter": 5,
+  "subtopic": "Scrum events",
+  "type": "single",
+  "level": 2,
+  "gotcha": false,
+  "question": "A team runs **3-week** sprints. Using the timebox rules in L9, how long are the Sprint Review and the Sprint Retrospective?",
+  "options": [
+   "Review 1 h, Retrospective 45 min",
+   "Review 3 h, Retrospective 2 h 15 min",
+   "Review 3 h, Retrospective 3 h",
+   "Review 15 min daily, Retrospective 45 min"
+  ],
+  "answer": [
+   1
+  ],
+  "explanation": "Review = 1 h × number of weeks in the sprint = 3 h (L9 slide 50). Retrospective = 45 min × number of weeks = 135 min = 2 h 15 min (slide 51), held after the Review. The 15-minute timebox is for the Daily Scrum (slide 49)."
+ },
+ {
+  "id": "ch5-26",
+  "chapter": 5,
+  "subtopic": "Scrum artifacts",
+  "type": "single",
+  "level": 3,
+  "gotcha": true,
+  "question": "Mid-sprint, the PO wants to add an urgent new feature. Per L9, what happens to it?",
+  "options": [
+   "It goes into the Product Backlog to be considered for a later sprint, because the Sprint Backlog and Sprint Goal do not change during the sprint",
+   "It is added to the Sprint Backlog immediately",
+   "The sprint is extended by a week to fit it in",
+   "The ScrumMaster decides whether to include it"
+  ],
+  "answer": [
+   0
+  ],
+  "explanation": "The Sprint Backlog is unchanged during the sprint, the Sprint Goal does not change, and the timebox is never extended (L9 slides 43 and 46). New work goes to the Product Backlog. Unfinished items also go back to the Product Backlog (slide 43)."
+ },
+ {
+  "id": "ch5-27",
+  "chapter": 5,
+  "subtopic": "Scrum artifacts",
+  "type": "single",
+  "level": 2,
+  "gotcha": false,
+  "question": "During sprint planning, one task is estimated at 24 hours. What do the slides say to do?",
+  "options": [
+   "Accept it; tasks are estimated in story points, not hours",
+   "Assign it to the most senior developer",
+   "Move it straight to the next sprint",
+   "Break it down further, because tasks are usually 1–16 hours"
+  ],
+  "answer": [
+   3
+  ],
+  "explanation": "L9 slide 44: PBIs are broken into tasks estimated in hours, usually 1–16. Tasks over 16 hours are broken down further. Team members sign up for tasks; they are not assigned."
+ },
+ {
+  "id": "ch5-28",
+  "chapter": 5,
+  "subtopic": "velocity calculation",
+  "type": "single",
+  "level": 2,
+  "gotcha": false,
+  "question": "A product backlog totals **96 points**. The team expects to finish it in **8 sprints**. What is the velocity?",
+  "options": [
+   "8 points per sprint",
+   "96 points per sprint",
+   "12 points per sprint",
+   "768 points per sprint"
+  ],
+  "answer": [
+   2
+  ],
+  "explanation": "Velocity = points delivered per sprint = total points ÷ number of sprints = 96 ÷ 8 = **12 points/sprint** (L9 slides 33 and 53; same method as T5 Q6). Velocity is measured in points, not hours."
+ },
+ {
+  "id": "ch5-29",
+  "chapter": 5,
+  "subtopic": "velocity calculation",
+  "type": "single",
+  "level": 2,
+  "gotcha": false,
+  "question": "Backlog = 84 points, velocity = 14 points/sprint. The Scrum Team is 1 PO, 1 ScrumMaster and 5 developers, and each member costs $3K per sprint. What is the project cost?",
+  "options": [
+   "$90K",
+   "$126K",
+   "$42K",
+   "$108K"
+  ],
+  "answer": [
+   1
+  ],
+  "explanation": "Sprints = 84 ÷ 14 = 6. Members = 1 + 1 + 5 = 7. Cost = 7 × $3K × 6 = **$126K**. $90K counts only the 5 developers (5 × 3 × 6). The Scrum Team includes the PO and the ScrumMaster (L9 slide 40; T5 Q6)."
+ },
+ {
+  "id": "ch5-30",
+  "chapter": 5,
+  "subtopic": "velocity calculation",
+  "type": "single",
+  "level": 2,
+  "gotcha": false,
+  "question": "Remaining backlog = 130 points, velocity = 20 points/sprint, sprint length = 2 weeks. How many sprints and weeks are needed?",
+  "options": [
+   "7 sprints, 14 weeks",
+   "6.5 sprints, 13 weeks",
+   "6 sprints, 12 weeks",
+   "7 sprints, 7 weeks"
+  ],
+  "answer": [
+   0
+  ],
+  "explanation": "130 ÷ 20 = 6.5. You can't run half a sprint, because sprints are fixed timeboxes that are never extended (L9 slide 46), so round **up** to 7 sprints. 7 × 2 weeks = 14 weeks."
+ },
+ {
+  "id": "ch5-31",
+  "chapter": 5,
+  "subtopic": "velocity calculation",
+  "type": "single",
+  "level": 2,
+  "gotcha": false,
+  "question": "A team completed 18, 24 and 21 points in sprints 1–3. There are 105 points left. Using velocity as the slides define it, how many more sprints are needed?",
+  "options": [
+   "About 4 (using the best sprint, 24)",
+   "6 (using the worst sprint, 18)",
+   "Can't tell; points must first be converted to hours",
+   "5"
+  ],
+  "answer": [
+   3
+  ],
+  "explanation": "Velocity is evaluated only as an average (L9 slide 53): (18 + 24 + 21) ÷ 3 = 21 points/sprint, and 105 ÷ 21 = **5 sprints**. Using the best or worst sprint ignores the averaging rule, and slide 53 says points cannot be converted to hours."
+ },
+ {
+  "id": "ch5-32",
+  "chapter": 5,
+  "subtopic": "velocity calculation",
+  "type": "single",
+  "level": 3,
+  "gotcha": true,
+  "question": "Backlog 72 points, 9 sprints. Scrum Team = PO, ScrumMaster and 7 developers, each costing $1.5K per sprint. Which answer gets full marks?",
+  "options": [
+   "Velocity 8; cost = 7 × 1.5K × 9 = $94.5K",
+   "Velocity 9; cost = 9 × 1.5K × 8 = $108K",
+   "Velocity 8; cost = 9 × 1.5K × 9 = $121.5K",
+   "Velocity 8; cost = 9 × 1.5K = $13.5K"
+  ],
+  "answer": [
+   2
+  ],
+  "explanation": "Velocity = 72 ÷ 9 = 8. Cost = members × cost per member per sprint × sprints = (1 + 1 + 7) × 1.5K × 9 = $121.5K. The common mistake is to count only the developers ($94.5K). The question says 'each member in the Scrum Team', and that includes the PO and the ScrumMaster. $13.5K forgets to multiply by the number of sprints."
+ },
+ {
+  "id": "ch5-33",
+  "chapter": 5,
+  "subtopic": "velocity",
+  "type": "single",
+  "level": 3,
+  "gotcha": true,
+  "question": "After sprint 1 a team says: \"We did 30 points, so our velocity is 30. That is 30 × 6 = 180 hours of work.\" What is wrong?",
+  "options": [
+   "Nothing",
+   "Velocity is evaluated only as an average, and points cannot be converted to hours",
+   "Velocity should be measured in hours, not points",
+   "Velocity is set by the Product Owner"
+  ],
+  "answer": [
+   1
+  ],
+  "explanation": "L9 slide 53: one sprint's number is meaningless, because velocity is evaluated only as an average, and points cannot be converted to hours. Tasks are estimated in real units (hours), but PBIs and velocity use points."
+ },
+ {
+  "id": "ch5-34",
+  "chapter": 5,
+  "subtopic": "good backlog",
+  "type": "single",
+  "level": 2,
+  "gotcha": false,
+  "question": "A team writes all 200 backlog items in full detail, with acceptance criteria, at the start, and then freezes the backlog. Which DEEP characteristics does this violate?",
+  "options": [
+   "Detailed appropriately and Emergent",
+   "Estimated and Prioritized",
+   "Prioritized only",
+   "None; more detail is always better"
+  ],
+  "answer": [
+   0
+  ],
+  "explanation": "L9 slide 54: **Detailed appropriately** means only items to be worked on soon are small and detailed, while later items stay larger and less detailed. **Emergent** means the backlog is never complete or frozen; it is continuously updated. The full DEEP list is Detailed appropriately, Emergent, Estimated, Prioritized (slides 54–55)."
+ },
+ {
+  "id": "ch5-35",
+  "chapter": 5,
+  "subtopic": "INVEST",
+  "type": "single",
+  "level": 1,
+  "gotcha": false,
+  "question": "What does the INVEST mnemonic (T5 Q4) stand for?",
+  "options": [
+   "Integrated, Necessary, Verifiable, Estimated, Sized, Tested",
+   "Independent, Negotiable, Visible, Emergent, Sprintable, Traceable",
+   "Incremental, Novel, Valuable, Estimable, Simple, Testable",
+   "Independent, Negotiable, Valuable, Estimable, Small, Testable"
+  ],
+  "answer": [
+   3
+  ],
+  "explanation": "INVEST = Independent, Negotiable, Valuable, Estimable, Small, Testable: the qualities of a good user story or PBI. It is asked in T5 Q4 but is **not on the extracted L9 slides** (the standard Bill Wake definition). Don't mix it up with the backlog mnemonic DEEP (slides 54–55)."
+ },
+ {
+  "id": "ch5-36",
+  "chapter": 5,
+  "subtopic": "INVEST",
+  "type": "single",
+  "level": 2,
+  "gotcha": false,
+  "question": "Which INVEST letter does this story fail **most clearly**? \"As a farmer I want the system to be fast and nice to use.\"",
+  "options": [
+   "Independent",
+   "Negotiable",
+   "Testable",
+   "Valuable"
+  ],
+  "answer": [
+   2
+  ],
+  "explanation": "'Fast' and 'nice to use' give no acceptance criterion to check, so the story is not Testable. Compare L9 slide 59 (Confirmation = acceptance criteria) and the verifiable-requirement rule from L2. It could also be challenged as Estimable, but Testable is the clearest failure."
+ },
+ {
+  "id": "ch5-37",
+  "chapter": 5,
+  "subtopic": "user stories",
+  "type": "single",
+  "level": 1,
+  "gotcha": false,
+  "question": "In the 3Cs approach to user stories (L9 slides 58–59), what does **Confirmation** represent?",
+  "options": [
+   "The index card the story is written on",
+   "The acceptance criteria that confirm the intended value is delivered",
+   "The conversation that gives the details behind the story",
+   "The PO's sign-off on the sprint"
+  ],
+  "answer": [
+   1
+  ],
+  "explanation": "Card = the statement of intent, written as 'As a <role>, I want to <action>, so that <benefit>' (who, what, why). Conversation = the details and shared context. Confirmation = the acceptance criteria (slide 59)."
+ },
+ {
+  "id": "ch5-38",
+  "chapter": 5,
+  "subtopic": "acceptance criteria",
+  "type": "single",
+  "level": 2,
+  "gotcha": false,
+  "question": "Which acceptance criterion best follows L9 slide 61?",
+  "options": [
+   "The user can choose the silo to store the grain in",
+   "The user selects the silo from a drop-down list",
+   "The silo dropdown uses React Select v5",
+   "The page loads in exactly 1.000 s on Chrome"
+  ],
+  "answer": [
+   0
+  ],
+  "explanation": "Good acceptance criteria state an intent, not a solution. They are independent of implementation (the same wording should work for web, mobile or voice) and relatively high level (slide 61). The drop-down and React options describe the solution."
+ }
+]

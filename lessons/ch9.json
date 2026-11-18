@@ -1,0 +1,152 @@
+{
+ "chapter": 9,
+ "title": "White-box testing (CFG, CC, basis paths) + maintenance",
+ "intro": "How the course draws control flow graphs, computes cyclomatic complexity two ways, picks basis paths (baseline, then flip one decision at a time) and writes a test case for each. Past-paper Q4(b) is worth 14 marks. The chapter ends with L21's maintenance types, refactoring and bad smells.",
+ "cards": [
+  {
+   "title": "White-box testing: what you're doing",
+   "body": "White-box testing means you **look at the implementation** (L19-20 slide 3). The tester:\n1. analyses the code into a **control flow graph (CFG)**\n2. identifies execution paths through it\n3. chooses inputs that make the code run the selected paths\n4. works out the expected outputs (the oracle)\n5. builds the tests (e.g. JUnit)\nThen the test engine runs them and compares actual output with expected output.\n**Pros:** you know every path through the code has been identified and tested. **Cons (slide 4):** testing every path is generally infeasible because of loops and the number of decisions; it may miss data or arithmetic bugs (`a = a - 1` instead of `+ 1`, `a/b` with b = 0); and it never finds paths that are missing from the code. Black-box testing has no notion of coverage (slide 2); white-box testing does.\n**Exam weight:** past-paper Q4(b) is worth 14 marks: (i) draw the CFG, 4 marks; (ii) CC, 2 marks; (iii) basis paths plus a test case for each, 8 marks.",
+   "keypoints": [
+    "White-box = choose paths from the code, then choose inputs that run them",
+    "Cons: all-paths testing is infeasible, data bugs can be missed, missing paths are never found",
+    "Q4(b) marks: CFG 4, CC 2, basis paths + test cases 8"
+   ]
+  },
+  {
+   "title": "Drawing the CFG (the lecture's way)",
+   "body": "**Node** = a **process block** or a **decision point**. **Edge** = control flow (slide 5).\n- **Process block:** statements that run in sequence, with no if/while/for/switch/goto. Merge consecutive statements into one node and label it with its line range, e.g. `2-3` (slides 6, 12).\n- **Binary decision point:** one edge in, two edges out, labelled **true** and **false** (slide 7).\n- Label every node with its **line number(s)**. The past paper asks for this ('use line numbers on process blocks and decision points').\n- **Not drawn:** pure declarations (`int q, x, p;` on line 1 of computeP is not a node), lines that only hold a brace, and `else`.\n- `if` without else: the false edge goes straight to the next block. `if-else`: the two branches meet at the next block (slide 8).\nExample: computeP (slide 12) gives 7 nodes and 8 edges.",
+   "diagram": "flowchart TD\n  n23[\"2-3: q=1; x=2\"]\n  n4{\"4: a > 0\"}\n  n5[\"5: x = x+1\"]\n  n7[\"7: p = q/x\"]\n  n8{\"8: b == 3\"}\n  n9[\"9: p = max(q,x)\"]\n  n11[\"11: return p\"]\n  n23 --> n4\n  n4 -->|true| n5\n  n4 -->|false| n7\n  n5 --> n7\n  n7 --> n8\n  n8 -->|true| n9\n  n8 -->|false| n11\n  n9 --> n11",
+   "code": "int computeP(int a, int b) {\n1   int q, x, p;\n2   q = 1;\n3   x = 2;\n4   if(a > 0) {\n5     x = x + 1;\n6   }\n7   p = q/x;\n8   if(b == 3) {\n9     p = max(q, x);\n10  }\n11  return p;\n}",
+   "keypoints": [
+    "Merge sequential statements: `2-3`, `8-9`",
+    "Each decision is its own node; the statement after it (e.g. `p = q/x`) is a new block",
+    "Mark every decision out-edge true/false",
+    "Declarations and braces are not nodes"
+   ]
+  },
+  {
+   "title": "Loops, for-loops, switch (and &&)",
+   "body": "**while** (slide 9): the decision node has a true edge into the body and a false edge to the statement after the loop. The **last statement of the body loops back to the decision**.\n**for** (slide 10): rewrite `for(a=100;a>0;a--){s1;}` as `a=100; while(a>0){ s1; a--; }`. The init joins the block before the loop, the condition is the decision, and the update `a--` is the last body block, with its back edge going to the **decision** (not to the init). The slides don't say how to label the three parts of one `for` line. Use e.g. `4a` (init), `4b` (condition), `4c` (update) and state your labelling.\n**switch** (slide 11): one **N-ary** decision point with N out-edges (case 1, case 2, default).\n**Compound conditions (`&&`, `||`):** the slides never discuss them. Tutorial 9's `while(i<n && result<=upperbound)` is treated here as **one** decision point, as the slides count if/while statements. Some textbooks split it (which raises CC by 1). Ask your tutor if unsure.\nThe diagram shows doSomething (slide 36): 7 nodes, 8 edges, CC = 3.",
+   "diagram": "flowchart TD\n  n1[\"1: a = 0\"]\n  n2{\"2: while a < n\"}\n  n3{\"3: if a < 3\"}\n  n4[\"4: print X\"]\n  n6[\"6: print Y\"]\n  n8[\"8: a++\"]\n  n10[\"10: return\"]\n  n1 --> n2\n  n2 -->|true| n3\n  n2 -->|false| n10\n  n3 -->|true| n4\n  n3 -->|false| n6\n  n4 --> n8\n  n6 --> n8\n  n8 --> n2",
+   "keypoints": [
+    "Back edge: last body statement -> loop decision",
+    "for = init + while decision + update at the end of the body",
+    "switch = one N-ary node, so use E - N + 2 for CC",
+    "&& is not split on the slides (one decision per if/while)"
+   ]
+  },
+  {
+   "title": "Coverage levels 1-4",
+   "body": "Using computeP (2 decisions):\n**Level 1, 100% statement coverage** (slides 16-17): every node runs at least once. **1 test**: a=1, b=3 runs path 2-3, 4, 5, 7, 8, 9, 11. 'Have we missed anything?' Yes: the two false edges never run.\n**Level 2, 100% branch coverage** (slides 18-19): every decision is both TRUE and FALSE at least once. **2 tests**: a=1, b=3 (T, T) and a=0, b=2 (F, F).\n**Level 3, basis path coverage** (slide 22): CC basis paths, here **3**. This guarantees 100% statement and branch coverage (slide 24).\n**Level 4, 100% path coverage** (slides 20-21): every path. Each binary decision doubles the count (2^|decisions| = 4 here), and each loop multiplies it by the number of iterations, so it is often infeasible.",
+   "keypoints": [
+    "Statement <= branch <= basis path <= path",
+    "Statement coverage can miss empty false edges",
+    "Branch coverage can need FEWER tests than CC",
+    "Full paths = 2^decisions (no loops); basis paths = CC"
+   ]
+  },
+  {
+   "title": "Cyclomatic complexity (CC / V(G))",
+   "body": "CC measures complexity by the number of decision points, and it equals **the number of basis paths you must test** (slides 25-26).\nThe slides give **two equations** (L19-20 slide 26, L21 slide 6):\n- `CC = |edges| - |nodes| + 2`\n- `CC = |decision points| + 1`, valid only if all decision points are binary\nThey give the same value when all decisions are binary, so **always write both**. That earns the 2 marks and checks your CFG.\ncomputeP (slide 27): |edges| = 8, |nodes| = 7, so CC = 8 - 7 + 2 = 3. Or 2 decisions + 1 = 3.\nFor a **switch**, use E - N + 2, because decisions + 1 undercounts.\n(The 'count the regions' method from Pressman is **not on the slides**. You can use it privately as a third check, but don't present it as the course's method.)",
+   "keypoints": [
+    "CC = E - N + 2 = decisions + 1 (binary only)",
+    "If the two disagree, your CFG is wrong (missing back edge or false edge)",
+    "CC = number of basis paths = number of basis-path test cases",
+    "Loops are binary decisions; a switch is not"
+   ]
+  },
+  {
+   "title": "Selecting the basis paths",
+   "body": "A **basis path** traverses at least one **new edge** that no earlier path in the set has traversed (slide 22). Method (slides 28-30, L21 slide 8):\n1. Pick a **baseline**: a reasonably typical path that matters most to the tester. **For loops, take the false branch first (don't enter the loop)** (slide 35).\n2. **Flip the first decision point**, keeping as many other decisions the same as possible.\n3. Flip the second decision point, then the third, and so on, until you have CC paths.\n4. Write each path as a **sequence of node labels**, e.g. `2-3, 4, 5, 7, 8, 11`.\n**Loops:** take each loop **zero times and once** only (slide 35). The test inputs may still iterate many times.\nThe basis set is **not unique**, but every basis set has CC paths (slide 32).\ncomputeP set (slide 31): I. 2-3, 4, 5, 7, 8, 11 (baseline). II. 2-3, 4, 7, 8, 11. III. 2-3, 4, 5, 7, 8, 9, 11.\nTests: I. a=4, b=2. II. a=0, b=5. III. a=7, b=3.",
+   "keypoints": [
+    "Baseline first; loops not entered in the baseline",
+    "Flip one decision at a time",
+    "Loops: zero times and once only",
+    "Count of paths = CC exactly"
+   ]
+  },
+  {
+   "title": "Infeasible basis paths",
+   "body": "Some basis paths **can't be executed for any input** (slide 33, L21 slide 10). Example: `x=0; if(a>0) x=x+1; y=x*2; if(x>0) print(x); else print(y);` (nodes 1-8, CC = 3).\nThe flip-one-at-a-time set (slide 33):\nI. 1, 2, 3, 4, 5, 6, 8 with a = 4\nII. 1, 2, 4, 5, 6, 8: **infeasible** (if a <= 0 then x = 0, so `x > 0` is false)\nIII. 1, 2, 3, 4, 5, 7, 8: **infeasible**\nThat leaves edges 2->4 and 5->7 untested. **Fix (slide 34):** choose another set to keep infeasible paths to a minimum, e.g. III = 1, 2, 4, 5, 7, 8 (**change both decisions at once**) with a = 0. Now only one path is infeasible.\nIn the exam, **list the infeasible path and write 'infeasible basis path' as its test case**. Don't silently drop it.\nLoop variant (slide 37): some paths are infeasible with one iteration but can be reached by an input that goes round more times (see the worked examples).",
+   "keypoints": [
+    "Mark infeasible paths explicitly; don't delete them",
+    "Reduce them by flipping two decisions at once (slide 34)",
+    "A loop path that's impossible in 1 iteration: pick an input that iterates more"
+   ]
+  },
+  {
+   "title": "Worked: Tutorial 9 (a)(b) sum() CFG + CC",
+   "body": "(a) CFG with line-number labels. Line 1 (declarations) is not drawn. Lines 2-3 and 8-9 are merged blocks. The while (line 7) is one decision, and 8-9 loops back to it.",
+   "diagram": "flowchart TD\n  n23[\"2-3: result=0; i=0\"]\n  n4{\"4: n < 0\"}\n  n5[\"5: n = -n\"]\n  n7{\"7: i<n && result<=upperbound\"}\n  n89[\"8-9: i=i+1; result=result+i\"]\n  n11{\"11: result <= upperbound\"}\n  n12[\"12: print sum\"]\n  n14[\"14: print too large\"]\n  n16[\"16: return result\"]\n  n23 --> n4\n  n4 -->|true| n5\n  n4 -->|false| n7\n  n5 --> n7\n  n7 -->|true| n89\n  n89 --> n7\n  n7 -->|false| n11\n  n11 -->|true| n12\n  n11 -->|false| n14\n  n12 --> n16\n  n14 --> n16",
+   "code": "public int sum(int n, int upperbound){\n1   int result, i;\n2   result = 0;\n3   i = 0;\n4   if(n < 0) {\n5     n = -n;\n6   }\n7   while(i<n && result <= upperbound){\n8     i = i + 1;\n9     result = result + i;\n10  }\n11  if(result <= upperbound){\n12    System.out.println(\"The sum is \" + result);\n13  } else {\n14    System.out.println(\"The sum is too large!\");\n15  }\n16  return result;\n}",
+   "after": "(b) |edges| = 11: 2-3->4, 4->5, 4->7, 5->7, 7->8-9, 8-9->7, 7->11, 11->12, 11->14, 12->16, 14->16.\n|nodes| = 9. **CC = 11 - 9 + 2 = 4.**\nCheck: decision points 4, 7 and 11 (all binary, with `&&` counted as one decision as on the slides) give 3 + 1 = **4**.",
+   "keypoints": [
+    "9 nodes: 2-3, 4, 5, 7, 8-9, 11, 12, 14, 16",
+    "11 edges (count the 8-9 -> 7 back edge)",
+    "CC = 11 - 9 + 2 = 4 = 3 decisions + 1"
+   ]
+  },
+  {
+   "title": "Worked: Tutorial 9 (c)(d) coverage + basis paths",
+   "body": "**(c) 100% statement and branch coverage: 2 tests.** Lines 12 and 14 can't both run in one test, so 1 test is not enough.\nT1: n = -3, upperbound = 100. n becomes 3, the loop sums 1+2+3 = 6, and 6 <= 100. Output 'The sum is 6', returns 6. Path 2-3, 4, 5, 7, 8-9, (7, 8-9)x2, 7, 11, 12, 16.\nT2: n = 5, upperbound = 3. Result goes 1, 3, 6, and the loop exits because 6 <= 3 is false. Output 'The sum is too large!', returns 6. Covers 4F, 11F and 14.\nT1 + T2 cover every node and both outcomes of 4, 7 and 11.\n**(d) Basis set (CC = 4).** Baseline: don't enter the loop.\n1. 2-3, 4, 7, 11, 12, 16 (baseline)\n2. 2-3, 4, 7, 8-9, 7, 11, 12, 16 (flip 7: loop once)\n3. 2-3, 4, 7, 11, 14, 16 (flip 11)\n4. 2-3, 4, 5, 7, 8-9, 7, 11, 12, 16 (flip 4)\nPath 4 note: flipping 4 while keeping the loop false (2-3, 4, 5, 7, 11, 12, 16) is **infeasible**. Once n < 0 is made positive, the loop must run, or 11 goes false. So the loop decision is changed as well (slide 34 idea). Path 4 is then path 2 with only decision 4 flipped. Each path adds new edges: 2 adds 7->8-9 and 8-9->7, 3 adds 11->14 and 14->16, 4 adds 4->5 and 5->7.",
+   "after": "Test cases (path | inputs | expected output):\n1 | n=0, upperbound=10 | prints 'The sum is 0', returns 0\n2 | n=1, upperbound=10 | prints 'The sum is 1', returns 1\n3 | n=0, upperbound=-1 | prints 'The sum is too large!', returns 0\n4 | n=-1, upperbound=10 | n becomes 1; prints 'The sum is 1', returns 1\n(Alternative accepted by the slide 33 approach: list 2-3, 4, 5, 7, 11, 12, 16 as path 4 and write 'infeasible basis path'.)",
+   "keypoints": [
+    "2 tests are enough for statement + branch coverage; CC = 4 basis paths",
+    "Show expected output (printed text AND return value)",
+    "If a flip is infeasible, say so and change a second decision"
+   ]
+  },
+  {
+   "title": "Worked: findCity-style (i)(ii) CFG + CC",
+   "body": "**Scenario.** The app returns the nearest shop that is **open**, or null. This has the same shape as past-paper findCity: a for loop with nested ifs.\n(i) CFG. The for header on line 4 is split as on slide 10: **4a** = init `i=0`, merged with lines 2-3 into block `2-4a`; **4b** = decision `i < shops.size()`; **4c** = update `i++`, the last block of the body, which loops back to 4b. Line 6 is its own block because it sits between decisions 5 and 7. Lines 8-9 are merged. 4c is reached from 5 (false), 7 (false) and 8-9.",
+   "diagram": "flowchart TD\n  a[\"2-4a: best=null; bestDist=MAX; i=0\"]\n  b{\"4b: i < shops.size()\"}\n  n5{\"5: shops[i].isOpen()\"}\n  n6[\"6: d = computeDistance(...)\"]\n  n7{\"7: d < bestDist\"}\n  n89[\"8-9: best=shops[i]; bestDist=d\"]\n  c[\"4c: i++\"]\n  n13[\"13: return best\"]\n  a --> b\n  b -->|true| n5\n  b -->|false| n13\n  n5 -->|true| n6\n  n5 -->|false| c\n  n6 --> n7\n  n7 -->|true| n89\n  n7 -->|false| c\n  n89 --> c\n  c --> b",
+   "code": "1.  Shop findOpenShop(List<Shop> shops, Position me) {\n2.    Shop best = null;\n3.    double bestDist = MAX_DOUBLE;\n4.    for(int i = 0; i < shops.size(); i++) {\n5.      if(shops[i].isOpen()) {\n6.        double d = computeDistance(shops[i].position, me);\n7.        if(d < bestDist) {\n8.          best = shops[i];\n9.          bestDist = d;\n10.       }\n11.     }\n12.   }\n13.   return best;\n14. }",
+   "after": "(ii) |nodes| = 8: 2-4a, 4b, 5, 6, 7, 8-9, 4c, 13.\n|edges| = 10: 2-4a->4b, 4b->5, 4b->13, 5->6, 5->4c, 6->7, 7->8-9, 7->4c, 8-9->4c, 4c->4b.\n**CC = 10 - 8 + 2 = 4.** Check: decisions 4b, 5 and 7 give 3 + 1 = **4**. So you need 4 basis paths.",
+   "keypoints": [
+    "8 nodes, 10 edges",
+    "CC = 10 - 8 + 2 = 4 = 3 decisions + 1",
+    "Say how you labelled the for header (4a/4b/4c)"
+   ]
+  },
+  {
+   "title": "Worked: findCity-style (iii) basis paths + test cases",
+   "body": "Baseline: the loop is not entered (slide 35). Then flip 4b (enter once, with the inner ifs true), then flip 5, then flip 7.\n1. 2-4a, 4b, 13 (baseline)\n2. 2-4a, 4b, 5, 6, 7, 8-9, 4c, 4b, 13\n3. 2-4a, 4b, 5, 4c, 4b, 13\n4. 2-4a, 4b, 5, 6, 7, 4c, 4b, 13\n**Path 4 can't happen in one iteration.** For the first open shop, bestDist is still MAX_DOUBLE, so `d < bestDist` is always true. As on slide 37, choose an input that goes round the loop more than once, so the real execution reaches 7 (false) on the 2nd shop. Real path: 2-4a, 4b, 5, 6, 7, 8-9, 4c, 4b, 5, 6, 7, 4c, 4b, 13.\nNew-edge check: 1 {2-4a->4b, 4b->13}; 2 {4b->5, 5->6, 6->7, 7->8-9, 8-9->4c, 4c->4b}; 3 {5->4c}; 4 {7->4c}. That is all 10 edges.",
+   "after": "Test cases (path | input shops: open?, distance from me | expected return):\n1 | [] (empty list) | null\n2 | [S1: open, 2 km] | S1\n3 | [S1: closed] | null\n4 | [S1: open, 2 km; S2: open, 5 km] | S1 (S2 is farther, so 7 is false on the 2nd iteration)",
+   "keypoints": [
+    "Test case = list contents + each item's distance/flags + expected return",
+    "Inner-if false paths inside a loop often need 2+ items",
+    "findCity has the same shape: for + if(distance <= 10) + if(distance < shortest)"
+   ]
+  },
+  {
+   "title": "Exam recipe (Q4(b) style)",
+   "body": "(i) **CFG, 4 marks**\n1. Number the lines if they aren't already. Cross out declarations and braces.\n2. Merge sequential statements into blocks (`2-3`). Each if/while/for/switch condition is its own node.\n3. For loops: init joins the previous block, condition = decision, update = last body block. Draw the back edge to the decision.\n4. Label every node with line numbers and every decision edge with true/false.\n(ii) **CC, 2 marks**\n5. Count and list the edges and nodes. Write `CC = E - N + 2 = ...` AND `CC = decisions + 1 = ...`. They must match.\n(iii) **Basis paths + tests, 8 marks**\n6. Baseline: a typical path with loops not entered.\n7. Flip decision 1, then 2, and so on, keeping the others the same. Stop at CC paths.\n8. Write each path as a node sequence. Check that each adds a new edge.\n9. For each path give the **input values** (for a list: its items and their attributes or distances) and the **expected output** (return value and any printed text).\n10. Mark any infeasible path 'infeasible basis path', or swap in a path that flips two decisions (slide 34). If one iteration can't reach the path, use an input that iterates more and show the real path.",
+   "keypoints": [
+    "Two CC formulas, both shown",
+    "Paths = node-label sequences",
+    "Table: path | inputs | expected output",
+    "Mark infeasible paths explicitly"
+   ]
+  },
+  {
+   "title": "Traps the marker penalises",
+   "body": "- **Counting declarations or braces as nodes**, or splitting `2-3` into two nodes. CC still comes out right, but the CFG loses marks and your paths get messy.\n- **Forgetting the loop back edge** (last body statement -> decision). E - N + 2 then comes out 1 too low.\n- **for loop update going back to the init.** It goes back to the condition.\n- **decisions + 1 on a switch.** That formula only holds when every decision is binary, so use E - N + 2.\n- **Giving 2^d as CC.** That's the number of full paths. CC is d + 1.\n- **Too many or too few basis paths.** Exactly CC. Each path must add a new edge, and covering every edge with fewer paths doesn't make a basis set.\n- **Going round a loop twice in a basis path.** Zero times and once only.\n- **Baseline enters the loop.** The lecture takes the false branch first.\n- **Dropping an infeasible path silently.** List it and mark it infeasible, or swap it as on slide 34.\n- **Confusing branch-coverage test count with CC.** One test with a mixed array can cover all branches of a loop.\n- **Test case without an expected output.** Always give the return value or the printed output.",
+   "keypoints": [
+    "Exactly CC paths",
+    "Loops: 0 and 1 times; baseline = false",
+    "Show both CC formulas",
+    "Expected output in every test case"
+   ]
+  },
+  {
+   "title": "Software maintenance + refactoring (L21)",
+   "body": "**Definition (IEEE 610, slide 16):** modifying a software system **after delivery** to correct faults, improve performance or other attributes, or adapt to a changed environment.\n**Types (slide 18, Sommerville's names):**\n- **Fault repair:** fix bugs or vulnerabilities, or how the system meets its requirements. Textbooks call this 'corrective'.\n- **Environmental adaptation:** make it run on a different computer, OS, etc. ('adaptive')\n- **Functionality addition/modification:** satisfy new requirements ('perfective')\nThe slides don't use the corrective/adaptive/perfective/preventive names; use L21's terms in the exam. Slide 19's effort chart is an image (from Sommerville); check your printed slide for the split.\n**Causes of maintenance problems (slide 15):** unstructured code (GOTO spaghetti, poor naming, long procedures, strong coupling, weak cohesion, deep nesting), insufficient domain knowledge, and insufficient documentation.\n**Refactoring (slides 20-21):** improve structure, reduce complexity and make code easier to understand **without adding functionality or changing behaviour**. It is done **continuously** during development and evolution.\n**Bad smells (slide 22, Fowler):** duplicate code, long methods, large class, temporary field, switch statements, lazy class, data clumping (the same group of data recurring in several places), and tight coupling of two classes.",
+   "keypoints": [
+    "Maintenance happens after delivery",
+    "Three types: fault repair / environmental adaptation / functionality addition-modification",
+    "Refactoring never changes behaviour",
+    "8 bad smells: learn the list"
+   ]
+  }
+ ]
+}

@@ -1,0 +1,939 @@
+[
+ {
+  "id": "ch8-01",
+  "chapter": 8,
+  "subtopic": "testing basics",
+  "type": "single",
+  "level": 1,
+  "gotcha": false,
+  "question": "According to L16, what does **black-box** testing analyse to design test cases?",
+  "options": [
+   "The requirements and specifications",
+   "The internal paths and data flow",
+   "The class diagram and sequence diagrams",
+   "The control flow graph of the code"
+  ],
+  "answer": [
+   0
+  ],
+  "explanation": "L16 slide 13: black-box testing analyses requirements and specifications (e.g. an income range rule). White-box testing analyses implementation details, internal paths and structure (CFG, data flow)."
+ },
+ {
+  "id": "ch8-02",
+  "chapter": 8,
+  "subtopic": "testing basics",
+  "type": "multi",
+  "level": 1,
+  "gotcha": false,
+  "question": "Which of these does L16 list as types of **black-box** testing? (Pick all that apply.)",
+  "options": [
+   "Equivalence class testing",
+   "Control flow testing",
+   "Boundary value testing",
+   "State-based testing",
+   "Data flow testing"
+  ],
+  "answer": [
+   0,
+   2,
+   3
+  ],
+  "explanation": "L16 slide 13: black-box types are EC + BV testing and state-based testing. Control flow and data flow testing are white-box, because they need the code's structure."
+ },
+ {
+  "id": "ch8-03",
+  "chapter": 8,
+  "subtopic": "test case ingredients",
+  "type": "single",
+  "level": 1,
+  "gotcha": false,
+  "question": "L16 lists five ingredients of a test case. In that list, what is the **oracle**?",
+  "options": [
+   "The actual output produced when the test runs",
+   "The path to the test program and its inputs",
+   "The expected test output",
+   "The input data or commands"
+  ],
+  "answer": [
+   2
+  ],
+  "explanation": "L16 slide 15: Name, Location, Input, **Oracle = expected output**, **Log = actual output**. The tempting mix-up is oracle vs log: the log is what actually came out."
+ },
+ {
+  "id": "ch8-04",
+  "chapter": 8,
+  "subtopic": "test case ingredients",
+  "type": "single",
+  "level": 1,
+  "gotcha": false,
+  "question": "Which of these is **NOT** one of the five test case ingredients in L16?",
+  "options": [
+   "Name",
+   "Log",
+   "Location",
+   "Precondition"
+  ],
+  "answer": [
+   3
+  ],
+  "explanation": "L16 slide 15 lists exactly Name, Location, Input, Oracle, Log. 'Precondition' belongs to use case descriptions, not to this course's test case ingredients."
+ },
+ {
+  "id": "ch8-05",
+  "chapter": 8,
+  "subtopic": "testing basics",
+  "type": "single",
+  "level": 1,
+  "gotcha": false,
+  "question": "L16 summarises the purpose of software testing as:",
+  "options": [
+   "Proving that the software has no bugs",
+   "Dynamic execution to find bugs, rather than to prove there are none",
+   "Static review of the code by a peer",
+   "The same activity as debugging"
+  ],
+  "answer": [
+   1
+  ],
+  "explanation": "L16 slide 19: testing is dynamic execution 'to find bug, rather than to prove no bug'. Testing cannot prove the absence of bugs, and slide 12 questions the idea that testing == debugging."
+ },
+ {
+  "id": "ch8-06",
+  "chapter": 8,
+  "subtopic": "testing levels",
+  "type": "single",
+  "level": 1,
+  "gotcha": false,
+  "question": "Which level of testing does L16 say this course focuses on?",
+  "options": [
+   "Unit testing",
+   "Integration testing",
+   "System testing",
+   "Acceptance testing (UAT)"
+  ],
+  "answer": [
+   0
+  ],
+  "explanation": "L16 slide 14: unit testing ('we learn in this course') tests a unit individually. Integration tests units together, system tests everything, and UAT is when the customer accepts the software."
+ },
+ {
+  "id": "ch8-07",
+  "chapter": 8,
+  "subtopic": "test order",
+  "type": "single",
+  "level": 1,
+  "gotcha": false,
+  "question": "L16 compares **cascading** and **independent** test cases. Which is a drawback of cascading test cases (create, read, update, delete an order...)?",
+  "options": [
+   "They cannot be automated",
+   "They are larger and more complex",
+   "If one fails, the subsequent tests may be invalid",
+   "They cannot test invalid inputs"
+  ],
+  "answer": [
+   2
+  ],
+  "explanation": "L16 slide 18: cascading test cases are smaller and simpler, but if one fails the later ones may be invalid. Independent (self-contained) tests allow parallel execution but are larger and more complex."
+ },
+ {
+  "id": "ch8-08",
+  "chapter": 8,
+  "subtopic": "exhaustive testing",
+  "type": "single",
+  "level": 1,
+  "gotcha": false,
+  "question": "L16 asks whether we can test every input of a function taking a 16-bit integer. What is its answer?",
+  "options": [
+   "Yes, and it is the recommended approach for unit tests",
+   "Only if the function has no loops",
+   "No, it is mathematically impossible",
+   "Yes, 2^16 = 65536 inputs, but it is too costly, so we choose inputs with ECs and BVs"
+  ],
+  "answer": [
+   3
+  ],
+  "explanation": "L16 slide 6: there are 2^16 = 65536 possible inputs, so we could test them all, but it is too costly. That is the motivation for picking representatives with EC and BV testing (slides 7 and 8)."
+ },
+ {
+  "id": "ch8-09",
+  "chapter": 8,
+  "subtopic": "equivalence classes",
+  "type": "single",
+  "level": 1,
+  "gotcha": false,
+  "question": "According to L18, a set of input values forms an **equivalence class** if:",
+  "options": [
+   "They are all valid inputs",
+   "They are all supposed to produce the same output, so if one catches a bug the others probably will too",
+   "They are adjacent integers",
+   "They are all on a boundary"
+  ],
+  "answer": [
+   1
+  ],
+  "explanation": "L18 slide 2: an EC is a set of inputs that are all supposed to produce the same output. If one value catches (or misses) a bug, the others probably will (or will not) too. Invalid values form ECs as well."
+ },
+ {
+  "id": "ch8-10",
+  "chapter": 8,
+  "subtopic": "equivalence classes",
+  "type": "single",
+  "level": 1,
+  "gotcha": false,
+  "question": "For a **range of values** requirement (e.g. income from $1500 to $80000), how many ECs does L18 identify?",
+  "options": [
+   "1 valid, 2 invalid",
+   "2 valid, 2 invalid",
+   "3 valid, 0 invalid",
+   "1 valid, 1 invalid"
+  ],
+  "answer": [
+   0
+  ],
+  "explanation": "L18 slides 4 and 17: a range gives ONE valid EC (1500 ≤ x ≤ 80000) and TWO invalid ECs, one below (x ≤ 1499) and one above (x ≥ 80001)."
+ },
+ {
+  "id": "ch8-11",
+  "chapter": 8,
+  "subtopic": "equivalence classes",
+  "type": "single",
+  "level": 1,
+  "gotcha": false,
+  "question": "For a **discrete values** requirement (e.g. 'only personal mortgage applications'), how many ECs does L18 identify?",
+  "options": [
+   "1 valid, one invalid EC per other value (Trust, Company, Partnership...)",
+   "No ECs, only boundary values",
+   "1 valid, 1 invalid",
+   "1 valid, 2 invalid"
+  ],
+  "answer": [
+   2
+  ],
+  "explanation": "L18 slides 5 and 17: discrete values give ONE valid EC (Person) and ONE invalid EC that holds all the other values (Trust, Company, Partnership...). Splitting each other value into its own invalid EC is not the lecture's convention."
+ },
+ {
+  "id": "ch8-12",
+  "chapter": 8,
+  "subtopic": "boundary values",
+  "type": "single",
+  "level": 1,
+  "gotcha": false,
+  "question": "Which kind of parameter does boundary value testing apply to, according to L18?",
+  "options": [
+   "Only discrete (categorical) values",
+   "Only invalid equivalence classes",
+   "Every input parameter",
+   "Only ranges of values"
+  ],
+  "answer": [
+   3
+  ],
+  "explanation": "L18 slide 11: BVT is only applicable to ranges of values. Discrete values such as property type have NO boundary values (slide 17)."
+ },
+ {
+  "id": "ch8-13",
+  "chapter": 8,
+  "subtopic": "boundary values",
+  "type": "single",
+  "level": 1,
+  "gotcha": false,
+  "question": "For each boundary, which values does L18 tell you to choose?",
+  "options": [
+   "The minimum and maximum of the whole input type",
+   "One value on the boundary, one just below and one just above",
+   "Two values just inside and two just outside",
+   "Only the value on the boundary"
+  ],
+  "answer": [
+   1
+  ],
+  "explanation": "L18 slide 12: choose three values per boundary: on-the-boundary, just-below and just-above. Two boundaries per range gives six values before you remove duplicates."
+ },
+ {
+  "id": "ch8-14",
+  "chapter": 8,
+  "subtopic": "boundary values",
+  "type": "single",
+  "level": 1,
+  "gotcha": false,
+  "question": "What decides how far 'just below' and 'just above' are from a boundary?",
+  "options": [
+   "The unit of the value (e.g. 1 for integers, 0.01 for dollars and cents)",
+   "10% of the range width",
+   "Always 1",
+   "Always 0.1"
+  ],
+  "answer": [
+   0
+  ],
+  "explanation": "L18 slide 12: 'Just-below and just-above value depends on the value's unit.' For integer ages the step is 1. For money in cents it is 0.01."
+ },
+ {
+  "id": "ch8-15",
+  "chapter": 8,
+  "subtopic": "EC process",
+  "type": "single",
+  "level": 1,
+  "gotcha": false,
+  "question": "In L18's EC testing process, which step is done by the **testing engine** (e.g. JUnit), not by the tester?",
+  "options": [
+   "Choose at least one input value per EC",
+   "Determine expected outputs (oracle)",
+   "Compare actual outputs (log) with expected outputs (oracle)",
+   "Identify valid and invalid ECs"
+  ],
+  "answer": [
+   2
+  ],
+  "explanation": "L18 slide 3: the tester identifies ECs, picks inputs, works out the oracle and builds the tests. The engine executes them, compares log against oracle and decides whether the SUT works."
+ },
+ {
+  "id": "ch8-16",
+  "chapter": 8,
+  "subtopic": "test case design",
+  "type": "single",
+  "level": 1,
+  "gotcha": false,
+  "question": "When designing test cases with ECs, how many **valid** inputs may one test case contain?",
+  "options": [
+   "At most two",
+   "None. Valid inputs are not tested.",
+   "Only one, the rest must be invalid",
+   "One valid input for every parameter, all in the same test case"
+  ],
+  "answer": [
+   3
+  ],
+  "explanation": "L18 slide 6: you may test valid inputs of several parameters at the same time, choosing one valid input per parameter. Only INVALID inputs are restricted to one per test case."
+ },
+ {
+  "id": "ch8-17",
+  "chapter": 8,
+  "subtopic": "test case design",
+  "type": "single",
+  "level": 1,
+  "gotcha": false,
+  "question": "Why does L18 require each test case to contain **no more than one invalid input**?",
+  "options": [
+   "To keep the test table short",
+   "So we learn the error handling or behaviour for each type of invalid input",
+   "Because JUnit allows only one assertion per test",
+   "Because invalid inputs always crash the program"
+  ],
+  "answer": [
+   1
+  ],
+  "explanation": "L18 slide 9: with one invalid input per test case, we learn how the system handles each kind of invalid input. With several invalid inputs, one 'Reject' could hide that the other invalid inputs are not checked at all."
+ },
+ {
+  "id": "ch8-18",
+  "chapter": 8,
+  "subtopic": "test case design",
+  "type": "single",
+  "level": 1,
+  "gotcha": false,
+  "question": "L18 says you may test **every** value of a valid EC when the set is small. Which parameter fits that?",
+  "options": [
+   "Number of mortgages (0 to 5)",
+   "Customer name",
+   "Monthly income ($1500 to $80000)",
+   "Characters of a password"
+  ],
+  "answer": [
+   0
+  ],
+  "explanation": "L18 slide 7: you may enumerate all values of a valid EC if it is small, e.g. number of mortgages (0 to 5) or property type (HDB, Condo), but not an income range or password characters."
+ },
+ {
+  "id": "ch8-19",
+  "chapter": 8,
+  "subtopic": "boundary values",
+  "type": "single",
+  "level": 1,
+  "gotcha": false,
+  "question": "For a **valid** EC, how does L18 classify the boundary values as test inputs?",
+  "options": [
+   "On-the-boundary is invalid; the neighbours are valid",
+   "Just-below is valid; just-above is invalid",
+   "On-the-boundary is valid; just-below and just-above are invalid",
+   "All three are valid"
+  ],
+  "answer": [
+   2
+  ],
+  "explanation": "L18 slides 16 and 18: the on-the-boundary value is a VALID input. The just-below or just-above values are INVALID inputs. Neighbours that fall inside an EC (e.g. 1501) are dropped as duplicates (slide 18)."
+ },
+ {
+  "id": "ch8-20",
+  "chapter": 8,
+  "subtopic": "verification and validation",
+  "type": "single",
+  "level": 1,
+  "gotcha": false,
+  "question": "The course's process lecture defines **validation** as checking that the system:",
+  "options": [
+   "Has 100% statement coverage",
+   "Was built in the correct order of activities",
+   "Compiles without warnings",
+   "Conforms to its specification and meets the real needs of its users"
+  ],
+  "answer": [
+   3
+  ],
+  "explanation": "L8 slide 20: validation is checking that the system conforms to its specification and meets the users' real needs ('does what the customer wants', slide 3). L16 has no separate V&V definition. Its SDLC slide 2 only shows that the source code is 'Verified By' test cases."
+ },
+ {
+  "id": "ch8-21",
+  "chapter": 8,
+  "subtopic": "boundary values",
+  "type": "single",
+  "level": 2,
+  "gotcha": false,
+  "question": "Requirement: an applicant's age must satisfy **18 ≤ age ≤ 65** (integer). What are the three values for the **upper** boundary?",
+  "options": [
+   "64.9, 65, 65.1",
+   "64, 65, 66",
+   "65, 66, 67",
+   "63, 64, 65"
+  ],
+  "answer": [
+   1
+  ],
+  "explanation": "L18 slides 12 and 13: on-the-boundary 65, just-below 64, just-above 66. Age is an integer, so the step is 1, not 0.1."
+ },
+ {
+  "id": "ch8-22",
+  "chapter": 8,
+  "subtopic": "boundary values",
+  "type": "single",
+  "level": 2,
+  "gotcha": false,
+  "question": "For **18 ≤ age ≤ 65** (integer), which pair is the **invalid** boundary values as L18 would list them?",
+  "options": [
+   "{17, 66}",
+   "{19, 64}",
+   "{0, 120}",
+   "{18, 65}"
+  ],
+  "answer": [
+   0
+  ],
+  "explanation": "Following L18 slide 13: lower boundary 17, 18, 19; upper boundary 64, 65, 66. Valid BVs are {18, 65}, invalid BVs are {17, 66}. 19 and 64 are inside the valid EC, so they are not separate BVs."
+ },
+ {
+  "id": "ch8-23",
+  "chapter": 8,
+  "subtopic": "equivalence classes",
+  "type": "single",
+  "level": 2,
+  "gotcha": false,
+  "question": "For **18 ≤ age ≤ 65** (integer), which set of ECs matches the lecture's format?",
+  "options": [
+   "Valid: age = 18, age = 65. Invalid: everything else.",
+   "Valid: 19 ≤ age ≤ 64. Invalid: age ≤ 18. Invalid: age ≥ 65.",
+   "Valid: 18 ≤ age ≤ 65. Invalid: age ≤ 17. Invalid: age ≥ 66.",
+   "Valid: 18 ≤ age ≤ 65. Invalid: age < 18 or age > 65."
+  ],
+  "answer": [
+   2
+  ],
+  "explanation": "L18 slide 4: one valid EC and two separate invalid ECs, written with integer bounds (x ≤ 1499, x ≥ 80001). Merging the two invalid sides into one EC loses a mark: they are two distinct classes."
+ },
+ {
+  "id": "ch8-24",
+  "chapter": 8,
+  "subtopic": "boundary values",
+  "type": "single",
+  "level": 2,
+  "gotcha": false,
+  "question": "A parcel's weight must be **2.5 kg to 30.0 kg**, measured to 0.1 kg. Which values are just-below the lower boundary and just-above the upper boundary?",
+  "options": [
+   "1.5 and 31.0",
+   "2.49 and 30.01",
+   "2 and 31",
+   "2.4 and 30.1"
+  ],
+  "answer": [
+   3
+  ],
+  "explanation": "L18 slide 12: the step depends on the value's unit. Here the unit is 0.1 kg, so 2.4 is just below 2.5 and 30.1 is just above 30.0. A step of 1 would skip real values that should be rejected."
+ },
+ {
+  "id": "ch8-25",
+  "chapter": 8,
+  "subtopic": "boundary values",
+  "type": "single",
+  "level": 2,
+  "gotcha": false,
+  "question": "A voucher is valid for purchases of **$10.00 to $500.00** (dollars and cents). What are the **invalid** boundary values?",
+  "options": [
+   "$9 and $501",
+   "$9.99 and $500.01",
+   "$9.90 and $500.10",
+   "$10.01 and $499.99"
+  ],
+  "answer": [
+   1
+  ],
+  "explanation": "The unit is one cent, so just-below $10.00 is $9.99 and just-above $500.00 is $500.01 (L18 slide 12). $10.01 and $499.99 are inside the valid EC."
+ },
+ {
+  "id": "ch8-26",
+  "chapter": 8,
+  "subtopic": "test case counts",
+  "type": "single",
+  "level": 2,
+  "gotcha": false,
+  "question": "A function has two range parameters, A and B, each with 1 valid EC and 2 invalid ECs. Under L18's rules, what is the **minimum** number of EC test cases that covers every EC?",
+  "options": [
+   "5",
+   "6",
+   "9",
+   "3"
+  ],
+  "answer": [
+   0
+  ],
+  "explanation": "One test case combines valid A + valid B. Each of the 4 invalid ECs needs its own test case, because a test case may hold at most one invalid input (L18 slides 6 and 9). 1 + 4 = 5. 9 would be the 3×3 cross product, which pairs invalid with invalid."
+ },
+ {
+  "id": "ch8-27",
+  "chapter": 8,
+  "subtopic": "test case counts",
+  "type": "single",
+  "level": 2,
+  "gotcha": false,
+  "question": "Mortgage scenario: income (range), number of mortgages (range), applicant type (discrete), property type (discrete). How many test cases are needed for the **invalid** ECs alone?",
+  "options": [
+   "2",
+   "4",
+   "6",
+   "8"
+  ],
+  "answer": [
+   2
+  ],
+  "explanation": "Ranges have 2 invalid ECs each (2 + 2) and discrete parameters have 1 each (1 + 1), so there are 6 invalid ECs. At one invalid input per test case, that is 6 test cases, exactly the 6 rows on L18 slide 10."
+ },
+ {
+  "id": "ch8-28",
+  "chapter": 8,
+  "subtopic": "one-invalid rule",
+  "type": "single",
+  "level": 2,
+  "gotcha": false,
+  "question": "Gym rule: **16 ≤ age ≤ 70** (integer) and membership ∈ {Gold, Silver}. Which test case **breaks** the one-invalid rule?",
+  "options": [
+   "age 40, Bronze",
+   "age 16, Gold",
+   "age 71, Silver",
+   "age 15, Bronze"
+  ],
+  "answer": [
+   3
+  ],
+  "explanation": "Age 15 is invalid (≤ 15) AND Bronze is invalid, so this test case has two invalid inputs (L18 slide 9). Each of the others has at most one: 71 alone, or Bronze alone, or none."
+ },
+ {
+  "id": "ch8-29",
+  "chapter": 8,
+  "subtopic": "one-invalid rule",
+  "type": "multi",
+  "level": 2,
+  "gotcha": false,
+  "question": "Hotel booking: nights **1 ≤ n ≤ 14** (integer), room ∈ {Single, Double}. Which test cases follow L18's rules? (Pick all that apply.)",
+  "options": [
+   "n = 1, Double → Accept",
+   "n = 0, Single → Reject",
+   "n = 15, Suite → Reject",
+   "n = 14, Suite → Reject",
+   "n = 0, Suite → Reject"
+  ],
+  "answer": [
+   0,
+   1,
+   3
+  ],
+  "explanation": "Allowed: all valid (n = 1, Double), or exactly one invalid input with the rest valid (n = 0 with Single; Suite with n = 14). 'n = 15, Suite' and 'n = 0, Suite' each have two invalid inputs (L18 slides 9 and 18)."
+ },
+ {
+  "id": "ch8-30",
+  "chapter": 8,
+  "subtopic": "non-numeric conditions",
+  "type": "single",
+  "level": 2,
+  "gotcha": false,
+  "question": "Condition: 'The applicant must hold a valid student pass' (yes/no). What are its ECs and BVs?",
+  "options": [
+   "1 valid EC, 2 invalid ECs, BVs yes/no",
+   "1 valid EC (has pass), 1 invalid EC (no pass), no BVs",
+   "2 valid ECs, no invalid EC",
+   "1 valid EC, 1 invalid EC, BVs on and off"
+  ],
+  "answer": [
+   1
+  ],
+  "explanation": "A yes/no condition is a discrete value: ONE valid EC and ONE invalid EC (L18 slides 5 and 17). Discrete values have NO boundary values (slide 11), so in a BV question you state that explicitly."
+ },
+ {
+  "id": "ch8-31",
+  "chapter": 8,
+  "subtopic": "boundary values",
+  "type": "single",
+  "level": 2,
+  "gotcha": false,
+  "question": "Password length **6 ≤ len ≤ 12**. Following L18, after removing neighbours that fall inside the current EC, which values remain to test?",
+  "options": [
+   "5, 6, 12, 13",
+   "6, 7, 11, 12",
+   "5, 6, 7, 11, 12, 13",
+   "6 and 12 only"
+  ],
+  "answer": [
+   0
+  ],
+  "explanation": "Boundaries give 5, 6, 7 and 11, 12, 13 (as in L18 slide 13). 7 and 11 fall inside the current valid EC, so slide 18 says don't duplicate them. Left: valid {6, 12}, invalid {5, 13}."
+ },
+ {
+  "id": "ch8-32",
+  "chapter": 8,
+  "subtopic": "boundary values",
+  "type": "single",
+  "level": 2,
+  "gotcha": false,
+  "question": "Ticket fares: child **0–12**, youth **13–17**, adult **18–64** (integer ages). For the child EC's upper boundary 12, the just-above value is 13. What does L18 say about it?",
+  "options": [
+   "Boundaries between valid ECs are never tested",
+   "Test it as an invalid child input",
+   "No need to duplicate it, since it falls into another EC (youth) that is tested anyway",
+   "Replace it with 12.1"
+  ],
+  "answer": [
+   2
+  ],
+  "explanation": "L18 slide 12: no need to duplicate test cases if the just-below or just-above value falls into other ECs. 13 is the youth EC's lower boundary, tested there. This is the 'hiring rules' pattern (slide 14)."
+ },
+ {
+  "id": "ch8-33",
+  "chapter": 8,
+  "subtopic": "boundary values",
+  "type": "single",
+  "level": 2,
+  "gotcha": false,
+  "question": "A freezer's normal temperature is **-25 ≤ T ≤ -18** °C (integer). What are the three values for the **lower** boundary?",
+  "options": [
+   "-25, -18, -17",
+   "-26, -25, -19",
+   "-24, -25, -26",
+   "-26, -25, -24"
+  ],
+  "answer": [
+   3
+  ],
+  "explanation": "The lower boundary is -25. Just-below is -26 (more negative) and just-above is -24. List them in ascending order, as L18 does: -26, -25, -24. With negatives, check which way is 'below'."
+ },
+ {
+  "id": "ch8-34",
+  "chapter": 8,
+  "subtopic": "expected result",
+  "type": "single",
+  "level": 2,
+  "gotcha": false,
+  "question": "Mortgage rule from L18: income **$1500 to $80000**, mortgages **0 to 5**, Person, HDB/Condo. What is the expected result for ($80000, 5, Person, HDB)?",
+  "options": [
+   "Reject, since both are at the limit",
+   "Approval, since on-the-boundary values are valid",
+   "Undefined",
+   "Reject, since two boundary values in one test is not allowed"
+  ],
+  "answer": [
+   1
+  ],
+  "explanation": "On-the-boundary values are valid inputs (L18 slide 16). This exact row is on slide 8 with expected result Approval. Combining several VALID boundary values in one test case is allowed (slide 18, combination 1)."
+ },
+ {
+  "id": "ch8-35",
+  "chapter": 8,
+  "subtopic": "test case ingredients",
+  "type": "single",
+  "level": 2,
+  "gotcha": false,
+  "question": "A test case has Input = ($1501, 8 mortgages, Person, Condo), Oracle = Reject, Log = Approval. What does this tell you?",
+  "options": [
+   "The test failed: the system accepted an invalid number of mortgages, so a bug was found",
+   "The oracle should be changed to Approval",
+   "$1501 is an invalid boundary value",
+   "The test case is wrongly designed"
+  ],
+  "answer": [
+   0
+  ],
+  "explanation": "This is from L16 slide 16. 8 mortgages is the only invalid input, so the oracle is Reject. The log (actual output) says Approval, so log ≠ oracle and a bug is revealed. $1501 is a valid income."
+ },
+ {
+  "id": "ch8-36",
+  "chapter": 8,
+  "subtopic": "test case counts",
+  "type": "single",
+  "level": 2,
+  "gotcha": false,
+  "question": "One range parameter, valid EC **1 ≤ qty ≤ 99** (integer), BV testing as L18 does it. How many test values remain after dropping duplicates?",
+  "options": [
+   "3",
+   "2",
+   "4",
+   "6"
+  ],
+  "answer": [
+   2
+  ],
+  "explanation": "Six values come from 0, 1, 2 and 98, 99, 100. 2 and 98 fall inside the current EC, so slide 18 drops them. Left: valid {1, 99} and invalid {0, 100}, which is 4."
+ },
+ {
+  "id": "ch8-37",
+  "chapter": 8,
+  "subtopic": "BV test design",
+  "type": "single",
+  "level": 2,
+  "gotcha": false,
+  "question": "Two range parameters, A and B. Which combination does L18 slide 18 **not** list for BV test cases?",
+  "options": [
+   "Valid A + Valid B",
+   "Valid A + Invalid B",
+   "Invalid A + Valid B",
+   "Invalid A + Invalid B"
+  ],
+  "answer": [
+   3
+  ],
+  "explanation": "L18 slide 18 lists exactly three combinations: valid+valid, valid+invalid, invalid+valid. Invalid+invalid breaks 'at most ONE invalid input per test case'."
+ },
+ {
+  "id": "ch8-38",
+  "chapter": 8,
+  "subtopic": "non-numeric conditions",
+  "type": "single",
+  "level": 2,
+  "gotcha": false,
+  "question": "Car loan: applicant must be **employed full time** (yes/no) AND annual income **$30000 ≤ x ≤ $150000** (integer). How many invalid ECs are there in total?",
+  "options": [
+   "2",
+   "3",
+   "4",
+   "5"
+  ],
+  "answer": [
+   1
+  ],
+  "explanation": "The discrete condition gives 1 invalid EC (not employed full time). The income range gives 2 (x ≤ 29999, x ≥ 150001). Total 3, so there are 3 single-invalid test cases plus at least 1 all-valid test case (L18 slides 4, 5 and 6)."
+ },
+ {
+  "id": "ch8-39",
+  "chapter": 8,
+  "subtopic": "equivalence classes",
+  "type": "single",
+  "level": 2,
+  "gotcha": false,
+  "question": "In L18's Add1Divide30000 example, the valid input range of a 16-bit int is split into three ECs by expected output. Why three?",
+  "options": [
+   "Because the inputs produce three different outputs (-1, 0, 1), and an EC groups inputs with the same output",
+   "Because ranges always have three ECs",
+   "Because one EC is invalid",
+   "Because there are three boundaries"
+  ],
+  "answer": [
+   0
+  ],
+  "explanation": "L18 slide 15 / L16 slide 8: -32768..-30001 returns -1, -30000..29998 returns 0, and 29999..32767 returns 1. An EC is defined by 'same output' (slide 2), so different outputs mean different ECs."
+ },
+ {
+  "id": "ch8-40",
+  "chapter": 8,
+  "subtopic": "equivalence classes",
+  "type": "single",
+  "level": 2,
+  "gotcha": false,
+  "question": "Requirement: 'Speed must be **greater than 60 and less than 120** km/h' (integer). Which is the valid EC in L18's format?",
+  "options": [
+   "61 ≤ speed ≤ 120",
+   "60 ≤ speed ≤ 120",
+   "61 ≤ speed ≤ 119",
+   "60 < speed ≤ 120"
+  ],
+  "answer": [
+   2
+  ],
+  "explanation": "Strict inequalities exclude 60 and 120. Written with inclusive integer bounds, as in L18 slide 4, the valid EC is 61 ≤ speed ≤ 119, so the boundaries are 61 and 119, not 60 and 120."
+ },
+ {
+  "id": "ch8-41",
+  "chapter": 8,
+  "subtopic": "one-invalid rule",
+  "type": "single",
+  "level": 3,
+  "gotcha": true,
+  "question": "A student tests 'age 17 and not employed full time → Reject' to save a row. What does the marker say?",
+  "options": [
+   "Fine, as long as the expected result is Reject",
+   "Wrong only because age 17 is a valid value",
+   "Fine. Fewer test cases are better.",
+   "Wrong: two invalid inputs in one test case, so you can't tell which one caused the Reject"
+  ],
+  "answer": [
+   3
+  ],
+  "explanation": "L18 slides 9 and 18: at most ONE invalid input per test case, with all other inputs valid. With two, a correct 'Reject' could hide that one of the checks is missing."
+ },
+ {
+  "id": "ch8-42",
+  "chapter": 8,
+  "subtopic": "boundary values",
+  "type": "single",
+  "level": 3,
+  "gotcha": true,
+  "question": "A student gives boundary values for **property type** (HDB, Condo). What is wrong?",
+  "options": [
+   "Nothing",
+   "Discrete values have NO boundary values, so BVT applies only to ranges",
+   "They should give three values per property type",
+   "Property type needs two invalid ECs"
+  ],
+  "answer": [
+   1
+  ],
+  "explanation": "L18 slide 11 asks 'Do discrete values have boundary values?' Answer: NO. In a BV question, write 'C1 is discrete, so no BVs' rather than inventing some (slide 17)."
+ },
+ {
+  "id": "ch8-43",
+  "chapter": 8,
+  "subtopic": "equivalence classes",
+  "type": "single",
+  "level": 3,
+  "gotcha": true,
+  "question": "For 'must be employed full time', a student writes three ECs: full time (valid), part time (invalid), unemployed (invalid). Per L18, what is the convention?",
+  "options": [
+   "Discrete condition: ONE valid EC and ONE invalid EC (part time, unemployed, ... together)",
+   "Two valid ECs and one invalid EC",
+   "No ECs. Booleans are not tested.",
+   "Correct, one invalid EC per alternative"
+  ],
+  "answer": [
+   0
+  ],
+  "explanation": "L18 slide 5 puts Trust, Company, Partnership... into ONE invalid EC for 'only Person'. A discrete condition has 1 valid + 1 invalid EC (slide 17). Splitting it inflates the count and doesn't match the marking scheme."
+ },
+ {
+  "id": "ch8-44",
+  "chapter": 8,
+  "subtopic": "equivalence classes",
+  "type": "single",
+  "level": 3,
+  "gotcha": true,
+  "question": "Rule: 'The fee must not be more than $500. Specifically, it is between $1 and $499 inclusive, integer.' What is the upper boundary of the valid EC?",
+  "options": [
+   "$499.99",
+   "$500, because the first sentence says so",
+   "$499. $500 is the just-above (invalid) value.",
+   "$501"
+  ],
+  "answer": [
+   2
+  ],
+  "explanation": "Read the precise ('specifically') part. The valid EC is 1 ≤ x ≤ 499, so the upper boundary is 499 and its three values are 498, 499, 500. Treating 500 as the boundary shifts every BV by one."
+ },
+ {
+  "id": "ch8-45",
+  "chapter": 8,
+  "subtopic": "boundary values",
+  "type": "single",
+  "level": 3,
+  "gotcha": true,
+  "question": "Asked to 'identify a value on, just below and just above each boundary' of **0 ≤ x ≤ 99999** (integer), a student writes only {-1, 0, 99999, 100000}. Is that full marks?",
+  "options": [
+   "No: 1 and 99998 are invalid values",
+   "Yes, if the values are labelled valid/invalid",
+   "Yes, the duplicates are removed",
+   "No: the question asks for all three per boundary (-1, 0, 1 and 99998, 99999, 100000). Drop in-EC values only when designing test cases."
+  ],
+  "answer": [
+   3
+  ],
+  "explanation": "L18 slide 13 lists all three per boundary (1499, 1500, 1501). The 'don't duplicate' rule (slides 12 and 18) applies to test cases, not to listing BVs. Answer what the question asks."
+ },
+ {
+  "id": "ch8-46",
+  "chapter": 8,
+  "subtopic": "boundary values",
+  "type": "single",
+  "level": 3,
+  "gotcha": true,
+  "question": "A student classifies the BVs of the valid EC **1500 ≤ x ≤ 80000** as: valid {1500, 80000, 80001}, invalid {1499}. What is the error?",
+  "options": [
+   "None",
+   "80001 is just-above the upper boundary, so it is INVALID",
+   "1499 should be valid",
+   "1500 should be invalid"
+  ],
+  "answer": [
+   1
+  ],
+  "explanation": "L18 slide 13: valid BVs {1500, 80000}, invalid BVs {1499, 80001}. A value just outside either end of the valid EC is invalid."
+ },
+ {
+  "id": "ch8-47",
+  "chapter": 8,
+  "subtopic": "equivalence classes",
+  "type": "single",
+  "level": 3,
+  "gotcha": true,
+  "question": "A student writes the ECs for income 1500–80000 as: Valid 1500 ≤ x ≤ 80000; Invalid: x outside the range. How many marks is that likely to lose?",
+  "options": [
+   "Some: L18 has TWO separate invalid ECs (x ≤ 1499 and x ≥ 80001)",
+   "None, invalid ECs are optional",
+   "All, since valid ECs must be split too",
+   "None, it is equivalent"
+  ],
+  "answer": [
+   0
+  ],
+  "explanation": "L18 slides 4 and 17: a range has ONE valid and TWO invalid ECs. Each invalid side needs its own test case, so merging them also tends to drop a test case."
+ },
+ {
+  "id": "ch8-48",
+  "chapter": 8,
+  "subtopic": "boundary values",
+  "type": "single",
+  "level": 3,
+  "gotcha": true,
+  "question": "Integer input **0 ≤ n ≤ 5**. A student lists the lower boundary values as -0.1, 0, 0.1. What's wrong?",
+  "options": [
+   "Lower boundaries need only the on-boundary value",
+   "Nothing",
+   "The step depends on the unit: n is an integer, so they should be -1, 0, 1",
+   "They should be 0, 1, 2"
+  ],
+  "answer": [
+   2
+  ],
+  "explanation": "L18 slide 12: just-below/just-above depend on the value's unit. The number of mortgages is an integer, so slide 13 uses -1, 0, 1. A decimal step is only right for real-valued inputs."
+ },
+ {
+  "id": "ch8-49",
+  "chapter": 8,
+  "subtopic": "test case table",
+  "type": "single",
+  "level": 3,
+  "gotcha": true,
+  "question": "A student's test case table has columns Income | Mortgages | Applicant | Property but no expected result. What's missing, in L16/L18 terms?",
+  "options": [
+   "The location",
+   "Nothing, since inputs define a test case",
+   "The log",
+   "The oracle (Expected Result) column, without which a row can't be judged pass/fail"
+  ],
+  "answer": [
+   3
+  ],
+  "explanation": "L18's test tables (slides 8–10) always end with 'Expected Result', i.e. the oracle (L16 slide 15). Without it you cannot compare against the log, so the row isn't a complete test case."
+ }
+]

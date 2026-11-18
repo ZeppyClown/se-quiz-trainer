@@ -1,0 +1,126 @@
+{
+ "chapter": 3,
+ "title": "Conceptual model: class diagram + B/C/E",
+ "intro": "How L5 turns use cases into a class diagram: finding classes from nouns, associations and multiplicity, generalization, aggregation vs composition, and boundary/control/entity stereotypes, which past-paper Q3(a) then puts into a layered architecture.",
+ "cards": [
+  {
+   "title": "Elicitation vs analysis",
+   "body": "**Elicitation** finds out what the customer wants → actors + use cases.\n**Analysis** turns those use cases into a system model that is correct, complete, consistent and unambiguous (L5 slide 4):\n- **Conceptual model** = structural aspect: which objects/classes exist and their roles (attributes, operations) (L5 slide 6).\n- **Dynamic model** = behavioural aspect: how the use case processes are carried out and by which objects (L6).\nAnalysis models clarify the system, validate the requirements, and underpin the later solution (design) models (L5 slide 5).",
+   "keypoints": [
+    "Use case model → (analysis) → class diagram = conceptual model",
+    "Conceptual = structure; dynamic = behaviour (state machine, activity, sequence)",
+    "Analysis classes are problem-domain classes, not code yet"
+   ]
+  },
+  {
+   "title": "Objects, attributes, operations, the class box",
+   "body": "**Object**: anything with state and behaviour (Bus, Dog, LoginForm, UserVerifier) (L5 slide 7).\n**Attribute**: a variable that holds state (Bus: seats, colour).\n**Operation**: how objects communicate (Bus: stop(), start(); LoginForm: submit()).\nClass box = name / attributes (each with a type) / operations (each with a signature). **Only the name is mandatory** (L5 slide 9).",
+   "diagram": "classDiagram\nclass TarifSchedule {\nzone2price: Table\ngetZones() Enumeration\ngetPrice(Zone) Price\n}",
+   "keypoints": [
+    "Class name is the only mandatory compartment",
+    "Attributes have types; operations have signatures",
+    "In analysis, keep attributes to what the use case needs"
+   ]
+  },
+  {
+   "title": "Finding classes: the 'Look for' rule",
+   "body": "L5 slide 15 gives the four activities, in this order: **1** identify classes → **2** attributes → **3** operations → **4** associations.\nFor step 1, L5 slide 16 says **look for**:\n1. Recurring nouns / concepts in the use cases\n2. Real-world entities the system must track\n3. Application (problem) domain terms in the data dictionary\n...then review definitions and attributes with stakeholders.\nFiltering the noun list (exam technique, not a slide rule): merge synonyms (grower = seller), demote simple values to attributes (quantity, grade, plate number), and keep 'the system' in mind as a likely **control** class (L5 slides 20-21).",
+   "keypoints": [
+    "Classes come from nouns; operations come from verbs",
+    "A noun that just describes something else is an attribute",
+    "Write the candidate list first, then justify drops ('Fingerprint? → attribute of Employee')"
+   ]
+  },
+  {
+   "title": "Associations and multiplicity",
+   "body": "An association is a relationship between classes. **Multiplicity** at an end = how many objects an instance can legitimately reference: a number (`3`), a range (`1..6`), or many (`*`) (L5 slide 10).\n**Read it at the far end**: one Polygon → `*` Points; each Point → `1` Polygon (L5 slide 11).",
+   "diagram": "classDiagram\nPerson \"1\" -- \"1\" Head\nPolygon \"1\" -- \"*\" Point\nElevator \"1\" -- \"12\" Silo",
+   "keypoints": [
+    "Multiplicity goes next to the class being counted",
+    "Use exact numbers when the scenario gives them (Elevator 1 -- 12 Silo)",
+    "Check edge cases for the lower bound (0 vs 1)"
+   ]
+  },
+  {
+   "title": "Generalization (lecture's arrow rules)",
+   "body": "Inheritance hierarchies are drawn **top-down, arrows pointing up to the parent** (L5 slide 13). The line style depends on the parent:\n- **class**: solid line, **black** arrow\n- **abstract class**: solid line, **white** arrow\n- **interface**: **dashed** line, white arrow\nDon't draw trivial parents (e.g. Object).\nNote: standard UML uses a hollow triangle for all generalizations. The black-arrow rule is this slide's convention, so follow it in the exam.",
+   "diagram": "classDiagram\nclass Shape {\n<<interface>>\n+getArea() double\n}\nclass RectangularShape {\n<<abstract>>\n-width: int\n-height: int\n}\nShape <|.. RectangularShape\nRectangularShape <|-- Rectangle",
+   "keypoints": [
+    "Arrow points from child UP to parent",
+    "Interface = dashed + white; abstract = solid + white; class = solid + black (L5 slide 13)",
+    "Pull shared attributes into the parent (e.g. Shipment ← Arrival, Departure)"
+   ]
+  },
+  {
+   "title": "Aggregation vs composition vs dependency",
+   "body": "L5 slide 12 groups dependency, aggregation and composition under 'association: a usage relationship'.\n- **Aggregation** 'is part of': **white** diamond at the whole (Car ◇— Engine, 1 to 1).\n- **Composition** 'is entirely made of': stronger, **parts live and die with the whole**, **black** diamond (Book ◆— Page, 1 to *).\n- **Dependency** 'uses temporarily': **dotted** line with arrow (LotteryTicket ⋯> Random). It is often an implementation detail, not part of the object's state (L5 slide 14).",
+   "diagram": "classDiagram\nCar \"1\" o-- \"1\" Engine : aggregation\nBook \"1\" *-- \"*\" Page : composition\nLotteryTicket ..> Random : dependency",
+   "keypoints": [
+    "Diamond always at the WHOLE end",
+    "Test for composition: delete the whole, do the parts die too?",
+    "Temporary use inside a method = dependency, not association"
+   ]
+  },
+  {
+   "title": "Stereotypes: boundary, control, entity",
+   "body": "L5 slide 17:\n- **`<<entity>>`**: information tracked by the system (things it must remember).\n- **`<<boundary>>`**: interaction between actor & system (forms, screens, device interfaces).\n- **`<<control>>`**: the logic to realise a use case (coordinates boundary and entity).\nHow to assign (exam technique):\n1. Does an actor or external device talk through it? → boundary\n2. Does it decide/coordinate the steps of the use case? → control (often one per use case, or 'the system' itself)\n3. Must its data be remembered after the use case ends? → entity",
+   "keypoints": [
+    "Entity = tracked info; Boundary = actor interaction; Control = use case logic",
+    "The actor (person) is outside; the screen/device it uses is the boundary",
+    "Reading entity data doesn't make a class an entity"
+   ]
+  },
+  {
+   "title": "Worked example: EnterSecureFacility (L5 slides 18-21)",
+   "body": "Flow: 1 User presses finger on FingerprintReader. 2 Reader scans and sends image to FacilityAccessSystem. 3 System validates fingerprint and unlocks EntryGate. 4 EntryGate signals it opened. 5 System locks EntryGate, logs entry event, increments occupant count.\nCandidates (slide 20): FingerprintReader, Employee, (Fingerprint?), FacilityAccessSystem, EntryGate.\nStereotypes (slide 21):",
+   "diagram": "classDiagram\nclass FingerPrintReader {\n<<boundary>>\n}\nclass FacilityAccessSystem {\n<<control>>\n}\nclass Employee {\n<<entity>>\n}\nclass EntryGate {\n<<boundary>>\n}\nFingerPrintReader ..> FacilityAccessSystem : call\nFacilityAccessSystem ..> Employee : read\nFacilityAccessSystem ..> EntryGate : signal",
+   "after": "The slide spells the third label `<<singal>>` (typo for signal). Step 5's 'logs entry event' and 'occupant count' suggest an extra entity (e.g. EntryLog) if you want to be complete.",
+   "keypoints": [
+    "FingerPrintReader = boundary (client), FacilityAccessSystem = control (supplier)",
+    "Employee = entity (read by control); EntryGate = boundary (device signalled by control)",
+    "Usage dependencies are dashed arrows with stereotypes <<call>>, <<read>>, <<signal>>",
+    "'Fingerprint?' is doubtful: probably an attribute of Employee"
+   ]
+  },
+  {
+   "title": "Worked example: GES arrival + allocation (T3 Q1)",
+   "body": "Source: GES paras C, D, F, G, H. Candidate nouns → classes:\n- **Entity**: Silo (capacity, amount, type, grade, status), Shipment (quantity, type, grade, date/time), Allocation (silo + proposed/deposited amount: 'how much grain goes in each one'), Truck (plate no.), Driver, Seller, TransactionLog + LogEntry, ElevatorManager (the log records the manager, para F)\n- **Boundary**: ArrivalUI (manager enters load, sees proposal, accepts/overrules, enters deposits)\n- **Control**: AllocationController (finds silos, records deposits, writes the log)",
+   "diagram": "classDiagram\nclass ArrivalUI {\n<<boundary>>\n+enterArrival()\n+showProposal()\n+enterDeposits()\n}\nclass AllocationController {\n<<control>>\n+allocate()\n+recordDeposits()\n}\nclass Shipment {\n<<entity>>\nquantity\ngrainType\ngrade\ndateTime\n}\nclass Allocation {\n<<entity>>\nproposedAmt\ndepositedAmt\n}\nclass Silo {\n<<entity>>\nsiloNo\ncapacity\namountStored\ngrainType\ngrade\n}\nclass TransactionLog {\n<<entity>>\n}\nArrivalUI ..> AllocationController\nAllocationController ..> Silo\nAllocationController ..> TransactionLog\nShipment \"1\" -- \"0..*\" Allocation\nAllocation \"*\" -- \"1\" Silo\nShipment \"*\" -- \"1\" Truck\nTruck \"*\" -- \"1\" Driver\nShipment \"*\" -- \"1\" Seller\nElevator \"1\" *-- \"12\" Silo\nTransactionLog \"1\" *-- \"*\" LogEntry",
+   "after": "This is one defensible answer (no official solution). State assumptions, e.g. 'a Driver may drive different trucks' or 'Seller recorded per shipment'.",
+   "keypoints": [
+    "Quantity, grade, plate number = attributes, not classes",
+    "A split load → Allocation class between Shipment and Silo (0..* because none may be accepted)",
+    "Elevator 1 -- 12 Silo (para C). Composition or aggregation: justify either"
+   ]
+  },
+  {
+   "title": "Exam chain: classes → layered B/C/E (past Q3(a))",
+   "body": "Past-paper Q3(a) reuses your Q2(a) classes: (i) draw them in a **layered architecture**, label boundary/control/entity, show the dependencies; (ii) 3 strengths + 1 weakness of layering; (iii) one or two sentences on each stereotype's core responsibility.\nRule: 'one layer can only call the service provided by the lower layer' (L12 slide 19). So arrows go **down**: Boundary → Control → Entity.",
+   "diagram": "flowchart TD\nsubgraph B[\"Boundary layer\"]\nUI[\"ArrivalUI\"]\nend\nsubgraph C[\"Control layer\"]\nAC[\"AllocationController\"]\nend\nsubgraph E[\"Entity layer\"]\nS[\"Silo\"]\nSH[\"Shipment\"]\nTL[\"TransactionLog\"]\nend\nUI --> AC\nAC --> S\nAC --> SH\nAC --> TL",
+   "keypoints": [
+    "Boundary on top, control in the middle, entity at the bottom; arrows only downward",
+    "No Boundary → Entity shortcut and no upward arrows",
+    "Strengths (L12 Thu slide 6): levels of abstraction, easy enhancement, reuse of lower layers. Weaknesses: hard to layer some systems, hard to pick levels, lower performance"
+   ]
+  },
+  {
+   "title": "Traps the marker penalises",
+   "body": "- Making the **actor** a boundary class. The person is outside the system, and the screen or device they use is the boundary. Data about them (Employee) is an entity.\n- Dropping 'the system' noun. In L5 it becomes the **control** class (FacilityAccessSystem).\n- Calling a class an entity just because it **reads** entity data (controllers do that).\n- Turning every noun into a class: quantity, grade, date are **attributes**.\n- **Diamond on the part end**. It goes on the whole.\n- Composition when the parts survive the whole (Team/Player = aggregation).\n- Generalization arrow pointing **down** to the child.\n- Interface realisation drawn solid: it must be **dashed** + white arrow (L5 slide 13).\n- Multiplicity on the wrong end, or `1..*` when the scenario allows zero.\n- Layer diagram with Boundary → Entity or Entity → Boundary arrows.",
+   "keypoints": [
+    "Actor ≠ boundary class",
+    "Diamond at the whole",
+    "Arrows point to parent",
+    "Layers call downward only"
+   ]
+  },
+  {
+   "title": "Exam recipe: conceptual model from a use case",
+   "body": "On paper:\n1. Underline nouns in the use case description + data dictionary (L5 slide 16).\n2. Make a table: noun → class / attribute / drop, with a reason (synonym, simple value, outside scope).\n3. Stereotype each class B / C / E with a one-line reason (L5 slide 17).\n4. Add attributes (with types if easy), then key operations (from verbs).\n5. Draw associations with multiplicities at BOTH ends. Use diamonds only where 'part of' is real; use dashed dependencies for control → entity use (L5 slide 21).\n6. Generalize only where children share attributes (arrow up).\n7. Write assumptions under the diagram.\n8. If asked for layers: B on top → C → E, arrows downward.",
+   "keypoints": [
+    "Noun table with reasons = easy marks",
+    "Every association needs multiplicity at both ends",
+    "State assumptions where the case study is silent"
+   ]
+  }
+ ]
+}

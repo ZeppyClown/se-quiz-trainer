@@ -1,0 +1,131 @@
+{
+ "chapter": 5,
+ "title": "Software processes, Agile, XP and Scrum",
+ "intro": "L8 process models (waterfall, incremental, reuse) and when to use each, then L9 Agile: the manifesto, XP practices, Scrum roles, artifacts and events, velocity and cost arithmetic (T5 Q6), DEEP backlogs and INVEST stories. Covers Tutorials 4 and 5.",
+ "cards": [
+  {
+   "title": "The software process (L8)",
+   "body": "A **software process** is a structured set of activities needed to develop a software system (L8 slide 3). Every process has four basic activities:\n- **Specification**: define what the system should do\n- **Design and implementation**: organise and build the system\n- **Validation**: check it does what the customer wants\n- **Evolution**: change it as customer needs change\nA **process model** is an abstract representation of a process from one perspective.\n**Plan-driven**: all activities are planned in advance and progress is measured against the plan. **Agile**: planning is incremental, so the process can change as requirements change (slide 5). Most real processes mix the two, and \"there are no right or wrong software processes\".",
+   "keypoints": [
+    "4 activities: specification, design and implementation, validation, evolution",
+    "Waterfall runs them in sequence; incremental development interleaves them (slide 18)",
+    "Plan-driven does not have to mean waterfall: plan-driven incremental development exists (L9 slide 5)"
+   ]
+  },
+  {
+   "title": "Waterfall model",
+   "body": "Phases (L8 slide 9): requirements analysis and definition, then system and software design, then implementation and unit testing, then integration and system testing, then operation and maintenance. In principle, each phase must finish before the next one starts.\n**Main drawback:** it is hard to accommodate change once the process is underway (slide 9). The inflexible split into stages makes it hard to respond to changing requirements (slide 10).\n**Use it when:** requirements are well understood and changes will be fairly limited, OR for **large systems engineering projects developed at several sites**, where the plan-driven nature helps coordinate the work (slide 10). Note: \"few business systems have stable requirements\".",
+   "diagram": "flowchart TD\n  R[\"Requirements definition\"] --> D[\"System and software design\"]\n  D --> I[\"Implementation and unit testing\"]\n  I --> T[\"Integration and system testing\"]\n  T --> O[\"Operation and maintenance\"]",
+   "keypoints": [
+    "Main drawback = difficulty accommodating change after the process is underway",
+    "Fits: stable, well-understood requirements; large multi-site systems engineering",
+    "Plan-driven, with separate and distinct phases"
+   ]
+  },
+  {
+   "title": "Incremental development",
+   "body": "Specification, development and validation are **interleaved**. The system is built as a series of versions, and each version adds functionality. It can be plan-driven or agile (L8 slide 7).\n**Benefits (slide 12):**\n1. Lower cost of accommodating changing requirements (less analysis and documentation to redo)\n2. Easier to get customer feedback (customers comment on demos)\n3. Faster delivery and deployment of useful software (customers get value earlier)\n**Problems (slide 13):**\n1. **The process is not visible**: managers need regular deliverables, and documenting every version is not cost-effective\n2. **System structure degrades** as increments are added, unless time and money go into refactoring",
+   "keypoints": [
+    "Benefits: cheaper change, customer feedback, earlier delivery",
+    "Problems: invisible process, degrading structure (fix: refactoring)",
+    "Don't confuse 'not visible' (incremental) with 'hard to change' (waterfall)"
+   ]
+  },
+  {
+   "title": "Integration and configuration (reuse-oriented)",
+   "body": "The system is assembled from existing components or application systems (**COTS**: commercial off-the-shelf), which may be configured to fit the users' requirements (L8 slide 14). Reuse is now the standard approach for many business systems.\nTypes of reusable software (slide 15): stand-alone application systems (COTS), collections of objects for a component framework (.NET, J2EE), and web services.\n**Process steps (slide 16):** requirements specification, then software discovery and evaluation, then requirements refinement, then application system configuration or component adaptation and integration.\n**Advantages (slide 17):** lower cost and risk (less built from scratch), faster delivery and deployment.\n**Disadvantages:** requirements compromises are inevitable, so the system may not meet users' real needs; you lose control over how the reused elements evolve.",
+   "keypoints": [
+    "Pros: lower cost and risk, faster delivery",
+    "Cons: requirements compromises, loss of control over evolution",
+    "Requirements are refined AFTER discovering what can be reused"
+   ]
+  },
+  {
+   "title": "Picking a process model for a scenario",
+   "body": "The exam gives a scenario and asks which model to use and why. Match the clue to the model, then justify it with the slide's reason.\n\n**Stable, well-understood requirements; large, multi-site, contract-driven** -> Waterfall (the plan-driven approach helps coordinate the work, L8 s10)\n\n**Unclear or changing requirements; customer wants early value and feedback** -> Incremental / agile (cheaper change, feedback, early delivery, s12)\n\n**An existing package or COTS covers most needs; tight budget and time** -> Integration and configuration (lower cost and risk, faster, s17)\n\nAlways add **one downside** of your choice to show the trade-off, e.g. \"reuse: some requirements will be compromised\".",
+   "keypoints": [
+    "Answer = model + slide reason + one trade-off",
+    "Large systems usually mix elements of all the models (L8 slide 7)"
+   ]
+  },
+  {
+   "title": "Agile: manifesto, principles, applicability (L9)",
+   "body": "**Manifesto (L9 slide 8):** we value\n- **Individuals and interactions** over processes and tools\n- **Working software** over comprehensive documentation\n- **Customer collaboration** over contract negotiation\n- **Responding to change** over following a plan\n\"While there is value in the items on the right, we value the items on the left more.\"\n**5 principles (slide 9):** customer involvement, incremental delivery, people not process, embrace change, maintain simplicity.\n**Agile fits (slide 10):** small or medium products for sale; custom in-house systems with a committed customer and few external regulations.\n**Hard in large organisations (slide 11):** managers wary of the risk, bureaucratic quality procedures, mixed skill levels (agile needs skilled teams), cultural resistance. Large systems need up-front design and some documentation (slide 65).",
+   "keypoints": [
+    "Left side is valued MORE; the right side still has value",
+    "T5 Q1 'considerations for adopting Agile/Scrum': product size, customer commitment, regulation, team skill, organisation culture and procedures",
+    "Agile aim: reduce overheads (e.g. documentation) and respond quickly to change"
+   ]
+  },
+  {
+   "title": "Extreme Programming (XP) practices",
+   "body": "XP takes an 'extreme' approach to iteration: builds several times a day, increments to customers every 2 weeks, and every build must pass all tests (L9 slide 13).\n**The 10 practices (slides 15–16):**\n- **Incremental planning**: story cards, split into tasks\n- **Small releases**: minimal useful functionality first\n- **Simple design**: just enough for current requirements\n- **Test-first development**: write automated unit tests before the code\n- **Refactoring**: continuously improve the code\n- **Pair programming**\n- **Collective ownership**: anyone can change anything, so there are no islands of expertise\n- **Continuous integration**: integrate as soon as a task is done; all unit tests must pass\n- **Sustainable pace**: no large amounts of overtime\n- **On-site customer**: a full-time end-user representative in the team\nThe key practices that survive in wider agile use are user stories, refactoring, test-first development and pair programming (slide 17).",
+   "keypoints": [
+    "XP's customer is a member of the team and decides requirements (slide 18)",
+    "When to use XP (T4 Q5i): small, skilled team; changing requirements; a customer who can be on site; few heavyweight management procedures (slides 9–11, 16–17)",
+    "XP is hard to integrate with management practice in most organisations (slide 17)"
+   ]
+  },
+  {
+   "title": "Pair programming, TDD, refactoring (T4 Q5)",
+   "body": "**Pair programming (slides 27–28):** two programmers at one computer. Pairs are created **dynamically**, so everyone works with everyone.\n- Spreads knowledge, which reduces risk when people leave\n- Acts as an informal review: every line is seen by 2 people\n- Builds common ownership and encourages refactoring\n- Not necessarily inefficient: some evidence says a pair beats 2 people working separately\n**Test-first / TDD (slides 24–26):** write the test before the code.\n- Clarifies the requirements to be implemented\n- Tests are executable programs (e.g. JUnit) that check their own result\n- All old and new tests are re-run whenever functionality is added, which catches regressions\n- Users are involved in test development\n**Refactoring (slides 21–23):** XP says changes can't be reliably anticipated, so instead of designing for change it improves the code constantly, even with no immediate need.\n- Improves understandability, which reduces the need for documentation\n- Examples: reorganise a class hierarchy to remove duplication, rename attributes and methods, replace inline code with library calls\n- But **architecture refactoring is much more expensive**",
+   "keypoints": [
+    "Pairs are dynamic, not fixed",
+    "TDD benefit #1: clarifies requirements; #2: automated regression on every change",
+    "Refactoring = better structure, same behaviour (adding a feature is NOT refactoring)"
+   ]
+  },
+  {
+   "title": "Scrum: roles, artifacts, events",
+   "body": "Scrum is an agile method for **managing** iterative development (L9 slide 31). It has three phases: outline planning (objectives and architecture), a series of sprint cycles, and project closure.\n**Roles:**\n- **Product Owner** (slide 39): represents stakeholders, maximises product value, owns the Product Backlog (creation, management, prioritisation)\n- **ScrumMaster** (slides 33, 40): servant-leader; coaches Scrum, facilitates events, removes impediments, shields the team. **Not a project manager.**\n- **Development Team** (slide 41): flat structure, no sub-teams; owns the Sprint Backlog; delivers a 'Done' increment every sprint\n**Artifacts:** Product Backlog (ordered, the single source of requirements); Sprint Backlog (the chosen PBIs plus a plan, **unchanged during the sprint**; tasks are 1–16 h and members sign up for them); Product Increment (potentially shippable).\n**Events:** Sprint (2–4 weeks; the timebox is never extended; the goal is fixed); Sprint Planning (only the Dev Team decides how much fits); Daily Scrum (15 min; yesterday, today, impediments); Review (1 h × sprint weeks; output = revised Product Backlog); Retrospective (45 min × sprint weeks, after the Review).",
+   "diagram": "flowchart LR\n  PB[\"Product Backlog (PO orders it)\"] --> SP[\"Sprint Planning\"]\n  SP --> SB[\"Sprint Backlog\"]\n  SB --> S[\"Sprint 2-4 wks + Daily Scrum 15 min\"]\n  S --> INC[\"Potentially shippable increment\"]\n  INC --> RV[\"Sprint Review\"]\n  RV --> RT[\"Retrospective\"]\n  RV -.->|\"revised backlog\"| PB",
+   "keypoints": [
+    "Team size: slide 32 says no more than 7 people, but slide 41 says 5 to 9. The slides conflict, so quote 'about 5–9 (slide 41)' and mention the other figure",
+    "Unfinished items go back to the Product Backlog (slide 43)",
+    "Burndown chart = work left vs time; tracks scope creep and schedule (slide 52)",
+    "T5 Q5, why a working increment every sprint: it is potentially shippable (slide 45); customers see on-time delivery and give feedback, which builds trust (slide 63); the Review lets the team inspect and adapt the real product (slides 46, 50)"
+   ]
+  },
+  {
+   "title": "Velocity and the T5 Q6 calculation",
+   "body": "**Velocity** = the average size of Product Backlog items, in points, that the team delivers per sprint (L9 slide 53).\n- It is evaluated only as an **average**; one sprint's number is meaningless\n- Points cannot be converted to hours (tasks are in hours, PBIs in points)\n- Observed velocity = the points completed in a sprint (slide 44)\n**Estimating velocity (T5 Q2):** use the average of past sprints' completed points (historical); for a new team, start with a forecast and correct it from observed sprints. The slides only state the 'average of completed points' idea; the rest is standard practice.\n**Recipe:**\n1. Velocity = total points ÷ number of sprints\n2. Or, if velocity is given: sprints = total points ÷ velocity, **rounded up**\n3. Team size = PO + ScrumMaster + developers\n4. Cost = team size × cost per member per sprint × number of sprints",
+   "code": "T5 Q6 worked answer\nTotal size = 64 points, sprints = 8\nVelocity = 64 / 8 = 8 points per sprint\n\nScrum Team = PO + SM + 6 devs = 8 members\nCost/member/sprint = $2K\nCost = 8 x $2K x 8 sprints = $128K",
+   "after": "Uncertainty: the tutorial has no published solution. Counting PO and SM follows the wording 'each member in the Scrum Team' (the Scrum Team in slide 40 includes them). If you count only the 6 developers you get 6 x 2K x 8 = $96K. State your assumption on the paper.",
+   "keypoints": [
+    "Count the PO and the ScrumMaster in the Scrum Team",
+    "Round sprints UP: the timebox is never extended",
+    "Write the formula, then the numbers, then units ('points/sprint', '$')"
+   ]
+  },
+  {
+   "title": "Good backlog (DEEP), user stories, INVEST",
+   "body": "**A good Product Backlog is DEEP (L9 slides 54–55):**\n- **D**etailed appropriately: items to be worked on soon are small and detailed; later ones are larger and vaguer\n- **E**mergent: never complete or frozen; continuously updated\n- **E**stimated: each PBI has a size estimate (story points, ideal days, or T-shirt sizes for big items)\n- **P**rioritized: especially the near-term items for the next few sprints\nRefinement (grooming) = create and refine, estimate, and prioritise PBIs. It is ongoing, and the Dev Team spends up to 10% of its time on it (slide 56).\n**User story (slide 57):** As a <role> (who), I want to <action> (what), so that <benefit> (why). An **epic** is a large story that is split into smaller stories during refinement.\n**3Cs (slides 58–59):** Card (the statement of intent), Conversation (the details and shared context), Confirmation (acceptance criteria).\n**Good acceptance criteria (slide 61):** state an intent, not a solution; independent of implementation; relatively high level.\n**INVEST (T5 Q4):** Independent, Negotiable, Valuable, Estimable, Small, Testable. This is NOT on the extracted slides; it is the standard definition.",
+   "keypoints": [
+    "Backlog = DEEP; story = INVEST; don't mix them up",
+    "Acceptance criteria can be functional or non-functional (slide 60)"
+   ]
+  },
+  {
+   "title": "Tutorial 4 Q1–Q4 discussion (not on L8 slides)",
+   "body": "T4 Q1–Q4 (why costs are high, why maintenance takes so much effort, characteristics of software, software vs hardware) are **not covered by the L8 slides**. Use these slide-backed points where possible:\n- The cost of fixing a defect rises steeply the later it is found: requirements, then design, code, test, operation (L12 slide 8)\n- Systems are getting larger (code size, users, developers, decades of life, many versions) and more complex (environment, technology, hardware) (L12 slide 7)\n- Software must evolve to stay useful (L8 slide 20), and few business systems have stable requirements (L8 slide 10)\nThe standard textbook (Pressman) answers to Q4: software is **developed or engineered, not manufactured** (cost is in design, not production), and software **does not wear out** (it deteriorates through change, not physical wear).",
+   "keypoints": [
+    "Label textbook points as such; they are not slide rules"
+   ]
+  },
+  {
+   "title": "Traps",
+   "body": "- Saying agile **rejects** documentation or plans. The manifesto says the right side has value, but the left side is valued more\n- Saying 'process not visible' is a waterfall problem. It is an **incremental** problem\n- Calling reuse 'more expensive'. Reuse **reduces** cost and risk; its cons are requirements compromises and loss of control over evolution\n- Calling the ScrumMaster a project manager, or saying they assign tasks. Members sign up for tasks\n- Letting the PO decide how much goes into a sprint. **Only the Dev Team** can\n- Adding work to a running sprint or extending the sprint. Both are fixed; new work goes to the Product Backlog\n- Velocity from one sprint, or converting points to hours\n- Cost with developers only. Include the PO and the SM (state your assumption)\n- Rounding sprints down (6.5 sprints means 7)\n- Mixing up DEEP (backlog) and INVEST (story)\n- Saying pairs are fixed. Pairs are rotated dynamically",
+   "keypoints": [
+    "Most marks lost on Scrum questions come from role mix-ups and cost arithmetic"
+   ]
+  },
+  {
+   "title": "Exam recipe: process and Scrum short answers",
+   "body": "**'Which process model? Justify.'**\n1. Name the model\n2. Quote the matching slide condition (e.g. 'requirements well understood, large multi-site project')\n3. Give 1 benefit from the slide list\n4. Give 1 risk or trade-off\n**'Discuss XP practice X' (T4 Q5):** definition (1 line), then 2–3 benefits from the slides, then 1 caveat (e.g. architecture refactoring is expensive; pair programming isn't necessarily inefficient).\n**'Scrum calculation' (T5 Q6):**\n1. Velocity = points ÷ sprints (or sprints = points ÷ velocity, rounded up)\n2. Team = PO + SM + n devs\n3. Cost = team × $/member/sprint × sprints\n4. State assumptions; give units\n**'Characteristics of a good backlog':** list DEEP with one line each.\n**'INVEST':** spell out all 6 words.",
+   "keypoints": [
+    "Write formula, numbers, answer and units, each on its own line",
+    "Justify every choice with a slide reason, not general opinion"
+   ]
+  }
+ ]
+}

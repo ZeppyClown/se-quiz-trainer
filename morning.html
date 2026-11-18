@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SE exam morning: plan + weak spots</title>
+<style>
+body{margin:0;background:#0f1115;color:#e8eaf0;font:15.5px/1.5 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif}
+.w{max-width:720px;margin:0 auto;padding:14px 14px 60px}
+h1{font-size:21px;margin:6px 0}h2{font-size:17px;margin:24px 0 6px;color:#8fb8ff;border-bottom:1px solid #2c313c;padding-bottom:4px}
+.c{background:#181b22;border:1px solid #2c313c;border-radius:12px;padding:10px 12px;margin:8px 0}
+code{background:#2a2f3a;padding:1px 5px;border-radius:5px;font-size:.92em}
+pre{background:#11141a;border:1px solid #2c313c;border-radius:8px;padding:8px;overflow:auto;font-size:13px;margin:6px 0}
+table{width:100%;border-collapse:collapse;font-size:14px}td,th{border-bottom:1px solid #2c313c;padding:6px 4px;text-align:left;vertical-align:top}th{color:#9aa3b2;font-weight:600}
+.t{color:#f0b429;font-weight:700}.ok{color:#2fbf71}.bad{color:#ef5b5b}
+a{color:#5b9cff}ul{padding-left:20px;margin:6px 0}li{margin:3px 0}
+.mut{color:#9aa3b2;font-size:13px}
+.step{display:flex;gap:10px;padding:8px 0;border-bottom:1px solid #2c313c}.step:last-child{border:0}
+.tm{min-width:92px;font-weight:700;color:#f0b429}
+.go{display:block;text-align:center;background:#1f6feb;color:#fff;border-radius:10px;padding:10px;margin:6px 0;text-decoration:none;font-weight:600}
+</style></head><body><div class="w">
+<a href="index.html">← Back to trainer</a>
+<h1>☀️ SE exam morning: Tue 24 Nov</h1>
+<div class="mut">SE at <b>9:00</b>, then Stats at <b>1:30pm</b>. Keep the SE review to <b>45 minutes</b> and save your energy for two papers. Open-book, <b>paper only</b>: your printed notes and cheat sheet are your phone today.</div>
+
+<h2>⏱ Timeline</h2>
+<div class="c">
+<div class="step"><div class="tm">7:00–7:10</div><div>Read <b>Section 3 (your weak spots)</b> below. Just read it.</div></div>
+<div class="step"><div class="tm">7:10–7:30</div><div><b>Redo my mistakes</b> (learn mode). If one is still wrong, write the rule on a sticky note and put it on your printed cheat sheet.<a class="go" href="index.html#round=mistakes">▶ Redo mistakes</a></div></div>
+<div class="step"><div class="tm">7:30–7:45</div><div>Skim the <a href="cheatsheet.html">cheat sheet</a>: the include/extend arrows, the EC/BV table, and the CC formula + basis-path recipe. Check that your printouts are in your bag, tabbed by question type.</div></div>
+<div class="step"><div class="tm">7:45 →</div><div><b>Stop.</b> Eat, travel. No new material. On the way, read <b>Section 4 (last 10 minutes)</b>.</div></div>
+<div class="step"><div class="tm">9:00</div><div><b>SE paper.</b></div></div>
+<div class="step"><div class="tm">after SE</div><div>Lunch and a break. <b>Don't post-mortem SE.</b> Switch to Stats for 1:30pm.</div></div>
+</div>
+
+<h2>1. The paper's shape</h2>
+<div class="c"><table>
+<tr><th>Q</th><th>Topic</th><th>What they ask (past-paper style)</th></tr>
+<tr><td><b>Q1</b></td><td>Requirements</td><td>Atomic, verifiable FRs/NFRs from a scenario; use case diagram (include/extend); use case description <i>(likely; inferred, not confirmed)</i></td></tr>
+<tr><td><b>Q2</b></td><td>Analysis modelling</td><td>Class diagram with boundary/control/entity; state machine / activity diagram <i>(likely: past Q3(a) says "classes identified in your answer to Q2(a)")</i></td></tr>
+<tr><td><b>Q3</b></td><td>Architecture + patterns</td><td>Draw the <b>layered architecture</b> with B/C/E classes and dependencies; 3 strengths + 1 weakness; B/C/E responsibilities in 1–2 sentences; spot the design problems → name a pattern → class diagram + the role of each class</td></tr>
+<tr><td><b>Q4</b></td><td>Testing</td><td>(a) EC → BV (on/below/above) → test-case table. (b) CFG with line numbers → CC → basis paths → one test case per path (inputs + expected output)</td></tr>
+</table></div>
+
+<h2>2. Time allocation (written, open-book)</h2>
+<div class="c"><ul>
+<li>Read the paper's stated duration first, then split it <b>evenly across the 4 questions</b> (past-paper parts add up to roughly equal marks per question). Spend about <b>1 minute per mark</b> and move on when the time runs out.</li>
+<li><b>Start with Q4</b> if you like: it's the most mechanical (tables + formula), so it banks marks fast.</li>
+<li><b>Don't read your notes to learn things.</b> Use them only to check a convention: the arrow direction, the BV table layout, the CC formula. Have the tabs ready.</li>
+<li>Write the <b>method visibly</b>: the EC table before the test cases, both CC formulas, the basis paths listed by node numbers. Method marks survive arithmetic slips.</li>
+<li>Answer the scenario they give. <b>Use their nouns and numbers</b> and invent nothing. If something is missing, write "Assumption: …".</li>
+<li>Leave 5 minutes at the end to check the extend arrows, the one-invalid-per-test-case rule, and that every requirement is covered.</li>
+</ul></div>
+
+<h2>3. Your known weak spots</h2>
+<div class="c" style="border-color:#ef5b5b">
+<ol>
+<li><b>Extend arrow reversed.</b> Include: <b>base → included</b>. Extend: <b>extension → base</b> (Help ──▶ ReportEmergency). The arrow points at the use case that doesn't know about the other one. (L3 s13–14)</li>
+<li><b>Inventing requirement details.</b> Don't add numbers, conditions or capabilities that aren't in the scenario. Unknown? Write <b>TBD / assumption, confirm with client</b> (L4 s20: "Do not guess the user requirements").</li>
+<li><b>"Must allow" vs "must require".</b> Keep the source's obligation exactly. "May contain X" → "The system must <b>allow</b> … to contain X", <span class="bad">not</span> "… must contain X". A condition is not an obligation.</li>
+<li><b>Atomic wording.</b> One obligation per numbered requirement. Split on <b>and / or / both / followed by</b>. One quality per NFR, never response time + availability in one line. (L2 s11–12)</li>
+<li><b>Requirements coverage.</b> Every important FR in the scenario must appear as a use case or inside a use case description. Do a quick tick-off pass of the scenario's paragraphs at the end.</li>
+</ol></div>
+
+<h2>4. Last 10 minutes (read on the way)</h2>
+<div class="c" style="border-color:#f0b429">
+<ol>
+<li>Include = always, base → included. Extend = optional, extension → base.</li>
+<li>Description: actors (initiating), entry/exit conditions, numbered flow, <b>alternative flows return</b> to the flow, <b>exceptions fail</b> the use case.</li>
+<li>Boundary = actor ↔ system. Control = use case logic. Entity = tracked info. Each layer calls <b>only the layer below</b>.</li>
+<li>Layered strengths: abstraction levels, add components, reuse lower layers. Weaknesses: hard to layer everything, hard to choose the levels, <b>lower performance</b>.</li>
+<li>Interchangeable algorithms → <b>Strategy</b>. Notify many on change → <b>Observer</b>. Choose the class at runtime → <b>Factory</b>. Simplify a subsystem → <b>Façade</b>.</li>
+<li>Range: 1 valid + 2 invalid ECs. Discrete: 1 + 1. BVs only for ranges: on, below, above. <span class="t">One invalid input per test case.</span></li>
+<li>CC = E − N + 2 = decisions + 1. Baseline path, then flip one decision at a time. One test case per path.</li>
+</ol>
+<b>In the exam:</b> before each answer, ask <span class="t">"is this from the scenario, or did I make it up?"</span></div>
+<a href="index.html">← Back to trainer</a> · <a href="cheatsheet.html">📄 Cheat sheet</a>
+</div></body></html>

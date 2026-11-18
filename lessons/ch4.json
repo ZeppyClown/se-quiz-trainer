@@ -1,0 +1,135 @@
+{
+ "chapter": 4,
+ "title": "Dynamic models: state machines + activity diagrams",
+ "intro": "L6's dynamic models: state machine notation (states, entry/do/exit, event[guard]/action, start/end), dialog maps for UI navigation, and activity diagrams (fork/join, decision/merge, swimlanes), with the Tutorial 3 projector worked through.",
+ "cards": [
+  {
+   "title": "What a state is",
+   "body": "A state machine diagram (statechart, finite state automaton) models a system or object by the **states** it can be in (L6 slide 3).\nA **state** is a stable condition that lasts for a period of time (or forever) until some action drives the system into another stable state.\nExample: a 2-bit counter has 4 states, 00 → 01 → 10 → 11 → 00, moved on by a clock signal.",
+   "keypoints": [
+    "State = stable condition that lasts",
+    "Events/actions move the system between states",
+    "Name states as conditions (Off, Warming Up), never as button presses"
+   ]
+  },
+  {
+   "title": "State notation",
+   "body": "A state is a **rounded rectangle**: name at the top, optionally a description and internal actions (L6 slide 4):\n- `entry / action`: done once on entering\n- `exit / action`: done once on leaving\n- `do / activity`: ongoing while in the state\nA diagram starts at a **start node** (filled dot), goes through states and transitions, and ends at an **end node** (bullseye), **unless the system loops forever**, in which case there is no end node (L6 slide 5).",
+   "diagram": "stateDiagram-v2\n[*] --> StateName\nStateName : entry / action\nStateName : exit / action\nStateName : do / activity\nStateName --> [*]",
+   "keypoints": [
+    "entry = once in; exit = once out; do = while in",
+    "Start node = filled dot; end node = bullseye",
+    "End node is optional for systems that never stop"
+   ]
+  },
+  {
+   "title": "Transitions: event(args)[guard]/action",
+   "body": "A transition is **instantaneous**, in response to an event (L6 slide 5). Its label has three optional parts:\n- **event**: what triggers it, e.g. `insert(c:Coin)`\n- **[guard]**: a condition that must be true to take it, e.g. `[amount is enough for i]`\n- **/action**: done during the transition, e.g. `/ dispense(i)`\nFull form: `event(arguments)[guard]/action`.",
+   "keypoints": [
+    "Event = trigger; [guard] = boolean condition; /action = work done",
+    "All three are optional (guard-only and unlabelled transitions are legal)",
+    "A button press is an event, never a [guard]"
+   ]
+  },
+  {
+   "title": "Worked example: vending machine (L6 slide 7)",
+   "body": "Read it like a marker would:\n- The start arrow is labelled `Power On / Reset`, and **Power Off** leads to the end node.\n- **Idle**: entry sets amount to 0, do displays a greeting.\n- `insert(c)` → **Accumulate**. A **self-transition** on `insert(c)` re-enters it, so the entry action adds each new coin.\n- `select(i)[amount enough for i]` → **Vend** (entry subtracts the cost, do dispenses).\n- Guard-only exits: `[amount = 0]` → Idle, `[amount > 0]` → **ReturnChange** → Idle (unlabelled).",
+   "diagram": "stateDiagram-v2\n[*] --> Idle : Power On / Reset\nIdle : entry / amount = 0\nIdle : do / display(greeting)\nIdle --> Accumulate : insert(c)\nAccumulate : entry / amount = amount + c.amount\nAccumulate : do / display(amount)\nAccumulate --> Accumulate : insert(c)\nAccumulate --> Vend : select(i) [amount enough for i]\nVend : entry / amount = amount - i.cost\nVend : do / dispense(i)\nVend --> Idle : [amount = 0]\nVend --> ReturnChange : [amount > 0]\nReturnChange : do / return(amount)\nReturnChange --> Idle\nIdle --> [*] : Power Off",
+   "after": "The slide writes `amount := 0`. Here `=` is used only because of the renderer.",
+   "keypoints": [
+    "Self-transition re-runs the entry action",
+    "Mutually exclusive guards choose the exit",
+    "The slide calls this a dialog map"
+   ]
+  },
+  {
+   "title": "Dialog maps",
+   "body": "Many UIs behave like finite state machines: **one screen/window active at a time = a state**, and defined conditions for moving between screens = transitions. This is a **dialog map** (L6 slide 6).\nUsed with **prototyping** (which reduces the risk of building the wrong product, or the right product badly), it lets users try the navigation and preview each screen's functions.\nBenefits (slide 6):\n- find **missing or incorrect navigation pathways** early, when they are cheap to fix\n- spot **reuse and redundancies** in the UI\n- without worrying about screen design details too early\nExample (L6 slide 8): Students List → add new → Personal Info Form → next/back → Academic Info Form → next/back → Activity Info Form → save; cancel goes back.",
+   "keypoints": [
+    "Dialog map = state machine whose states are screens",
+    "Its job: catch missing/incorrect navigation early",
+    "Every screen needs a way out (cancel/back), so check for dead ends"
+   ]
+  },
+  {
+   "title": "Practice: stopwatch (L6 slide 9)",
+   "body": "Ready (entry / Reset time) → **Click Start** → Continuous Update (do / Display time elapsed) → **Click Stop** → Time Paused. From Time Paused: **Click Start** → Continuous Update, **Click Reset** → Ready. **Click Close Window** from any state → end node.\nThe time is reset by Ready's **entry action**, so every arrival in Ready resets it.",
+   "diagram": "stateDiagram-v2\n[*] --> Ready\nReady : entry / Reset time\nReady --> ContinuousUpdate : Click Start\nContinuousUpdate : do / Display time elapsed\nContinuousUpdate --> TimePaused : Click Stop\nTimePaused --> ContinuousUpdate : Click Start\nTimePaused --> Ready : Click Reset\nReady --> [*] : Click Close Window\nContinuousUpdate --> [*] : Click Close Window\nTimePaused --> [*] : Click Close Window",
+   "keypoints": [
+    "Events with no outgoing transition from the current state are not handled by the model",
+    "Reset only works from Time Paused here",
+    "Put a repeated action in the target state's entry instead of on every arrow"
+   ]
+  },
+  {
+   "title": "Worked: projector state machine (Tutorial 3 Q2)",
+   "body": "Scenario: turn on → warms up (beep once, red light blinks) → when ready, light turns green and input defaults to PC → Jane presses LAPTOP. OFF turns it off, but Jane leaves it on.\nModel answer:\n1. Find states (stable conditions): **Off, Warming Up, Ready (PC input), Projecting Laptop**.\n2. Events: press ON, warm-up complete, press LAPTOP, press OFF.\n3. Internal actions: Warming Up has `entry / beep` and `do / blink red light`. Ready has `entry / light green`.\n4. No end node: the projector cycles (OFF → Off → ON tomorrow), which is the infinite-loop case (L6 slide 5). 'Leaves it ON' just means staying in Projecting Laptop.",
+   "diagram": "stateDiagram-v2\nstate \"Warming Up\" as WarmingUp\nstate \"Ready (PC input)\" as ReadyPC\nstate \"Projecting Laptop\" as Laptop\n[*] --> Off\nOff --> WarmingUp : press ON\nWarmingUp : entry / beep\nWarmingUp : do / blink red light\nWarmingUp --> ReadyPC : warm-up complete\nReadyPC : entry / light green\nReadyPC --> Laptop : press LAPTOP\nReadyPC --> Off : press OFF\nLaptop --> Off : press OFF",
+   "after": "No official solution exists. 'warm-up complete' could also be written as a guard such as `[warmed up]`. Either is fine if it's explained.",
+   "keypoints": [
+    "Button presses go on transitions, not in state names",
+    "Beep = entry action (once); blinking = do activity (ongoing)",
+    "No end node is needed for a device that cycles forever",
+    "Optional, if you state the assumption: press PC from Laptop back to Ready (PC input); press OFF from Warming Up"
+   ]
+  },
+  {
+   "title": "Activity diagram notation (L6 slide 10)",
+   "body": "- **Activity**: execution of one or more basic operations, drawn as a rounded rectangle\n- **Control flow**: arrows between activities\n- **Fork**: one input, two or more outputs, so the activities run **concurrently** (bar)\n- **Join**: two or more flows come together into one (bar)\n- **Decision** (branch): flow goes ONE of several ways depending on a condition (diamond + `[guards]`)\n- **Merge**: several branches back into one (diamond)\n- Start = filled dot, end = bullseye. **Swimlanes** = columns per participant (L6 slide 15).",
+   "keypoints": [
+    "Fork/join = concurrency (bars)",
+    "Decision/merge = choice (diamonds)",
+    "Guards on decision exits: [valid PIN] / [invalid PIN], [still wet] / [else]"
+   ]
+  },
+  {
+   "title": "Worked: Do Laundry + Dry Clothes (L6 slides 11-12)",
+   "body": "**Do Laundry**: Sort Clothes → **fork** → Wash Whites ∥ Wash Darks → **join** → Dry Clothes (a sub-activity, marked with the rake icon) → end.\n**Dry Clothes**: start → **merge** → Run Dryer → **decision**: `[still wet]` loops back to the merge, `[else]` → Fold Clothes → end.",
+   "diagram": "flowchart TD\nS((start)) --> A([Sort clothes into whites and darks])\nA --> F[\"FORK bar\"]\nF --> W1([Wash whites])\nF --> W2([Wash darks])\nW1 --> J[\"JOIN bar\"]\nW2 --> J\nJ --> M{merge}\nM --> R([Run dryer])\nR --> D{decision}\nD -->|\"[still wet]\"| M\nD -->|\"[else]\"| FO([Fold clothes])\nFO --> E((end))\nstyle F fill:#222,color:#fff\nstyle J fill:#222,color:#fff",
+   "after": "Here Dry Clothes is expanded inline. On the slides it is a separate diagram.",
+   "keypoints": [
+    "Concurrency → fork + join",
+    "Loop → decision + merge (never fork/join)",
+    "A sub-activity can be expanded in its own diagram"
+   ]
+  },
+  {
+   "title": "Worked: swimlanes, ATM (L6 slide 15)",
+   "body": "Lanes: **Customer | ATM Machine | Bank**.\nCustomer: Insert card → Enter pin → Bank: Authorize → **branch** `[valid PIN]` → Enter amount → Bank: Check account balance → branch `[balance >= amount]` → **fork** → Take money from slot (Customer) ∥ Debit account (Bank) → **join** → Show balance → **merge** (with the `[invalid PIN]` and `[balance < amount]` paths) → Eject card → Take card → end.\nOther slides (13, 14) show the same ideas: Sales/Consultant/Technician lanes with decisions; a two-start-node example where a join waits for Sarah's 'Start process' and the server's success path.",
+   "diagram": "flowchart TD\nsubgraph Customer\nI([Insert card]) --> P([Enter pin])\nEA([Enter amount])\nT([Take money])\nTC([Take card])\nend\nsubgraph Bank\nAU([Authorize]) --> D1{PIN ok?}\nCB([Check balance]) --> D2{enough?}\nDB([Debit account])\nend\nsubgraph ATM\nF[\"FORK\"]\nJ[\"JOIN\"] --> SB([Show balance]) --> M{merge}\nM --> EJ([Eject card])\nend\nP --> AU\nD1 -->|\"[valid PIN]\"| EA --> CB\nD1 -->|\"[invalid PIN]\"| M\nD2 -->|\"[balance >= amount]\"| F\nD2 -->|\"[balance < amount]\"| M\nF --> T --> J\nF --> DB --> J\nEJ --> TC",
+   "after": "Simplified from the slide (the slide has an extra merge before Show balance).",
+   "keypoints": [
+    "Put each activity in the lane of whoever does it",
+    "Failure paths rejoin via a merge, not a join",
+    "Label every decision exit with a guard"
+   ]
+  },
+  {
+   "title": "State machine vs activity diagram",
+   "body": "**Activity diagram**: a flow chart of activities. It describes the **workflow** behaviour of the system (L6 slide 16).\n**State machine**: models a system/object by the **states** it can be in.\nWhich one to use:\n- 'What screens/modes does it have and what moves it between them?' → state machine / dialog map\n- 'What steps happen, in what order, by whom, with what decisions or parallel work?' → activity diagram (+ swimlanes)\nBoth are dynamic models of requirements analysis (L5 slide 4, L6). L6 slide 18 shows the whole elicitation-and-analysis process itself as an activity diagram (study spec → use cases → review → identify classes → add associations and dynamic diagrams → review → sign off SRS).",
+   "keypoints": [
+    "Boxes in a state machine = conditions; boxes in an activity diagram = work",
+    "Object lifecycle → state machine; process/workflow → activity",
+    "Both belong to the dynamic model"
+   ]
+  },
+  {
+   "title": "Traps the marker penalises",
+   "body": "- **States named after events** ('Press LAPTOP'). States are conditions; presses go on arrows.\n- **Event written as a guard** (`[press OFF]`). Guards are conditions; events are triggers.\n- Splitting one condition into several states ('Beep', 'Blink'). Use entry/do inside one state.\n- Adding an **end node to a device that cycles forever**, or forgetting one when the system really does stop (Power Off, Close Window).\n- **Fork used for a choice**. Use a decision diamond.\n- **Join after a decision**: it deadlocks, so use a merge.\n- Unlabelled decision exits: every branch needs a `[guard]`.\n- Dialog map with **dead ends** (no cancel/back).",
+   "keypoints": [
+    "States = conditions, events = arrows",
+    "[guard] = boolean",
+    "Fork/join ↔ concurrency, decision/merge ↔ choice"
+   ]
+  },
+  {
+   "title": "Exam recipe",
+   "body": "**State machine / dialog map from a narrative:**\n1. List the stable conditions (or the screens) → states.\n2. List the triggers (button presses, signals, timeouts) → events.\n3. Conditions that must also hold → `[guards]`. Things done → `/action` on the arrow, or entry/do/exit inside the state.\n4. Draw the start node to the first state. Add an end node only if the system really stops.\n5. For every state ask: 'what can happen here?' Add the missing arrows, e.g. cancel/back, OFF (state assumptions).\n**Activity diagram from a use case:**\n1. One swimlane per actor/system part.\n2. Steps → activities in the right lane.\n3. Alternatives → decision with `[guards]`, rejoined by a merge.\n4. Parallel steps → fork ... join.\n5. Start node, end node.",
+   "keypoints": [
+    "Label format: event(args)[guard]/action",
+    "Check each state for a missing transition",
+    "Check every bar and diamond: is it concurrency or choice?"
+   ]
+  }
+ ]
+}

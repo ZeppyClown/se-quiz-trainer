@@ -1,0 +1,979 @@
+[
+ {
+  "id": "ch9-01",
+  "chapter": 9,
+  "subtopic": "CFG notation",
+  "type": "single",
+  "level": 1,
+  "gotcha": false,
+  "question": "In the lecture's control flow graph (CFG), what does each **node** represent?",
+  "options": [
+   "A single source-code line",
+   "One test case",
+   "A variable and its current value",
+   "A process block or a decision point"
+  ],
+  "answer": [
+   3
+  ],
+  "explanation": "L19-20 slide 5: a node is a process block or a decision point; an edge is control flow (what happens after what). It is not one line: a process block can hold several sequential statements, e.g. node `2-3` in computeP (slide 12)."
+ },
+ {
+  "id": "ch9-02",
+  "chapter": 9,
+  "subtopic": "CFG notation",
+  "type": "multi",
+  "level": 1,
+  "gotcha": false,
+  "question": "Which are properties of a **process block** (L19-20 slide 6)? Select all.",
+  "options": [
+   "Its statements execute sequentially",
+   "It contains no if/while/for/switch/goto",
+   "It has one control flow edge in and one out",
+   "It has a true edge and a false edge out"
+  ],
+  "answer": [
+   0,
+   1,
+   2
+  ],
+  "explanation": "Slide 6: a process block is a run of sequential statements with no if/while/for/switch/goto, one edge in and one edge out. True/false out-edges belong to a binary decision point (slide 7)."
+ },
+ {
+  "id": "ch9-03",
+  "chapter": 9,
+  "subtopic": "loops in CFG",
+  "type": "single",
+  "level": 1,
+  "gotcha": false,
+  "question": "How does the lecture draw `for(a=100; a>0; a--) { s1; } s2;` as a CFG?",
+  "options": [
+   "One `for` node that contains s1",
+   "Three decision nodes, one for each part of the `for` header",
+   "Rewrite as `a=100; while(a>0){ s1; a--; }`: an init block, the `a>0` decision, the body, and an `a--` block that loops back to the decision",
+   "As the while form, but `a--` loops back to the `a=100` block"
+  ],
+  "answer": [
+   2
+  ],
+  "explanation": "L19-20 slide 10 turns the for loop into a while loop: init block, then the decision, then the body ending in `a--`, which loops back to the **decision**. It does not go back to the init, because the init runs only once. The `for` header is one binary decision point, not three."
+ },
+ {
+  "id": "ch9-04",
+  "chapter": 9,
+  "subtopic": "switch in CFG",
+  "type": "single",
+  "level": 1,
+  "gotcha": false,
+  "question": "A `switch(a)` has `case 1`, `case 2` and `default`. How is it drawn in the CFG?",
+  "options": [
+   "As three separate binary decision points",
+   "As a process block",
+   "As one binary decision point with true/false edges",
+   "As one N-ary decision point with 3 out-edges"
+  ],
+  "answer": [
+   3
+  ],
+  "explanation": "L19-20 slide 11: a switch is one N-ary decision point with one edge in and N edges out (here a==1, a==2, default). Do not draw it as a chain of binary ifs."
+ },
+ {
+  "id": "ch9-05",
+  "chapter": 9,
+  "subtopic": "cyclomatic complexity",
+  "type": "single",
+  "level": 1,
+  "gotcha": false,
+  "question": "Which two equations does the lecture give for cyclomatic complexity (CC)?",
+  "options": [
+   "CC = |edges| - |nodes| + 2  and  CC = |decision points| + 1",
+   "CC = |edges| - |nodes| + 1  and  CC = |decision points| x 2",
+   "CC = |nodes| - |edges| + 2  and  CC = |decision points| + 2",
+   "CC = 2^|decision points|  and  CC = |edges| - |nodes|"
+  ],
+  "answer": [
+   0
+  ],
+  "explanation": "L19-20 slide 26 (repeated on L21 slide 6). The second equation only holds if all decision points are binary. 2^|decisions| counts the full execution paths (slide 21), not CC."
+ },
+ {
+  "id": "ch9-06",
+  "chapter": 9,
+  "subtopic": "cyclomatic complexity",
+  "type": "single",
+  "level": 1,
+  "gotcha": false,
+  "question": "When do the lecture's two CC equations give the **same** value?",
+  "options": [
+   "Always",
+   "Only when the program has no loops",
+   "When every decision point is binary (one true and one false branch)",
+   "Only when the CFG has no process blocks"
+  ],
+  "answer": [
+   2
+  ],
+  "explanation": "L19-20 slide 26: the two equations agree when all decision points are binary. Loops are fine, because a while/for is a binary decision. A switch is N-ary, so for it only |E| - |N| + 2 is right."
+ },
+ {
+  "id": "ch9-07",
+  "chapter": 9,
+  "subtopic": "coverage levels",
+  "type": "single",
+  "level": 1,
+  "gotcha": false,
+  "question": "Which list gives the lecture's coverage levels 1, 2, 3 and 4 in order?",
+  "options": [
+   "statement, branch, path, basis path",
+   "statement, branch, basis path, path",
+   "branch, statement, basis path, path",
+   "basis path, statement, branch, path"
+  ],
+  "answer": [
+   1
+  ],
+  "explanation": "Level 1 = 100% statement (slide 16), Level 2 = 100% branch (slide 18), Level 3 = basis path (slide 22), Level 4 = 100% path coverage (slide 21). Path coverage is the top level and is often infeasible."
+ },
+ {
+  "id": "ch9-08",
+  "chapter": 9,
+  "subtopic": "coverage levels",
+  "type": "single",
+  "level": 1,
+  "gotcha": false,
+  "question": "What does **100% statement coverage** require (L19-20 slide 16)?",
+  "options": [
+   "Every CFG node is executed at least once",
+   "Every decision point is both TRUE and FALSE at least once",
+   "Every execution path is executed",
+   "One test per basis path"
+  ],
+  "answer": [
+   0
+  ],
+  "explanation": "Slide 16: choose paths so that every CFG node (every statement) is executed at least once. Making each decision both TRUE and FALSE is branch coverage (Level 2)."
+ },
+ {
+  "id": "ch9-09",
+  "chapter": 9,
+  "subtopic": "coverage levels",
+  "type": "single",
+  "level": 1,
+  "gotcha": false,
+  "question": "What does **100% branch coverage** require (L19-20 slide 18)?",
+  "options": [
+   "Every statement is executed at least once",
+   "Every loop is executed zero, once and many times",
+   "Every path is executed at least once",
+   "Every binary decision point evaluates to TRUE and to FALSE at least once"
+  ],
+  "answer": [
+   3
+  ],
+  "explanation": "Slide 18: every branch out of every decision point is taken at least once. Statement coverage can miss a false branch that has no statements on it, e.g. the false edge of an `if` with no else (slide 17, 'Have we missed anything?')."
+ },
+ {
+  "id": "ch9-10",
+  "chapter": 9,
+  "subtopic": "basis paths",
+  "type": "single",
+  "level": 1,
+  "gotcha": false,
+  "question": "Per L19-20 slide 22, what makes a path a **basis (linearly independent) path**?",
+  "options": [
+   "It traverses at least one new edge that the paths defined before it did not traverse",
+   "It is the shortest path through the CFG",
+   "It goes round every loop exactly twice",
+   "It covers every node in the CFG"
+  ],
+  "answer": [
+   0
+  ],
+  "explanation": "Slide 22: each basis path must traverse at least one new control flow edge that no earlier path in the set has traversed. A set of such paths is a basis set, and it holds CC paths."
+ },
+ {
+  "id": "ch9-11",
+  "chapter": 9,
+  "subtopic": "basis paths",
+  "type": "single",
+  "level": 1,
+  "gotcha": false,
+  "question": "What coverage does basis path testing **guarantee**?",
+  "options": [
+   "100% path coverage",
+   "Only 100% statement coverage",
+   "100% statement and 100% branch coverage",
+   "It will detect paths that are missing from the code"
+  ],
+  "answer": [
+   2
+  ],
+  "explanation": "L19-20 slide 24 and L21 slide 10: the basis set covers every node and every edge, so you get 100% statement and branch coverage. It is not full path coverage. No white-box method can find paths that were never implemented (slide 4)."
+ },
+ {
+  "id": "ch9-12",
+  "chapter": 9,
+  "subtopic": "basis paths",
+  "type": "single",
+  "level": 1,
+  "gotcha": false,
+  "question": "Is the basis set for a CFG unique?",
+  "options": [
+   "Yes, each program has exactly one basis set",
+   "No, and its size depends on which baseline you pick",
+   "Yes, as long as there are no loops",
+   "No, but every basis set has the same number of paths (= CC)"
+  ],
+  "answer": [
+   3
+  ],
+  "explanation": "L19-20 slide 32 shows two different basis sets for computeP, built from different baselines. Both have 3 paths. The paths can differ, but the count is always CC."
+ },
+ {
+  "id": "ch9-13",
+  "chapter": 9,
+  "subtopic": "loops",
+  "type": "single",
+  "level": 1,
+  "gotcha": false,
+  "question": "When selecting basis paths through a loop, what does the lecture say?",
+  "options": [
+   "Unroll the loop up to its maximum number of iterations",
+   "Take the loop once and twice; the baseline enters the loop",
+   "Ignore loops; only if-statements are decision points",
+   "Take the loop zero times and once; for the baseline take the false branch (do not enter the loop)"
+  ],
+  "answer": [
+   3
+  ],
+  "explanation": "L19-20 slide 35 / L21 slide 11: consider the loop only zero times and once, and the baseline takes the loop's false branch first. The test inputs may still make the real execution go round several times."
+ },
+ {
+  "id": "ch9-14",
+  "chapter": 9,
+  "subtopic": "basis paths",
+  "type": "single",
+  "level": 1,
+  "gotcha": false,
+  "question": "After choosing the baseline path, how does the lecture build the next basis paths?",
+  "options": [
+   "Flip every decision at once to get the opposite path",
+   "Pick the longest path, then the next longest",
+   "Pick any untested path at random",
+   "Change the outcome of the first decision point while keeping as many other decisions the same as possible, then the second decision point, and so on"
+  ],
+  "answer": [
+   3
+  ],
+  "explanation": "L19-20 slides 28-30 / L21 slide 8: start from the baseline (a typical, important path), then flip one decision at a time and keep the others the same where possible. Each new path then picks up at least one new edge."
+ },
+ {
+  "id": "ch9-15",
+  "chapter": 9,
+  "subtopic": "white-box pros/cons",
+  "type": "multi",
+  "level": 1,
+  "gotcha": false,
+  "question": "Which are cons of white-box testing listed on L19-20 slide 4? Select all.",
+  "options": [
+   "Testing all execution paths is generally infeasible",
+   "It may not detect data or arithmetic bugs (e.g. `a = a - 1` that should be `a + 1`, or dividing by zero)",
+   "It never finds paths that are missing from the implementation",
+   "It has no notion of test coverage"
+  ],
+  "answer": [
+   0,
+   1,
+   2
+  ],
+  "explanation": "Slide 4 lists all three. 'No notion of testing coverage' is a con of **black-box** testing (slide 2), because coverage is exactly what white-box testing provides."
+ },
+ {
+  "id": "ch9-16",
+  "chapter": 9,
+  "subtopic": "cyclomatic complexity",
+  "type": "single",
+  "level": 2,
+  "gotcha": false,
+  "question": "What is the cyclomatic complexity V(G) of `fee()`?",
+  "code": "1  int fee(int age, boolean member) {\n2    int f = 10;\n3    if (age < 12) {\n4      f = 5;\n5    }\n6    if (member) {\n7      f = f - 2;\n8    }\n9    return f;\n10 }",
+  "options": [
+   "2",
+   "3",
+   "4",
+   "5"
+  ],
+  "answer": [
+   1
+  ],
+  "explanation": "Nodes: 2, 3, 4, 6, 7, 9 = 6. Edges: 2-3, 3-4, 3-6, 4-6, 6-7, 6-9, 7-9 = 7. So 7 - 6 + 2 = 3. Check with the other formula: 2 decisions + 1 = 3 (L19-20 slide 26). 4 is the number of full paths (2^2), not CC."
+ },
+ {
+  "id": "ch9-17",
+  "chapter": 9,
+  "subtopic": "coverage levels",
+  "type": "single",
+  "level": 2,
+  "gotcha": false,
+  "question": "For `fee()`, how many test cases do you need for 100% **path** coverage (Level 4), and for **basis path** coverage (Level 3)?",
+  "code": "1  int fee(int age, boolean member) {\n2    int f = 10;\n3    if (age < 12) {\n4      f = 5;\n5    }\n6    if (member) {\n7      f = f - 2;\n8    }\n9    return f;\n10 }",
+  "options": [
+   "3 and 3",
+   "2 and 3",
+   "4 and 3",
+   "4 and 4"
+  ],
+  "answer": [
+   2
+  ],
+  "explanation": "There are two independent ifs, so 2^2 = 4 full paths (slide 21). Basis path testing needs CC = 3 paths. This is the same as computeP on slides 14-15 and 27."
+ },
+ {
+  "id": "ch9-18",
+  "chapter": 9,
+  "subtopic": "coverage levels",
+  "type": "single",
+  "level": 2,
+  "gotcha": false,
+  "question": "What is the **minimum** number of tests for 100% branch coverage of `fee()`?",
+  "code": "1  int fee(int age, boolean member) {\n2    int f = 10;\n3    if (age < 12) {\n4      f = 5;\n5    }\n6    if (member) {\n7      f = f - 2;\n8    }\n9    return f;\n10 }",
+  "options": [
+   "1",
+   "2",
+   "3",
+   "4"
+  ],
+  "answer": [
+   1
+  ],
+  "explanation": "Two tests are enough: (age 8, member true) takes both TRUE branches and (age 30, member false) takes both FALSE branches. This mirrors slide 19 (a=1,b=3 and a=0,b=2). 3 is the basis path count, which is a different criterion."
+ },
+ {
+  "id": "ch9-19",
+  "chapter": 9,
+  "subtopic": "coverage levels",
+  "type": "single",
+  "level": 2,
+  "gotcha": false,
+  "question": "One test, `age = 8, member = true`, is run on `fee()`. What coverage does it achieve?",
+  "code": "1  int fee(int age, boolean member) {\n2    int f = 10;\n3    if (age < 12) {\n4      f = 5;\n5    }\n6    if (member) {\n7      f = f - 2;\n8    }\n9    return f;\n10 }",
+  "options": [
+   "100% statement and 100% branch",
+   "100% statement but not 100% branch",
+   "100% branch but not 100% statement",
+   "Basis path coverage"
+  ],
+  "answer": [
+   1
+  ],
+  "explanation": "It executes every node (2, 3, 4, 6, 7, 9), so statement coverage is 100%. It never takes the FALSE edges 3->6 or 6->9, so branch coverage is not. This is the 'Have we missed anything?' point on slide 17."
+ },
+ {
+  "id": "ch9-20",
+  "chapter": 9,
+  "subtopic": "basis paths",
+  "type": "multi",
+  "level": 2,
+  "gotcha": false,
+  "question": "Paths of `fee()` are written as line-numbered nodes. Which are **valid basis sets**? Select all.",
+  "code": "1  int fee(int age, boolean member) {\n2    int f = 10;\n3    if (age < 12) {\n4      f = 5;\n5    }\n6    if (member) {\n7      f = f - 2;\n8    }\n9    return f;\n10 }",
+  "options": [
+   "{2,3,4,6,7,9 ; 2,3,6,7,9 ; 2,3,4,6,9}",
+   "{2,3,4,6,7,9 ; 2,3,6,9}",
+   "{2,3,6,9 ; 2,3,4,6,9 ; 2,3,6,7,9}",
+   "{2,3,4,6,7,9 ; 2,3,6,7,9 ; 2,3,4,6,9 ; 2,3,6,9}"
+  ],
+  "answer": [
+   0,
+   2
+  ],
+  "explanation": "A and C are each a baseline plus one flip per decision, with CC = 3 paths. They show the basis set is not unique (slide 32). B covers every edge but has only 2 paths, and a basis set needs CC = 3. In D the 4th path adds no new edge, so it is all paths (Level 4), not a basis set."
+ },
+ {
+  "id": "ch9-21",
+  "chapter": 9,
+  "subtopic": "CFG notation",
+  "type": "single",
+  "level": 2,
+  "gotcha": false,
+  "question": "Using the lecture's rules, how many **nodes** does the CFG of `grade()` have?",
+  "code": "1  String grade(int m) {\n2    String g;\n3    if (m >= 80) {\n4      g = \"A\";\n5    } else if (m >= 50) {\n6      g = \"P\";\n7    } else {\n8      g = \"F\";\n9    }\n10   return g;\n11 }",
+  "options": [
+   "5",
+   "6",
+   "7",
+   "8"
+  ],
+  "answer": [
+   1
+  ],
+  "explanation": "The nodes are 3, 4, 5, 6, 8 and 10. Line 2 (`String g;`) only declares a variable, and declarations are not drawn, just as `int q, x, p;` is not a node in computeP (slide 12). Lines with only `}` or `} else {` are not nodes either. If you got 7, you counted line 2."
+ },
+ {
+  "id": "ch9-22",
+  "chapter": 9,
+  "subtopic": "cyclomatic complexity",
+  "type": "single",
+  "level": 2,
+  "gotcha": false,
+  "question": "For `grade()`, what are V(G) and the minimum number of tests for 100% branch coverage?",
+  "code": "1  String grade(int m) {\n2    String g;\n3    if (m >= 80) {\n4      g = \"A\";\n5    } else if (m >= 50) {\n6      g = \"P\";\n7    } else {\n8      g = \"F\";\n9    }\n10   return g;\n11 }",
+  "options": [
+   "V(G) = 3; 3 tests",
+   "V(G) = 2; 2 tests",
+   "V(G) = 3; 2 tests",
+   "V(G) = 4; 3 tests"
+  ],
+  "answer": [
+   0
+  ],
+  "explanation": "E = 7 (3-4, 3-5, 4-10, 5-6, 5-8, 6-10, 8-10), N = 6, so 7 - 6 + 2 = 3. With 2 decisions, 2 + 1 = 3 as well. Branch coverage needs m = 90, 60 and 20: the else-if is reached only when line 3 is FALSE, so 2 tests cannot cover 3T, 5T and 5F."
+ },
+ {
+  "id": "ch9-23",
+  "chapter": 9,
+  "subtopic": "cyclomatic complexity",
+  "type": "single",
+  "level": 2,
+  "gotcha": false,
+  "question": "What is V(G) of `countPos()`?",
+  "code": "1  int countPos(int[] a) {\n2    int c = 0;\n3    int i = 0;\n4    while (i < a.length) {\n5      if (a[i] > 0) {\n6        c++;\n7      }\n8      i++;\n9    }\n10   return c;\n11 }",
+  "options": [
+   "2",
+   "3",
+   "4",
+   "Cannot be computed because of the loop"
+  ],
+  "answer": [
+   1
+  ],
+  "explanation": "Nodes: 2-3 (merged), 4, 5, 6, 8, 10 = 6. Edges: 2-3->4, 4->5, 4->10, 5->6, 5->8, 6->8, 8->4 = 7. So 7 - 6 + 2 = 3. Two binary decisions (the while and the if) give 2 + 1 = 3. The loop is just a binary decision with a back edge (slide 9)."
+ },
+ {
+  "id": "ch9-24",
+  "chapter": 9,
+  "subtopic": "loops",
+  "type": "single",
+  "level": 2,
+  "gotcha": false,
+  "question": "Which path is the lecture's **baseline** basis path for `countPos()`?",
+  "code": "1  int countPos(int[] a) {\n2    int c = 0;\n3    int i = 0;\n4    while (i < a.length) {\n5      if (a[i] > 0) {\n6        c++;\n7      }\n8      i++;\n9    }\n10   return c;\n11 }",
+  "options": [
+   "2-3, 4, 10",
+   "2-3, 4, 5, 6, 8, 4, 10",
+   "2-3, 4, 5, 8, 4, 10",
+   "2-3, 4, 5, 6, 8, 4, 5, 8, 4, 10"
+  ],
+  "answer": [
+   0
+  ],
+  "explanation": "For loops the baseline takes the false branch first, so it does not enter the loop (slide 35; doSomething baseline 1, 2, 10 on slide 37). The last option goes round twice, which basis path selection never needs."
+ },
+ {
+  "id": "ch9-25",
+  "chapter": 9,
+  "subtopic": "test case design",
+  "type": "single",
+  "level": 2,
+  "gotcha": false,
+  "question": "Which input executes **exactly** the basis path `2-3, 4, 5, 8, 4, 10` of `countPos()`?",
+  "code": "1  int countPos(int[] a) {\n2    int c = 0;\n3    int i = 0;\n4    while (i < a.length) {\n5      if (a[i] > 0) {\n6        c++;\n7      }\n8      i++;\n9    }\n10   return c;\n11 }",
+  "options": [
+   "a = {}",
+   "a = {3}",
+   "a = {-2}",
+   "a = {5, 7}"
+  ],
+  "answer": [
+   2
+  ],
+  "explanation": "The path enters the loop once and takes the FALSE branch at line 5 (a[0] > 0 is false), so a = {-2}. {} never enters the loop. {3} and {5, 7} only ever take the TRUE branch."
+ },
+ {
+  "id": "ch9-26",
+  "chapter": 9,
+  "subtopic": "coverage levels",
+  "type": "single",
+  "level": 3,
+  "gotcha": true,
+  "question": "What is the **minimum** number of tests for 100% branch coverage of `countPos()`?",
+  "code": "1  int countPos(int[] a) {\n2    int c = 0;\n3    int i = 0;\n4    while (i < a.length) {\n5      if (a[i] > 0) {\n6        c++;\n7      }\n8      i++;\n9    }\n10   return c;\n11 }",
+  "options": [
+   "1",
+   "2",
+   "3",
+   "4"
+  ],
+  "answer": [
+   0
+  ],
+  "explanation": "One test is enough, e.g. a = {5, -1}. The loop is TRUE twice and then FALSE, and line 5 is TRUE once and FALSE once, so every branch is taken. Answering 3 confuses branch coverage with the number of basis paths (CC). A loop lets one test take both outcomes of a decision."
+ },
+ {
+  "id": "ch9-27",
+  "chapter": 9,
+  "subtopic": "cyclomatic complexity",
+  "type": "single",
+  "level": 3,
+  "gotcha": true,
+  "question": "What is V(G) of `rate()`?",
+  "code": "1  double rate(int zone) {\n2    double r;\n3    switch (zone) {\n4      case 1: r = 1.0; break;\n5      case 2: r = 1.5; break;\n6      case 3: r = 2.0; break;\n7      default: r = 3.0;\n8    }\n9    return r;\n10 }",
+  "options": [
+   "2",
+   "3",
+   "4",
+   "5"
+  ],
+  "answer": [
+   2
+  ],
+  "explanation": "Nodes: 3 (switch), 4, 5, 6, 7, 9 = 6. Edges: 4 out of the switch + 4 into 9 = 8. So 8 - 6 + 2 = 4. Using |decisions| + 1 = 2 is the trap: that formula only holds when every decision point is binary (slide 26), and a switch is N-ary (slide 11)."
+ },
+ {
+  "id": "ch9-28",
+  "chapter": 9,
+  "subtopic": "loops in CFG",
+  "type": "single",
+  "level": 2,
+  "gotcha": false,
+  "question": "In the lecture's CFG for `maxOf()`, where does `i++` go?",
+  "code": "1  int maxOf(int[] a) {\n2    int m = a[0];\n3    for (int i = 1; i < a.length; i++) {\n4      if (a[i] > m) {\n5        m = a[i];\n6      }\n7    }\n8    return m;\n9  }",
+  "options": [
+   "It is a process block at the end of the loop body, entered from 4 (FALSE) and from 5, with an edge back to the `i < a.length` decision",
+   "It merges into the init block with `int m = a[0]; i = 1`",
+   "It becomes its own decision node",
+   "It is left out because it belongs to the for header"
+  ],
+  "answer": [
+   0
+  ],
+  "explanation": "Slide 10 turns the for loop into init, then while, with the update as the last body statement. The update runs after either outcome of the inner if, so it is its own block, and its back edge goes to the decision, not to the init."
+ },
+ {
+  "id": "ch9-29",
+  "chapter": 9,
+  "subtopic": "cyclomatic complexity",
+  "type": "single",
+  "level": 2,
+  "gotcha": false,
+  "question": "For `maxOf()`, what is V(G), and how many test cases does basis path testing need?",
+  "code": "1  int maxOf(int[] a) {\n2    int m = a[0];\n3    for (int i = 1; i < a.length; i++) {\n4      if (a[i] > m) {\n5        m = a[i];\n6      }\n7    }\n8    return m;\n9  }",
+  "options": [
+   "2 and 2",
+   "4 and 4",
+   "3 and 4",
+   "3 and 3"
+  ],
+  "answer": [
+   3
+  ],
+  "explanation": "Nodes: init block (2 + `i=1`), `i < a.length`, 4, 5, `i++`, 8 = 6. Edges: 7. So 7 - 6 + 2 = 3, and 2 decisions + 1 = 3. That means 3 basis paths and one test per path. If you got 2, you forgot that the for header is a decision point."
+ },
+ {
+  "id": "ch9-30",
+  "chapter": 9,
+  "subtopic": "cyclomatic complexity",
+  "type": "single",
+  "level": 2,
+  "gotcha": false,
+  "question": "A CFG has 15 edges and 12 nodes, and all its decision points are binary. How many decision points does it have, and how many basis paths?",
+  "options": [
+   "5 decision points, 5 basis paths",
+   "4 decision points, 5 basis paths",
+   "5 decision points, 6 basis paths",
+   "3 decision points, 5 basis paths"
+  ],
+  "answer": [
+   1
+  ],
+  "explanation": "CC = 15 - 12 + 2 = 5, and that is the number of basis paths. Since CC = |decisions| + 1 when all decisions are binary, there are 5 - 1 = 4 decision points (slide 26)."
+ },
+ {
+  "id": "ch9-31",
+  "chapter": 9,
+  "subtopic": "cyclomatic complexity",
+  "type": "single",
+  "level": 2,
+  "gotcha": false,
+  "question": "What is V(G) of this CFG? (Nodes are labelled by line number.)",
+  "diagram": "flowchart TD\n  n1[\"1\"] --> n2{\"2\"}\n  n2 -->|T| n3[\"3\"]\n  n2 -->|F| n4[\"4\"]\n  n3 --> n5{\"5\"}\n  n4 --> n5\n  n5 -->|T| n6{\"6\"}\n  n6 -->|T| n7[\"7\"]\n  n6 -->|F| n8[\"8\"]\n  n7 --> n8\n  n8 --> n5\n  n5 -->|F| n10[\"10\"]",
+  "options": [
+   "2",
+   "3",
+   "4",
+   "5"
+  ],
+  "answer": [
+   2
+  ],
+  "explanation": "N = 9 (1, 2, 3, 4, 5, 6, 7, 8, 10). E = 11: 1-2, 2-3, 2-4, 3-5, 4-5, 5-6, 6-7, 6-8, 7-8, 8-5, 5-10. So 11 - 9 + 2 = 4. Check: decisions 2, 5 and 6 give 3 + 1 = 4. Don't forget the 8->5 back edge, and don't stop at E - N = 2."
+ },
+ {
+  "id": "ch9-32",
+  "chapter": 9,
+  "subtopic": "path coverage",
+  "type": "single",
+  "level": 2,
+  "gotcha": false,
+  "question": "A method has three sequential `if` statements (no else, no loops). How many full execution paths are there, and how many basis paths?",
+  "options": [
+   "8 full paths, 4 basis paths",
+   "6 full paths, 4 basis paths",
+   "8 full paths, 3 basis paths",
+   "4 full paths, 4 basis paths"
+  ],
+  "answer": [
+   0
+  ],
+  "explanation": "Every binary decision doubles the number of paths, so 2^3 = 8 (slide 21). CC = 3 + 1 = 4 basis paths. That gap is why basis path testing is used instead of full path coverage (slide 22)."
+ },
+ {
+  "id": "ch9-33",
+  "chapter": 9,
+  "subtopic": "infeasible paths",
+  "type": "single",
+  "level": 2,
+  "gotcha": false,
+  "question": "Which path through `report()` is **infeasible**?",
+  "code": "1  void report(int a) {\n2    int x = 0;\n3    if (a > 5) {\n4      x = 1;\n5    }\n6    if (x == 1) {\n7      print(\"high\");\n8    }\n9    return;\n10 }",
+  "options": [
+   "2, 3, 4, 6, 7, 9",
+   "2, 3, 6, 9",
+   "2, 3, 4, 6, 9",
+   "None of them; every path can be executed"
+  ],
+  "answer": [
+   2
+  ],
+  "explanation": "If line 4 runs, x is 1, so `x == 1` at line 6 must be TRUE and the edge 6->9 cannot follow it. This is the same situation as the 'Not all basis paths are feasible' example (L19-20 slide 33). The path 2, 3, 6, 7, 9 is also infeasible, but it is not one of the options."
+ },
+ {
+  "id": "ch9-34",
+  "chapter": 9,
+  "subtopic": "infeasible paths",
+  "type": "single",
+  "level": 3,
+  "gotcha": true,
+  "question": "For `report()` the lecture method gives the baseline 2,3,4,6,7,9, then 2,3,6,7,9 and 2,3,4,6,9, and both flipped paths are infeasible. What does the lecture do?",
+  "code": "1  void report(int a) {\n2    int x = 0;\n3    if (a > 5) {\n4      x = 1;\n5    }\n6    if (x == 1) {\n7      print(\"high\");\n8    }\n9    return;\n10 }",
+  "options": [
+   "Drop the infeasible paths and report only one basis path",
+   "Change the code so that every path is feasible",
+   "Add loop iterations until the paths become feasible",
+   "Keep them in the set and mark each as 'infeasible basis path' instead of giving a test case; if possible, choose another set that flips two decisions at once (e.g. 2,3,6,9) so fewer paths are infeasible"
+  ],
+  "answer": [
+   3
+  ],
+  "explanation": "Slide 33 lists the infeasible paths with 'Infeasible basis path' where the test case would be. Slide 34 then reduces them by changing both decision points at once (here 2,3,6,9 with a = 0). A path that is infeasible stays infeasible whatever the inputs (L21 slide 10)."
+ },
+ {
+  "id": "ch9-35",
+  "chapter": 9,
+  "subtopic": "CFG notation",
+  "type": "single",
+  "level": 3,
+  "gotcha": true,
+  "question": "In computeP (L19-20 slide 12), line 1 is `int q, x, p;` and lines 2-3 are `q = 1; x = 2;`. Why is the first node labelled `2-3`?",
+  "options": [
+   "Line 1 is a decision point, so it is drawn separately",
+   "By convention every CFG starts its numbering at 2",
+   "Line 1 only declares variables, so it is not drawn; lines 2 and 3 run in sequence and merge into one process block",
+   "Lines 1, 2 and 3 each need their own node"
+  ],
+  "answer": [
+   2
+  ],
+  "explanation": "On slide 12 the declaration is not drawn, and consecutive statements form one process block labelled by its line range. If you count line 1 as a node, or split 2 and 3 into two nodes, |N| and |E| both change, so recheck CC with the decisions + 1 formula."
+ },
+ {
+  "id": "ch9-36",
+  "chapter": 9,
+  "subtopic": "compound conditions",
+  "type": "single",
+  "level": 3,
+  "gotcha": true,
+  "question": "Tutorial 9's `sum()` has three decisions: `if(n < 0)` (line 4), `while(i<n && result<=upperbound)` (line 7) and `if(result<=upperbound)` (line 11). Following the slides, what is V(G)?",
+  "options": [
+   "3",
+   "4",
+   "5",
+   "6"
+  ],
+  "answer": [
+   1
+  ],
+  "explanation": "The slides count each if/while statement as one binary decision point (slides 25-26) and never split `&&`. So 3 + 1 = 4, which matches 11 edges - 9 nodes + 2. Some textbooks give each condition of a compound expression its own node, which would make this 5. The L19-21 slides don't do that, so check with your tutor if unsure."
+ },
+ {
+  "id": "ch9-37",
+  "chapter": 9,
+  "subtopic": "loops",
+  "type": "single",
+  "level": 3,
+  "gotcha": true,
+  "question": "Which of these is **not** a proper basis path for `countPos()` under the lecture's loop rule?",
+  "code": "1  int countPos(int[] a) {\n2    int c = 0;\n3    int i = 0;\n4    while (i < a.length) {\n5      if (a[i] > 0) {\n6        c++;\n7      }\n8      i++;\n9    }\n10   return c;\n11 }",
+  "options": [
+   "2-3, 4, 10",
+   "2-3, 4, 5, 6, 8, 4, 10",
+   "2-3, 4, 5, 8, 4, 10",
+   "2-3, 4, 5, 6, 8, 4, 5, 8, 4, 10"
+  ],
+  "answer": [
+   3
+  ],
+  "explanation": "The last path goes round the loop twice. Basis paths take a loop only zero times or once (slide 35), and the second iteration adds no new edge that the other paths don't already cover. Only test inputs may iterate more."
+ },
+ {
+  "id": "ch9-38",
+  "chapter": 9,
+  "subtopic": "loops",
+  "type": "single",
+  "level": 3,
+  "gotcha": true,
+  "question": "For doSomething (slide 37), basis path III is `1, 2, 3, 6, 8, 2, 10` (print Y), but its test case is `n = 4`. Why?",
+  "options": [
+   "In a single iteration path III cannot run, because a = 0 < 3 prints X first. So the input runs the loop 4 times, and the real path reaches line 6 on the 4th iteration (slide 35)",
+   "It is a typo on the slide",
+   "n = 4 is the value of CC",
+   "Path coverage needs n = 4"
+  ],
+  "answer": [
+   0
+  ],
+  "explanation": "Slide 35 says the real execution path may go round the loop several times when you choose inputs. Slide 37 shows the real path for n = 4. The basis path is still written with one iteration, and the input is chosen to exercise its new edge (3->6)."
+ },
+ {
+  "id": "ch9-39",
+  "chapter": 9,
+  "subtopic": "basis paths",
+  "type": "single",
+  "level": 3,
+  "gotcha": true,
+  "question": "A tester runs one test for each of computeP's 3 basis paths. Which statement is TRUE?",
+  "options": [
+   "100% path coverage has been achieved",
+   "A 4th test is needed for branch coverage",
+   "Only statement coverage is guaranteed",
+   "100% statement and branch coverage have been achieved, but not all 4 execution paths"
+  ],
+  "answer": [
+   3
+  ],
+  "explanation": "Basis path testing guarantees 100% statement and branch coverage (slide 24). computeP has 2^2 = 4 full paths but CC = 3, so one path, e.g. a <= 0 with b == 3 (II in the second basis set on slide 32), is not run. Full path coverage is Level 4."
+ },
+ {
+  "id": "ch9-40",
+  "chapter": 9,
+  "subtopic": "cyclomatic complexity",
+  "type": "single",
+  "level": 3,
+  "gotcha": true,
+  "question": "On your exam CFG, |E| - |N| + 2 gives 4 but |decisions| + 1 gives 3, and every decision is binary. What should you conclude?",
+  "options": [
+   "That's fine; write the larger value",
+   "Each loop adds 1 to CC, so both answers are right",
+   "You have miscounted: a missing loop-back edge or a missing FALSE edge are the usual causes. Redraw until both give the same value",
+   "Write the smaller value"
+  ],
+  "answer": [
+   2
+  ],
+  "explanation": "Slide 26: when all decisions are binary, the two equations must agree. Disagreement means the graph is wrong. Recount the out-edges of each decision (binary decisions have exactly 2) and check that every loop has its back edge. Show both calculations for the 2 marks."
+ },
+ {
+  "id": "ch9-41",
+  "chapter": 9,
+  "subtopic": "maintenance",
+  "type": "single",
+  "level": 1,
+  "gotcha": false,
+  "question": "L21 (quoting IEEE 610) defines software maintenance as modifying a software system...",
+  "options": [
+   "after delivery, to correct faults, improve performance or other attributes, or adapt to a changed environment",
+   "before delivery, to remove defects found during testing",
+   "only to add new features requested by users",
+   "during design, to reduce coupling"
+  ],
+  "answer": [
+   0
+  ],
+  "explanation": "L21 slide 16 (IEEE 610, 1990). The key words are **after delivery**. Fixing defects found in testing before delivery is part of development, not maintenance."
+ },
+ {
+  "id": "ch9-42",
+  "chapter": 9,
+  "subtopic": "maintenance types",
+  "type": "single",
+  "level": 2,
+  "gotcha": false,
+  "question": "The Grain Elevator System must move from its on-site Windows server to a Linux cloud VM. Its features stay the same. Which L21 maintenance type is this?",
+  "options": [
+   "Fault repair",
+   "Environmental adaptation",
+   "Functionality addition/modification",
+   "Refactoring"
+  ],
+  "answer": [
+   1
+  ],
+  "explanation": "L21 slide 18: environmental adaptation means changing a system so that it runs in a different environment (computer, OS, etc.). Many textbooks call this 'adaptive' maintenance, but L21 uses Sommerville's name."
+ },
+ {
+  "id": "ch9-43",
+  "chapter": 9,
+  "subtopic": "maintenance types",
+  "type": "single",
+  "level": 2,
+  "gotcha": false,
+  "question": "Regulators now require the GES to log each truck's moisture reading and produce a monthly compliance report. Which L21 maintenance type is this?",
+  "options": [
+   "Fault repair",
+   "Environmental adaptation",
+   "Functionality addition/modification",
+   "Refactoring"
+  ],
+  "answer": [
+   2
+  ],
+  "explanation": "L21 slide 18: changing the system to satisfy **new requirements** is functionality addition/modification ('perfective' in some textbooks). Nothing is broken and the platform has not changed."
+ },
+ {
+  "id": "ch9-44",
+  "chapter": 9,
+  "subtopic": "maintenance types",
+  "type": "single",
+  "level": 2,
+  "gotcha": false,
+  "question": "The spec says moisture is rounded to the nearest percent, but the delivered GES truncates 14.95% to 14%, so wet grain is accepted. Fixing this is...",
+  "options": [
+   "Fault repair",
+   "Environmental adaptation",
+   "Functionality addition/modification",
+   "Refactoring"
+  ],
+  "answer": [
+   0
+  ],
+  "explanation": "L21 slide 18: fault repair fixes bugs or deficiencies in how the system meets its existing requirements ('corrective' in some textbooks). The requirement hasn't changed, so this is not functionality modification."
+ },
+ {
+  "id": "ch9-45",
+  "chapter": 9,
+  "subtopic": "refactoring",
+  "type": "single",
+  "level": 1,
+  "gotcha": false,
+  "question": "Per L21, refactoring means...",
+  "options": [
+   "rewriting the system in a newer language",
+   "adding features while tidying the code",
+   "fixing bugs reported after delivery",
+   "modifying a program, without adding functionality, to improve its structure, reduce complexity and make it easier to understand"
+  ],
+  "answer": [
+   3
+  ],
+  "explanation": "L21 slide 20: refactoring improves structure, reduces complexity and makes the code easier to understand, and **does not change the behaviour** of the software."
+ },
+ {
+  "id": "ch9-46",
+  "chapter": 9,
+  "subtopic": "refactoring",
+  "type": "single",
+  "level": 3,
+  "gotcha": true,
+  "question": "Which change is **NOT** refactoring?",
+  "options": [
+   "Splitting a 300-line method into five well-named methods",
+   "Moving duplicated validation code into one helper",
+   "Tidying the payment class and, while you're there, adding PayPal support",
+   "Renaming `x2` to `moistureLimit`"
+  ],
+  "answer": [
+   2
+  ],
+  "explanation": "Refactoring never adds functionality or changes behaviour (L21 slide 20). Adding PayPal changes behaviour, so it is functionality addition. The other three are standard fixes for bad smells: long method, duplicate code and poor naming."
+ },
+ {
+  "id": "ch9-47",
+  "chapter": 9,
+  "subtopic": "bad smells",
+  "type": "single",
+  "level": 2,
+  "gotcha": false,
+  "question": "In the GES, the values `(binId, grainType, tonnage)` are passed together into 7 methods across 4 classes. Which bad smell from L21 is this?",
+  "options": [
+   "Lazy class",
+   "Large class",
+   "Temporary field",
+   "Data clumping"
+  ],
+  "answer": [
+   3
+  ],
+  "explanation": "L21 slide 22: data clumping is the same group of data recurring in several places. The usual fix is to make the group a class (e.g. `BinLoad`). A lazy class is one that does too little to justify existing."
+ },
+ {
+  "id": "ch9-48",
+  "chapter": 9,
+  "subtopic": "bad smells",
+  "type": "multi",
+  "level": 1,
+  "gotcha": false,
+  "question": "Which are 'bad smells' listed on L21 slide 22? Select all.",
+  "options": [
+   "Duplicate code",
+   "Switch (case) statements",
+   "Lazy class",
+   "High cohesion"
+  ],
+  "answer": [
+   0,
+   1,
+   2
+  ],
+  "explanation": "Slide 22 (from Fowler) lists duplicate code, long methods, large class, temporary field, switch statements, lazy class, data clumping and tight coupling of two classes. High cohesion is a good property; weak cohesion is a cause of maintenance problems (slide 15)."
+ },
+ {
+  "id": "ch9-49",
+  "chapter": 9,
+  "subtopic": "maintenance problems",
+  "type": "multi",
+  "level": 1,
+  "gotcha": false,
+  "question": "Which does L21 give as causes of maintenance problems? Select all.",
+  "options": [
+   "Unstructured code, e.g. GOTOs or deeply nested IFs",
+   "Insufficient domain knowledge",
+   "Insufficient or out-of-date documentation",
+   "Having too many unit tests"
+  ],
+  "answer": [
+   0,
+   1,
+   2
+  ],
+  "explanation": "L21 slide 15 lists unstructured code (spaghetti code, poor naming, long procedures, strong coupling, weak cohesion, deep nesting), insufficient domain knowledge and insufficient documentation. It does not say that tests cause maintenance problems."
+ },
+ {
+  "id": "ch9-50",
+  "chapter": 9,
+  "subtopic": "refactoring",
+  "type": "single",
+  "level": 3,
+  "gotcha": true,
+  "question": "When does L21 say refactoring should happen?",
+  "options": [
+   "Only after delivery, as a separate maintenance phase",
+   "Only just before a release",
+   "Only when a test fails",
+   "Continuously, throughout development and evolution, to stop the structure from degrading"
+  ],
+  "answer": [
+   3
+  ],
+  "explanation": "L21 slide 21: refactoring is a continuous process throughout development and evolution, meant to avoid the structural degradation that makes maintenance costly. Some textbooks call it 'preventive maintenance', but the course does not limit it to after delivery."
+ }
+]

@@ -1,0 +1,674 @@
+[
+ {
+  "id": "ch2-01",
+  "chapter": 2,
+  "subtopic": "UML",
+  "type": "single",
+  "level": 1,
+  "gotcha": false,
+  "question": "Which statement about UML matches L3 slide 3?",
+  "options": [
+   "UML is a programming language that compiles to Java",
+   "UML answers all modelling and design problems",
+   "UML is a software process model like Scrum",
+   "UML is a graphical notation with textual annotation for specifying, documenting and communicating a system's structure, functionality and behaviour"
+  ],
+  "answer": [
+   3
+  ],
+  "explanation": "L3 slide 3 defines UML as a graphical notation with textual annotation, and says it is NOT a programming language and NOT the answer to all modelling and design problems."
+ },
+ {
+  "id": "ch2-02",
+  "chapter": 2,
+  "subtopic": "use case model",
+  "type": "single",
+  "level": 1,
+  "gotcha": false,
+  "question": "In this course, a **Use Case Model** consists of what (L3 slide 8)?",
+  "options": [
+   "Use case diagram (static) + use case description (dynamic)",
+   "Use case diagram + class diagram",
+   "Functional requirements + non-functional requirements",
+   "Use case description (static) + sequence diagram (dynamic)"
+  ],
+  "answer": [
+   0
+  ],
+  "explanation": "L3 slide 8 and L4 slide 3: Use Case Model = Use Case Diagram (static) + Use Case Description (dynamic). Together they give a visual and textual description of the system's functions."
+ },
+ {
+  "id": "ch2-03",
+  "chapter": 2,
+  "subtopic": "FR vs use case",
+  "type": "single",
+  "level": 1,
+  "gotcha": false,
+  "question": "How does L3 slide 7 contrast functional requirements with use cases?",
+  "options": [
+   "Use cases come first; FRs are derived from them",
+   "FRs describe HOW actors interact; use cases describe WHAT the system does",
+   "FRs describe WHAT (user, external system, functionality, information); use cases describe HOW actors interact with the functionality. FRs are the starting point for use case modelling",
+   "They are the same thing with different names"
+  ],
+  "answer": [
+   2
+  ],
+  "explanation": "L3 slide 7: FRs = what, use cases = how, and 'Functional requirements are the starting points for use case modeling.' The second option swaps them."
+ },
+ {
+  "id": "ch2-04",
+  "chapter": 2,
+  "subtopic": "actor",
+  "type": "single",
+  "level": 1,
+  "gotcha": false,
+  "question": "In the Library example (L3 slides 16–22), which of these is **NOT** an actor?",
+  "options": [
+   "University Account System",
+   "CITS Email System",
+   "Member",
+   "Loan Material"
+  ],
+  "answer": [
+   3
+  ],
+  "explanation": "An actor is 'an external entity that interacts with system' (L3 slide 9), which includes external systems. Loan Material is a use case: a unit of functionality that yields a result for an actor."
+ },
+ {
+  "id": "ch2-05",
+  "chapter": 2,
+  "subtopic": "actor vs use case",
+  "type": "single",
+  "level": 3,
+  "gotcha": true,
+  "question": "FR: \"The library member must return library materials via library dropoff kiosk.\" On L3's Use Case Diagram 3, what is the **Library Dropoff Kiosk**?",
+  "options": [
+   "A use case",
+   "An actor",
+   "The system boundary",
+   "An <<extend>> use case of Return Material"
+  ],
+  "answer": [
+   1
+  ],
+  "explanation": "L3 slide 22 draws the Library Dropoff Kiosk as an actor associated with Return Material. It is an external device that interacts with the system. The goal (what gets done) is the use case, Return Material. Who or what interacts with the system is the actor."
+ },
+ {
+  "id": "ch2-06",
+  "chapter": 2,
+  "subtopic": "use case naming",
+  "type": "single",
+  "level": 3,
+  "gotcha": true,
+  "question": "An online coursework system. Which is the best **use case** name?",
+  "options": [
+   "Click Submit Button",
+   "Validate File Extension Field",
+   "Submit Assignment",
+   "Assignment Database"
+  ],
+  "answer": [
+   2
+  ],
+  "explanation": "A use case is a 'unit of functionality performed by system, which yields result / value for Actor' (L3 slide 9). 'Click Submit Button' is a UI action and 'Validate File Extension Field' is an internal step, so both are flow-of-events steps. 'Assignment Database' is a thing, not functionality."
+ },
+ {
+  "id": "ch2-07",
+  "chapter": 2,
+  "subtopic": "association",
+  "type": "single",
+  "level": 1,
+  "gotcha": false,
+  "question": "On a use case diagram, what does an **association** connect (L3 slide 9)?",
+  "options": [
+   "Two actors who work together",
+   "A use case to the class that implements it",
+   "A base use case to an included use case",
+   "An actor to the use case(s) in which they participate"
+  ],
+  "answer": [
+   3
+  ],
+  "explanation": "L3 slide 9: an association 'connects Actor to Use Case(s) in which they participate'. Use-case-to-use-case links are the include/extend use case associations (L3 slide 11), drawn as dashed stereotyped arrows."
+ },
+ {
+  "id": "ch2-08",
+  "chapter": 2,
+  "subtopic": "include",
+  "type": "single",
+  "level": 1,
+  "gotcha": false,
+  "question": "L3 slide 13: an include association from use case A to use case B means what?",
+  "options": [
+   "B may optionally add behaviour to A under some condition",
+   "B is a specialised version of A",
+   "An instance of A performs all the behaviour described in B (\"A delegates to B\")",
+   "A must finish before B can start"
+  ],
+  "answer": [
+   2
+  ],
+  "explanation": "That is the slide's wording. Include is reuse/decomposition: the included behaviour is always performed as part of the base (L3 slide 15). Optional behaviour under a condition is extend."
+ },
+ {
+  "id": "ch2-09",
+  "chapter": 2,
+  "subtopic": "extend",
+  "type": "single",
+  "level": 1,
+  "gotcha": false,
+  "question": "In L3 slide 14's example, \"Help\" extends \"Report Emergency\". What does that say about Report Emergency?",
+  "options": [
+   "Report Emergency is complete by itself; Help adds optional behaviour when the user requires help",
+   "Report Emergency cannot run without Help",
+   "Report Emergency is a specialisation of Help",
+   "Report Emergency always calls Help at its last step"
+  ],
+  "answer": [
+   0
+  ],
+  "explanation": "L3 slide 14: 'ReportEmergency is complete by itself, but can be extended by use case Help for a scenario in which the user requires help.' Extend = adding optional functionality."
+ },
+ {
+  "id": "ch2-10",
+  "chapter": 2,
+  "subtopic": "include direction",
+  "type": "single",
+  "level": 2,
+  "gotcha": false,
+  "question": "Library FR3: \"The system must verify the library membership with the University Account System **before** the member can loan library materials.\" How is this drawn?",
+  "options": [
+   "Loan Material --<<include>>--> Verify Member",
+   "Verify Member --<<include>>--> Loan Material",
+   "Verify Member --<<extend>>--> Loan Material",
+   "Loan Material --<<extend>>--> Verify Member"
+  ],
+  "answer": [
+   0
+  ],
+  "explanation": "Verification happens every time a loan is made, so it is mandatory: include. The include arrow goes from the base to the included use case (A includes B, 'A delegates to B', L3 slide 13), so Loan Material → Verify Member."
+ },
+ {
+  "id": "ch2-11",
+  "chapter": 2,
+  "subtopic": "extend direction",
+  "type": "single",
+  "level": 2,
+  "gotcha": false,
+  "question": "Library FR6: \"When there are network issues connecting to the CITS Email Server, the system must log the event.\" FR5 is Send Overdue Notice. How is this drawn?",
+  "options": [
+   "Send Overdue Notice --<<extend>>--> Log Network Issues",
+   "Send Overdue Notice --<<include>>--> Log Network Issues",
+   "Log Network Issues --<<extend>>--> Send Overdue Notice",
+   "Log Network Issues --<<include>>--> Send Overdue Notice"
+  ],
+  "answer": [
+   2
+  ],
+  "explanation": "Logging happens only WHEN there is a network issue, so it is optional: extend. The extend arrow goes from the extension to the base (Help → Report Emergency on L3 slide 14). Send Overdue Notice is complete by itself and does not know about the logging."
+ },
+ {
+  "id": "ch2-12",
+  "chapter": 2,
+  "subtopic": "extend direction",
+  "type": "single",
+  "level": 3,
+  "gotcha": true,
+  "question": "Online exam system: the system saves a local draft only if the network drops during submission. A student drew this. What will the marker say?",
+  "diagram": "flowchart LR\nS[\"Student\"] --- SE([\"Submit Exam\"])\nSE -.->|\"«extend»\"| SD([\"Save Local Draft\"])",
+  "options": [
+   "Correct as drawn",
+   "The arrow is reversed: Save Local Draft --<<extend>>--> Submit Exam",
+   "It should be <<include>> in the same direction",
+   "Extend arrows should be solid lines"
+  ],
+  "answer": [
+   1
+  ],
+  "explanation": "Saving a draft happens only when the network drops, so Save Local Draft is the extension and Submit Exam is the complete base. Extend points FROM the extension TO the base (L3 slide 14). Drawing it base → extension is the classic reversed-arrow mistake."
+ },
+ {
+  "id": "ch2-13",
+  "chapter": 2,
+  "subtopic": "include purpose",
+  "type": "single",
+  "level": 2,
+  "gotcha": false,
+  "question": "What problem does this use of <<include>> solve (L3 slide 12)?",
+  "diagram": "flowchart LR\nM([\"Manage Incident\"]) -.->|\"«include»\"| C([\"Create Incident\"])\nM -.->|\"«include»\"| H([\"Handle Incident\"])\nM -.->|\"«include»\"| X([\"Close Incident\"])",
+  "options": [
+   "Adding optional functionality",
+   "Handling exceptions",
+   "Generalising several actors into one",
+   "Functional decomposition: a function that is too complex is described as an aggregation of simpler use cases"
+  ],
+  "answer": [
+   3
+  ],
+  "explanation": "L3 slide 12: Manage Incident is too complex, so it is decomposed into Create, Handle and Close Incident, each included. The other include use is reuse of shared behaviour (slide 13)."
+ },
+ {
+  "id": "ch2-14",
+  "chapter": 2,
+  "subtopic": "include reuse",
+  "type": "single",
+  "level": 2,
+  "gotcha": false,
+  "question": "Both \"Open Incident\" and \"Allocate Resources\" need to show a map. Per L3 slide 13, how is the shared behaviour drawn?",
+  "options": [
+   "One <<include>> arrow from View Map to Open Incident",
+   "Two <<extend>> arrows from View Map to each base",
+   "Two <<include>> arrows: Open Incident → View Map and Allocate Resources → View Map",
+   "Generalisation from both to View Map"
+  ],
+  "answer": [
+   2
+  ],
+  "explanation": "Include is used for reuse when use cases overlap (L3 slide 13). Each base that delegates to the shared behaviour gets its own include arrow pointing AT View Map (base → included)."
+ },
+ {
+  "id": "ch2-15",
+  "chapter": 2,
+  "subtopic": "include vs extend",
+  "type": "single",
+  "level": 2,
+  "gotcha": false,
+  "question": "Food delivery app: \"Every order placed must go through payment processing. While placing an order, a customer may apply a voucher.\" Which pair is correct?",
+  "options": [
+   "Place Order --<<include>>--> Process Payment; Apply Voucher --<<extend>>--> Place Order",
+   "Process Payment --<<include>>--> Place Order; Place Order --<<extend>>--> Apply Voucher",
+   "Place Order --<<extend>>--> Process Payment; Apply Voucher --<<include>>--> Place Order",
+   "Place Order --<<include>>--> Process Payment; Place Order --<<include>>--> Apply Voucher"
+  ],
+  "answer": [
+   0
+  ],
+  "explanation": "'Every' = always performed = include, base → included. 'May' = optional = extend, extension → base (L3 slide 15). The last option makes the voucher mandatory, which changes the requirement."
+ },
+ {
+  "id": "ch2-16",
+  "chapter": 2,
+  "subtopic": "include vs extend",
+  "type": "single",
+  "level": 1,
+  "gotcha": false,
+  "question": "L3 slide 15 completes this: included use cases are ___ used in the parent use case; extends are only used in the parent in ___ circumstances.",
+  "options": [
+   "sometimes / normal",
+   "always / exceptional or unusual",
+   "never / all",
+   "optionally / mandatory"
+  ],
+  "answer": [
+   1
+  ],
+  "explanation": "Slide 15: 'Included Use Cases are always used in a parent Use Case. Extends are only used in the parent Use Case in exceptional or unusual circumstances.'"
+ },
+ {
+  "id": "ch2-17",
+  "chapter": 2,
+  "subtopic": "include direction",
+  "type": "single",
+  "level": 3,
+  "gotcha": true,
+  "question": "Course Registration: all users must log in before doing their tasks. A student drew this. What is wrong?",
+  "diagram": "flowchart LR\nL([\"Login\"]) -.->|\"«include»\"| SC([\"Select Courses\"])\nL -.->|\"«include»\"| MC([\"Manage Curriculum\"])\nL -.->|\"«include»\"| FS([\"Find Course Schedule\"])",
+  "options": [
+   "Nothing; Login is shared, so it points to the users of it",
+   "Login should <<extend>> each use case",
+   "The arrows are reversed: each base points to Login (Select Courses --<<include>>--> Login, etc.)",
+   "Only one include arrow is allowed per use case"
+  ],
+  "answer": [
+   2
+  ],
+  "explanation": "On L4 slide 14, Select Courses, Manage Curriculum and Find Course Schedule each <<include>> Login, with the arrows pointing AT Login. The base delegates to the included use case, so base → included."
+ },
+ {
+  "id": "ch2-18",
+  "chapter": 2,
+  "subtopic": "generalization",
+  "type": "single",
+  "level": 2,
+  "gotcha": false,
+  "question": "In GES, \"Generate Elevator Status Report\" and \"List Transaction Log\" can both be seen as kinds of \"Generate Report\". Which relationship fits?",
+  "options": [
+   "Generalisation: a solid line with a hollow triangle pointing to the parent, Generate Report",
+   "<<include>> from Generate Report to each child",
+   "<<extend>> from Generate Report to each child",
+   "An association between the two reports"
+  ],
+  "answer": [
+   0
+  ],
+  "explanation": "A 'kind of' relationship is generalisation (standard UML: hollow triangle at the general/parent end). Tutorial 2(a) asks you to use generalisation 'wherever appropriate', but the L3/L4 slides never draw it, so justify it in one line if you use it."
+ },
+ {
+  "id": "ch2-19",
+  "chapter": 2,
+  "subtopic": "template fields",
+  "type": "single",
+  "level": 1,
+  "gotcha": false,
+  "question": "Which field is **NOT** in the course's Use Case Description template (L4 slide 17)?",
+  "options": [
+   "Priority",
+   "Frequency of Use",
+   "Class Diagram",
+   "Special Requirements"
+  ],
+  "answer": [
+   2
+  ],
+  "explanation": "L4 slide 17 lists Use Case ID, Name, Created By, Last Updated By, Date Created, Date Last Updated, Actor, Description, Preconditions, Postconditions, Priority, Frequency of Use, Flow of Events, Alternative Flows, Exceptions, Includes, Special Requirements, Assumptions and Notes and Issues. There is no Class Diagram field."
+ },
+ {
+  "id": "ch2-20",
+  "chapter": 2,
+  "subtopic": "template fields",
+  "type": "single",
+  "level": 1,
+  "gotcha": false,
+  "question": "On L4 slide 4, \"Entry conditions\" and \"Exit conditions\" are also called what (the names used in the template on slide 17)?",
+  "options": [
+   "Triggers and Results",
+   "Normal flow and Alternative flow",
+   "Assumptions and Notes",
+   "Preconditions and Postconditions"
+  ],
+  "answer": [
+   3
+  ],
+  "explanation": "Entry conditions (pre-condition) = the system state that must be satisfied to execute the use case. Exit conditions (post-condition) = the system state that must be reached after executing it (L4 slide 4)."
+ },
+ {
+  "id": "ch2-21",
+  "chapter": 2,
+  "subtopic": "actors in description",
+  "type": "single",
+  "level": 1,
+  "gotcha": false,
+  "question": "Per L4 slide 4, which statement about actors in a use case description is correct?",
+  "options": [
+   "A use case has exactly one actor",
+   "External systems are never participating actors",
+   "The initiating actor is always a human",
+   "A use case can have more than one participating actor; the initiating actor is the one that triggers the use case"
+  ],
+  "answer": [
+   3
+  ],
+  "explanation": "L4 slide 4: 'A use case can have more than one participating actors' and 'Initiating actor triggers the use case'. In the ATM example (slide 7) the participating actors are Bank Customer (initiating) and Bank."
+ },
+ {
+  "id": "ch2-22",
+  "chapter": 2,
+  "subtopic": "initiating actor NULL",
+  "type": "single",
+  "level": 1,
+  "gotcha": false,
+  "question": "When is the initiating actor written as **NULL** (L4 slide 4)?",
+  "options": [
+   "When the use case has no participating actors at all",
+   "When the use case is triggered by a system event or by another use case",
+   "When the actor is an external system",
+   "When the use case is an exception"
+  ],
+  "answer": [
+   1
+  ],
+  "explanation": "L4 slide 4: 'If the use case is triggered by a system event or another use case, the initiating actor is NULL.' An external system that triggers a use case is still a real initiating actor."
+ },
+ {
+  "id": "ch2-23",
+  "chapter": 2,
+  "subtopic": "initiating actor NULL",
+  "type": "single",
+  "level": 2,
+  "gotcha": false,
+  "question": "Library: \"The system must send an overdue notice using the CITS Email Server to the member.\" The notice goes out automatically when a loan becomes overdue. Initiating actor of **Send Overdue Notice**?",
+  "options": [
+   "Member",
+   "CITS Email System",
+   "Librarian",
+   "NULL"
+  ],
+  "answer": [
+   3
+  ],
+  "explanation": "The trigger is a system event (the due date passing), so the initiating actor is NULL (L4 slide 4). The CITS Email System and the Member are participating actors only; neither triggers it."
+ },
+ {
+  "id": "ch2-24",
+  "chapter": 2,
+  "subtopic": "initiating actor NULL",
+  "type": "single",
+  "level": 3,
+  "gotcha": true,
+  "question": "You are writing the description for the **included** use case Verify Member (included by Loan Material). What goes in Initiating Actor?",
+  "options": [
+   "Member, because the member is the one borrowing",
+   "University Account System",
+   "NULL, because it is triggered by another use case (Loan Material)",
+   "Leave the field out; included use cases need no actor field"
+  ],
+  "answer": [
+   2
+  ],
+  "explanation": "L4 slide 4: if the use case is triggered by another use case, the initiating actor is NULL. The University Account System participates but does not trigger it. Every use case still needs a description with the actor field."
+ },
+ {
+  "id": "ch2-25",
+  "chapter": 2,
+  "subtopic": "entry conditions",
+  "type": "single",
+  "level": 1,
+  "gotcha": false,
+  "question": "Which is a valid **entry condition** for \"Withdraw Money\" at an ATM?",
+  "options": [
+   "The Bank Customer receives the requested cash",
+   "The Bank Customer inserts the card into the ATM",
+   "The Bank Customer has an ATM card and PIN",
+   "The ATM verifies the card and PIN with the Bank"
+  ],
+  "answer": [
+   2
+  ],
+  "explanation": "An entry condition is a state that must already hold before the use case can run (L4 slides 4 and 7). Receiving cash is an exit condition. Inserting the card is Step 1 of the flow of events, and verifying is a system step."
+ },
+ {
+  "id": "ch2-26",
+  "chapter": 2,
+  "subtopic": "exit conditions",
+  "type": "single",
+  "level": 2,
+  "gotcha": false,
+  "question": "\"Book Study Room\" can end with a confirmed booking, or with no booking if no room is free. Which exit conditions follow the style of L4 slide 7?",
+  "options": [
+   "1. Student receives a booking confirmation OR 2. Student receives an explanation of why the room could not be booked",
+   "1. Student receives a booking confirmation",
+   "1. Student is logged in AND 2. Student has a valid matric card",
+   "1. Student clicks Confirm"
+  ],
+  "answer": [
+   0
+  ],
+  "explanation": "L4 slide 7's exit conditions cover every way the use case can end: 'receives the requested cash OR receives an explanation from the ATM why the cash could not be dispensed'. Option 3 lists entry conditions, and option 4 is a flow step."
+ },
+ {
+  "id": "ch2-27",
+  "chapter": 2,
+  "subtopic": "flow of events",
+  "type": "single",
+  "level": 1,
+  "gotcha": false,
+  "question": "L4 slide 5 says the flow of events (normal / main successful flow) starts how?",
+  "options": [
+   "Step 1: how the system validates input; Step 2: how the actor responds",
+   "Step 1: how the actor triggers the use case; Step 2: how the system responds",
+   "Step 1: the precondition; Step 2: the postcondition",
+   "Step 1: the include; Step 2: the extend"
+  ],
+  "answer": [
+   1
+  ],
+  "explanation": "L4 slide 5: 'Step #1 – How Actor triggers the use case; Step #2 – How System responds; …'. The ATM example (slide 8) alternates actor steps and system steps: 1 customer inserts card, 2 ATM requests PIN."
+ },
+ {
+  "id": "ch2-28",
+  "chapter": 2,
+  "subtopic": "alt flow vs exception",
+  "type": "single",
+  "level": 1,
+  "gotcha": false,
+  "question": "What is the difference between an **alternative flow** and an **exception** (L4 slide 5)?",
+  "options": [
+   "Alternative flows are for admins; exceptions are for customers",
+   "There is no difference; the terms are interchangeable",
+   "Alternative flows are drawn with <<extend>>; exceptions with <<include>>",
+   "An alternative flow is a variation or error that returns to the normal flow; an exception is an exceptional situation that causes the use case to fail"
+  ],
+  "answer": [
+   3
+  ],
+  "explanation": "L4 slide 5: alternative flows are 'variations or errors in the interaction (e.g. wrong username/password)' and 'return back to the normal flow of events'. Exceptions are 'exceptional situations that cause the failure of the use case (e.g. network not available)'."
+ },
+ {
+  "id": "ch2-29",
+  "chapter": 2,
+  "subtopic": "alt flow vs exception",
+  "type": "multi",
+  "level": 3,
+  "gotcha": true,
+  "question": "ATM Withdraw Money. Which of these are written as **exceptions** (EXn), not alternative flows, in L4's example? (Pick all that apply.)",
+  "options": [
+   "Customer enters an invalid card/PIN once",
+   "Customer enters an invalid PIN three times, so the card is suspended",
+   "The ATM itself has insufficient funds",
+   "The customer's account has insufficient funds for the amount entered"
+  ],
+  "answer": [
+   1,
+   2
+  ],
+  "explanation": "L4 slide 11: EX1 = invalid PIN three times (card suspended), EX2 = ATM has insufficient funds; the use case fails. Slide 10: AF-S5 = invalid card/PIN and AF-S8 = insufficient funds in the ACCOUNT; both return to an earlier step so the customer can retry."
+ },
+ {
+  "id": "ch2-30",
+  "chapter": 2,
+  "subtopic": "AF naming",
+  "type": "single",
+  "level": 2,
+  "gotcha": false,
+  "question": "Normal flow of \"Place Order\": **4. The system validates the voucher code.** How should the alternative flow for an invalid voucher be labelled, in L4 slide 10's convention?",
+  "options": [
+   "EX4",
+   "AF-S4",
+   "AF-1",
+   "EX-S4"
+  ],
+  "answer": [
+   1
+  ],
+  "explanation": "L4 slide 10 names alternative flows after the normal-flow step where they branch: AF-S5 branches at step 5, AF-S8 at step 8. Exceptions are numbered EX1, EX2… (slide 11). An invalid voucher can be retried, so it is an AF, not an exception."
+ },
+ {
+  "id": "ch2-31",
+  "chapter": 2,
+  "subtopic": "AF return step",
+  "type": "single",
+  "level": 2,
+  "gotcha": false,
+  "question": "In L4's ATM example, step 2 = the ATM requests the PIN, step 3 = the customer enters the PIN, step 4 = the ATM verifies the card and PIN, step 5 = if verified, the ATM requests the amount. AF-S5 (invalid card and PIN) displays an error. Which step does it return to?",
+  "code": "1. Customer inputs card\n2. ATM requests six-digit PIN\n3. Customer enters PIN\n4. ATM verifies card + PIN with Bank\n5. If verified, ATM requests amount\n6. Customer enters amount\n...",
+  "options": [
+   "Step 1",
+   "Step 2",
+   "Step 5",
+   "It ends the use case"
+  ],
+  "answer": [
+   1
+  ],
+  "explanation": "L4 slide 10: AF-S5 '…2. The ATM returns to the step 2', which re-requests the PIN. An alternative flow must say where it rejoins the normal flow. Ending the use case would make it an exception."
+ },
+ {
+  "id": "ch2-32",
+  "chapter": 2,
+  "subtopic": "includes in flow",
+  "type": "single",
+  "level": 2,
+  "gotcha": false,
+  "question": "How does L4 slide 16 write an included use case inside the flow of events of Manage Curriculum?",
+  "options": [
+   "1. <<include>> Login",
+   "1. The system uses the included use case Login to verify the Registrar.",
+   "1. The Registrar extends Login.",
+   "It is not written in the flow; it only appears on the diagram"
+  ],
+  "answer": [
+   1
+  ],
+  "explanation": "L4 slide 16 names the included use case in a normal step ('The system uses the included use case Login to verify the Registrar'; 'he uses the included use case AddCourse to add a course'). The template also has an 'Includes:' field (slide 17) where you list it."
+ },
+ {
+  "id": "ch2-33",
+  "chapter": 2,
+  "subtopic": "GES actors",
+  "type": "multi",
+  "level": 2,
+  "gotcha": false,
+  "question": "Grain Elevator System: which are **actors**? (Pick all that apply.)",
+  "options": [
+   "Elevator Manager",
+   "Humidity and temperature sensors",
+   "Silo",
+   "Transaction log"
+  ],
+  "answer": [
+   0,
+   1
+  ],
+  "explanation": "Actors are external entities that interact with the system (L3 slide 9). The manager enters all arrival/departure data and requests reports (GES G–K), and the sensors send data and alerts to the system (E). Silos and the transaction log are things the system tracks; they belong in the data dictionary or class model, not as actors."
+ },
+ {
+  "id": "ch2-34",
+  "chapter": 2,
+  "subtopic": "GES include/extend",
+  "type": "single",
+  "level": 2,
+  "gotcha": false,
+  "question": "GES para G–H: on a truck arrival the system **must** find silos for the grain; the elevator manager **may** overrule the system's choice. Which modelling is right?",
+  "options": [
+   "Record Grain Arrival --<<include>>--> Allocate Silos; Overrule Silo Allocation --<<extend>>--> Record Grain Arrival",
+   "Allocate Silos --<<extend>>--> Record Grain Arrival; Record Grain Arrival --<<include>>--> Overrule Silo Allocation",
+   "Record Grain Arrival --<<extend>>--> Allocate Silos; Overrule Silo Allocation --<<include>>--> Record Grain Arrival",
+   "Allocate Silos and Overrule Silo Allocation are both actors"
+  ],
+  "answer": [
+   0
+  ],
+  "explanation": "'Must' on every arrival = always performed = include (base → included). 'May overrule' = optional = extend (extension → base) (L3 slides 13–15)."
+ },
+ {
+  "id": "ch2-35",
+  "chapter": 2,
+  "subtopic": "diagram reading",
+  "type": "single",
+  "level": 2,
+  "gotcha": false,
+  "question": "Read this diagram. Which statement is true?",
+  "diagram": "flowchart LR\nC[\"Customer (actor)\"] --- W([\"Withdraw Money\"])\nC --- B2([\"Check Balance\"])\nW -.->|\"«include»\"| V([\"Verify Customer\"])\nB2 -.->|\"«include»\"| V\nV --- BK[\"Bank (actor)\"]",
+  "options": [
+   "Every Withdraw Money performs Verify Customer, and Bank participates in Verify Customer",
+   "Verify Customer is optional and only runs in exceptional circumstances",
+   "Bank initiates Withdraw Money",
+   "Customer is a use case"
+  ],
+  "answer": [
+   0
+  ],
+  "explanation": "An <<include>> arrow from Withdraw Money to Verify Customer means the included behaviour is always performed (L3 slide 15). The Bank is the actor associated with Verify Customer (a diagram modelled on L3 slide 10's ATM example). Optional behaviour would be <<extend>>."
+ }
+]

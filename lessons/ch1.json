@@ -1,0 +1,138 @@
+{
+ "chapter": 1,
+ "title": "Requirements: FR/NFR, atomic/verifiable, SRS",
+ "intro": "How the course wants requirements written: start with a mission statement, then elicit, atomise and validate, and finish with the SRS. Q1-style exam questions give you a messy paragraph and mark you on faithful, atomic, verifiable rewrites.",
+ "cards": [
+  {
+   "title": "Where requirements sit",
+   "body": "The Requirements Specification phase starts with the **Project Mission Statement (PMS)** and ends with the **SRS** document (L2 slide 4, Writing SRS slide 2).\nErrors here are the most expensive to fix later (L2 slide 3).",
+   "diagram": "flowchart LR\nP[\"Project Mission Statement\"] --> E[\"Elicit\"] --> A[\"Analyse / Review\"] --> V[\"Validate\"] --> S[\"SRS document\"]\nA --> M[\"Analysis model\"]",
+   "keypoints": [
+    "PMS comes FIRST; the SRS is the OUTPUT",
+    "SRS = output of elicitation + analysis (Writing SRS slide 3)",
+    "Analysis model (use cases, class diagrams...) is built from the requirements"
+   ]
+  },
+  {
+   "title": "Project Mission Statement",
+   "body": "2–3 sentences that define (L2 slide 6):\n1. **The problem**: what will be done (scope and limits)\n2. **The stakeholders**, developers and users\n3. **The outcomes and benefits**\nIn the SRS it goes under Product Description, 1(a) Purpose of the System (Writing SRS slide 7).",
+   "code": "The GoFast team will develop a website that enables airline\ntravellers to rate their travel experiences. This project will be\nconsidered complete when the website has been tested and approved\nfor release by the FactFinding Organisation. This project supports\nthe International Travel Watchdogs objective to ensure air\npassengers can openly compare airlines.   (L2 slide 6)",
+   "keypoints": [
+    "Problem/scope + stakeholders + outcomes/benefits",
+    "Short: 2–3 sentences, not a feature list"
+   ]
+  },
+  {
+   "title": "Eliciting requirements",
+   "body": "Elicitation techniques (L2 slide 7): **interview, observation, workshop, legacy product study, competitive product study, prototype**. The goal is to learn the problem domain and study user tasks.\nThe course's process (L4 slides 20–22): the team reviews the client's spec, then **atomises** the requirements, identifies actors, main use cases and NFRs, starts the data dictionary, and lists uncertainties as **TBD**. Then it meets the client with an agreed agenda, and repeats until everything is agreed.",
+   "keypoints": [
+    "Six techniques: interview, observation, workshop, legacy study, competitive study, prototype",
+    "\"Do not guess the user requirements\": mark them TBD and ask (L4 slide 20)",
+    "Meetings need an agreed agenda and outcomes (L4 slide 21)"
+   ]
+  },
+  {
+   "title": "Functional vs non-functional",
+   "body": "**Functional (FR)**: interactions between the system and its environment, mapping inputs to outputs. The things the system must do (L2 slide 8). There are three kinds (L2 slide 9):\n- functionality to be performed (\"member must be able to search the catalog\")\n- information to be processed (\"display the current time in 24 hour format\")\n- interface with other systems (\"control up to six robot arms simultaneously\")\n**Non-functional (NFR)**: properties the system must have, not directly related to its functional behaviour.",
+   "keypoints": [
+    "**Trap:** \"display the temperature from -10C to +130C to 1 d.p.\" is FUNCTIONAL (information to be processed, L2 slide 9)",
+    "A number in a requirement does NOT make it non-functional",
+    "Ask: is it WHAT the system outputs/does (FR), or HOW WELL it does it (NFR)?"
+   ]
+  },
+  {
+   "title": "NFR categories: URPS",
+   "body": "L2 slide 10 gives one example per category. Label each NFR you write with its category.",
+   "code": "Usability       Help messages must be displayed in the local\n                language according to the user's locale.\nReliability     After a system reboot, the full system\n                functionality must be restored within 5 minutes.\nPerformance     When a book is placed in the checkout pad, the\n                system must detect it within 2 seconds.\nSupportability  The database must be replaceable with any\n                commercial product supporting standard SQL.",
+   "keypoints": [
+    "Writing SRS slide 10 also lists performance, standards, reliability, availability, security, maintainability, portability",
+    "One quality per NFR (do not combine response time + availability)",
+    "Availability needs a period, e.g. \"99% per calendar month\""
+   ]
+  },
+  {
+   "title": "Atomic requirements (worked example)",
+   "body": "Write complete, simple, precise, unambiguous sentences in the **active voice**, organised in a numbered **hierarchy**. State each requirement atomically so the spec is verifiable, traceable and unambiguous (L2 slide 11).\nCompound original (L2 slide 12): \"When a computer is added, the tracking system **requires** the user to specify its type **and allow** the user to provide a description. **Both** fields must be text of length >0 and <512 characters.\"",
+   "code": "1.1   When a computer is added to the tracking system, the user\n      must enter the computer type.\n1.1.1 The computer type data must be text of at least one\n      character and less than 512 characters.\n1.2   When a computer is added to the tracking system, the user\n      must enter a description of the computer.\n1.2.1 The description of the computer must be text of at least\n      one character and less than 512 characters.",
+   "after": "The slide's model answer writes 1.2 as 'must enter' even though the original says 'allow'. In your own answers, keep the source's permission vs obligation exactly (must allow vs must require). If you think the slide's choice matters, flag it as an assumption.",
+   "keypoints": [
+    "Split on and / or / both / followed by; one obligation per number",
+    "Each data field gets its own validation sub-requirement (1.1.1, 1.2.1)",
+    "Keep the obligation: 'may' / 'allow' -> must ALLOW; 'requires' -> must enter"
+   ]
+  },
+  {
+   "title": "Verifiable and traceable",
+   "body": "**Verifiable**: specific enough to be testable (L2 slide 13). Fix it by adding a number, range, time or percentage.\n**Traceable** (L2 slide 14): you can track each requirement from the SRS to design, documentation, code, and verification in reviews and tests, and track dependencies among requirements, functions and components. Hierarchical numbering is what makes this possible.",
+   "code": "NOT verifiable                       VERIFIABLE (L2 slide 13)\nThe user interface must be           80% of first-time users must be\n  user-friendly.                       able to enter a simple search\n                                       query within 2 minutes of\n                                       starting to use the system.\nThe system must control more         The system must control up to\n  than one drill press.                seven drill presses concurrently.",
+   "keypoints": [
+    "Test: can you write a pass/fail test for it?",
+    "Unbounded 'more than one' is not verifiable; give a cap ('up to seven')",
+    "Numbers you invent = proposals, so mark them TBD and confirm with the client"
+   ]
+  },
+  {
+   "title": "Validation and prototypes",
+   "body": "Validation methods (L2 slide 15):\n- **Review**: walkthrough, inspection, critical review\n- **Checklist**: completeness, consistency, unambiguity, correctness (**CCUC**)\n- **Prototype**\n**Stakeholders** confirm the specified system meets their needs and desires (correct), and that requirements are prioritised. The **development team** confirms requirements and assumptions are properly understood.\nUI prototypes (L2 slide 16): **story boarding** (a sequence of graphics for one interaction), **still images**, **interactive prototype** (a simulated dialogue).",
+   "keypoints": [
+    "Validation checks the REQUIREMENTS, not finished code",
+    "CCUC = Completeness, Consistency, Unambiguity, Correctness",
+    "Training users is not validation"
+   ]
+  },
+  {
+   "title": "Data dictionary",
+   "body": "The **problem domain glossary** (L2 slide 17). It ensures consistent, unambiguous terminology that all stakeholders agree on, and defines specialised terms. In the SRS it 'unambiguously defines all terms, phrases and abbreviations used in the SRS' (Writing SRS slide 12).\nFocus on problem-domain terms, **not implementation terms** (L2 slide 18).",
+   "code": "Term     Definition\nGrade    The quality class of a grain type. Each type of grain\n         has two grades: high and low.            (GES para B)\nSilo     A storage container in the elevator. Silos 1-6 hold\n         8,000 bushels; silos 7-12 hold 12,000 bushels. A silo\n         holding grain stores one type and grade only. (GES B, C)",
+   "keypoints": [
+    "NOT a database schema, despite the name",
+    "GES good entries: Silo, Grade, Bushel, Elevator Manager, Transaction Log",
+    "Bad entries: SiloTable, primary key, JSON payload",
+    "Use it to pin down vague client words like 'normal levels' once agreed"
+   ]
+  },
+  {
+   "title": "The SRS: what, why, contents",
+   "body": "The SRS is the output of elicitation and analysis: precise functional and non-functional requirements, a 'two-way insurance policy' between client and developer, and it 'DOES NOT contain any design suggestions' (Writing SRS slide 3).\nPurpose (slide 4): assure the customer, decompose the problem, be the input to design, and be the master document for testing and validation.\nIt is written in natural language plus diagrams; involving a technical writer is good practice (slide 5).",
+   "code": "1) Product Description\n   a) Purpose of the System (mission statement, 100-200 words)\n   b) Scope of the System\n   c) Users and Stakeholders\n   d) Assumptions and Constraints\n2) Functional Requirements  (numbered + UML diagrams, prototype UI)\n3) Non-Functional Requirements\n4) Interface Requirements\n   a) User     (screen formats, window layouts, menus, reports)\n   b) Hardware (number of ports, instruction sets)\n   c) Software (DBMS, OS, maths package)\n5) Data Dictionary",
+   "keypoints": [
+    "5 sections: Product Description, FRs, NFRs, Interface Reqs, Data Dictionary",
+    "No design decisions (e.g. 'store in a MySQL table')",
+    "IEEE 830-1998 is the reference standard (slide 6)"
+   ]
+  },
+  {
+   "title": "SRS language: 9 qualities, good and bad words",
+   "body": "Language quality characteristics (Writing SRS slides 13–14): **Correct** (only user representatives can judge), **Feasible**, **Necessary** (if you can't find its origin, maybe it isn't needed), **Unambiguous** (one interpretation), **Verifiable**, **Complete**, **Consistent**, **Modifiable** (uniquely labelled, change history), **Traceable** (linked to its source).",
+   "code": "Good words (slide 15)\nShall          provision of a functional capability\nMust/Must not  most often performance reqs or constraints\nIs required to imperative\nAre applicable include standards by reference\nResponsible for  systems with pre-defined architectures\nWill           what the environment provides",
+   "after": "L2's own examples write FRs with 'must' too, so 'must' is safe for FRs in this course.",
+   "keypoints": [
+    "Avoid: adequate, as a minimum, be capable of, as applicable, as appropriate, effective, if possible, if practical, timely, normal",
+    "Modifiable = unique labels + change history; Traceable = link to the source"
+   ]
+  },
+  {
+   "title": "Traps",
+   "body": "The mistakes markers penalise in requirements answers.",
+   "keypoints": [
+    "PMS before SRS: the SRS is the output, not the start",
+    "Temperature-range-to-1-d.p. is FUNCTIONAL; a number does not make it an NFR",
+    "'May' -> must ALLOW, never must require; 'the assignment' stays 'the', not 'all'",
+    "A condition is not an obligation: write 'When a query contains X, the system must...', not 'The query must contain X'",
+    "Do not invent channels, recipients, times or thresholds; mark them TBD and ask the client",
+    "Data dictionary = domain glossary, not a DB schema",
+    "One quality per NFR; banned words (timely, adequate, normal...) make it unverifiable",
+    "No design decisions in the SRS"
+   ]
+  },
+  {
+   "title": "Exam recipe: atomise a paragraph",
+   "body": "Worked on a new mini-scenario. Source: \"Members may reserve a book. A reservation must include the member number and the book ISBN. If the book is already reserved, this is reported.\"\nSteps on paper:\n1. Underline every obligation and permission (must / may / is reported).\n2. Split on and / or / both / followed by / each 'if'.\n3. Number them hierarchically (1.1, 1.1.1...).\n4. Check each one: faithful (same modality, nothing invented), atomic, and verifiable (pass/fail test).\n5. List vague words as TBD questions for the client.",
+   "code": "1.1   The system must allow a member to reserve a book.\n1.1.1 A reservation must include the member number.\n1.1.2 A reservation must include the book ISBN.\n1.2   When a member attempts to reserve a book that is already\n      reserved, the system must report that the book is\n      already reserved.\nTBD:  To whom / how is it reported? Can a member hold\n      several reservations? (confirm with client)",
+   "keypoints": [
+    "Faithful + atomic + verifiable: check all three for every line",
+    "Unclear details go in a TBD list, not into the requirement"
+   ]
+  }
+ ]
+}
