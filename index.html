@@ -62,6 +62,13 @@ label.chk{display:flex;gap:8px;align-items:center;font-size:14px;color:var(--mut
 .lesson h3{margin:4px 0 6px;font-size:17px}.lesson .body{white-space:pre-wrap;font-size:15px}
 .kp{background:#132019;border-left:3px solid var(--ok);padding:8px 10px;border-radius:8px;margin-top:8px;font-size:14px}
 .kp li{margin:3px 0}
+.ab{border-bottom:1px dotted #8fb8ff;cursor:help}
+.cite{color:#8fb8ff;text-decoration:underline;cursor:pointer}
+.slidebox{margin-top:10px}.slidebox img,.deck img{width:100%;border-radius:8px;background:#fff;display:block;margin:6px 0 2px}
+.slidecap{font-size:12px;color:var(--mut);margin-bottom:8px}
+.ov{position:fixed;inset:0;background:rgba(0,0,0,.92);z-index:20;display:flex;flex-direction:column;justify-content:center;padding:10px}
+.ov img{width:100%;border-radius:8px;background:#fff}.ov .row{margin-top:10px}
+.gl dt{font-weight:700;margin-top:10px}.gl dd{margin:2px 0 0 0;color:var(--mut);font-size:14px}
 </style>
 </head>
 <body>
@@ -79,7 +86,70 @@ const SS = (k,v) => localStorage.setItem(k, JSON.stringify(v));
 const stats = () => LS("se_stats") || {}; // qid -> {n, c, last}
 const $ = s => document.querySelector(s);
 const esc = s => String(s).replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
-const md = s => esc(s).replace(/`([^`]+)`/g, "<code>$1</code>").replace(/\*\*([^*]+)\*\*/g, "<b>$1</b>");
+const md0 = s => esc(s).replace(/`([^`]+)`/g, "<code>$1</code>").replace(/\*\*([^*]+)\*\*/g, "<b>$1</b>");
+const md = s => glossify(citeLinks(md0(s)));
+// ---- Abbreviations: tap any dotted-underlined word for its full form ----
+const GLOSS = {
+ "EC":["Equivalence Class","A group of input values the program should treat the same way, so testing ONE value from the group is enough. Valid ECs = accepted inputs; invalid ECs = rejected inputs (L18)."],
+ "BV":["Boundary Value","A value at the edge of a range (e.g. the min and max), plus one step either side. Bugs cluster at edges, e.g. < written instead of <= (L18)."],
+ "CFG":["Control Flow Graph","Nodes = statements/decisions, edges = possible flow of control. Drawn from the code for white-box testing (L19-20)."],
+ "CC":["Cyclomatic Complexity","Also written V(G). Number of independent (basis) paths = edges - nodes + 2 = decisions + 1 (L19-20)."],
+ "V(G)":["Cyclomatic complexity of graph G","= edges - nodes + 2 = number of decisions + 1 = number of basis paths you must test (L19-20)."],
+ "SRS":["Software Requirements Specification","The document that lists the system's functional and non-functional requirements (Writing SRS lecture)."],
+ "SDLC":["Software Development Life Cycle","Requirements, analysis, design, implementation, testing, release, maintenance."],
+ "GES":["Grain Elevator System","The case study used in most tutorials (tutorial supplement)."],
+ "FR":["Functional Requirement","What the system must DO (a function/behaviour) (L2)."],
+ "NFR":["Non-Functional Requirement","A quality or constraint: performance, usability, security, reliability... Must be measurable (L2)."],
+ "UI":["User Interface","The screens/forms the user interacts with. Boundary classes in B/C/E."],
+ "B/C/E":["Boundary / Control / Entity","The 3 class stereotypes in the conceptual model. Boundary = UI/interface to actors, Control = use-case logic, Entity = stored data (L5)."],
+ "MVC":["Model-View-Controller","Pattern: Model holds data/logic, View displays it, Controller handles input (L15)."],
+ "UML":["Unified Modeling Language","The standard diagram notation: use case, class, state, activity, sequence diagrams."],
+ "XP":["Extreme Programming","Agile method: pair programming, TDD, small releases, continuous integration (L9)."],
+ "PO":["Product Owner","Scrum role: owns and orders the Product Backlog (L9)."],
+ "SM":["Scrum Master","Scrum role: coaches the team, removes impediments (L9)."],
+ "PBI":["Product Backlog Item","One entry in the Product Backlog, often a user story (L9)."],
+ "INVEST":["Independent, Negotiable, Valuable, Estimable, Small, Testable","The checklist for a good user story (L9)."],
+ "DEEP":["Detailed appropriately, Emergent, Estimated, Prioritised","Properties of a good Product Backlog (L9)."],
+ "TDD":["Test-Driven Development","Write the test first, then the code to pass it."],
+ "COTS":["Commercial Off-The-Shelf","Bought-in software components."],
+ "RPC":["Remote Procedure Call","Calling a function on another machine as if it were local."],
+ "TBD":["To Be Determined","Placeholder in an SRS for something not yet decided."],
+ "AF":["Alternative Flow","A branch off the main flow in a use case description, e.g. AF-S5 = branches at step 5 (L4)."],
+ "DB":["Database",""]
+};
+const ABRX = /\b(ECs?|BVs?|CFGs?|CC|SRS|SDLC|GES|FRs?|NFRs?|UIs?|B\/C\/E|MVC|UML|XP|PO|SM|PBIs?|INVEST|DEEP|TDD|COTS|RPC|TBD|AF|DB)(?=[\d\-]*\b)|V\(G\)/g;
+const abKey = w => w==="V(G)"?w : GLOSS[w]?w : GLOSS[w.replace(/s$/,"")]?w.replace(/s$/,""):null;
+function ab(e,k){ e.stopPropagation(); const g=GLOSS[k]; if(g) toast(`${k} = ${g[0]}${g[1]?". "+g[1]:""}`, 6000) }
+// ---- Lecture slides ----
+let SLIDES = {}; // chapter -> [{key,title,pages}]
+const DECKS = () => Object.fromEntries(Object.values(SLIDES).flat().map(d=>[d.key,d]));
+function citeKey(l){ l=l.replace(/\s+/g," ").trim();
+  if (/SRS/.test(l)) return "SRS"; if (/Thu/.test(l)) return "L12b";
+  const n=+(l.match(/\d+/)||[0])[0]; return n? "L"+String(n).padStart(2,"0") : null }
+function citeNums(t){ const out=[]; for (const m of t.matchAll(/(\d+)(?:\s*[–-]\s*(\d+))?/g)){ const a=+m[1], b=m[2]?+m[2]:a; for(let i=a;i<=Math.min(b,a+5);i++) out.push(i) } return out }
+const CITERX = /(Writing SRS|SRS|L\d{1,2}(?:-20|-Thu)?)(\s+slides?\s+)(\d+(?:\s*(?:[–\-,]|and)\s*\d+)*)/g;
+function findCites(text){ const r=[]; const D=DECKS(); for (const m of String(text||"").matchAll(CITERX)){ const k=citeKey(m[1]); if(!D[k]) continue; for (const n of citeNums(m[3])) if(n<=D[k].pages && !r.some(x=>x[0]==k&&x[1]==n)) r.push([k,n]) } return r }
+const slideSrc = (k,n) => `slides/${k}/${n}.webp`;
+function showSlide(k,n){ const D=DECKS()[k]; if(!D) return; n=Math.max(1,Math.min(D.pages,n)); let o=document.getElementById("ov"); if(!o){o=document.createElement("div");o.id="ov";o.className="ov";document.body.appendChild(o)}
+  o.innerHTML=`<div class="slidecap" style="text-align:center">${esc(D.title)} · slide ${n}/${D.pages} · pinch to zoom</div><img src="${slideSrc(k,n)}"><div class="row"><button class="btn" onclick="showSlide('${k}',${n-1})">‹ Prev</button><button class="btn pri" onclick="document.getElementById('ov').remove()">Close</button><button class="btn" onclick="showSlide('${k}',${n+1})">Next ›</button></div>` }
+function citeLinks(h){ return h.replace(CITERX,(all,lec,sp,nums)=>{ const k=citeKey(lec), D=DECKS()[k]; if(!D) return all; const ns=citeNums(nums).filter(n=>n<=D.pages); if(!ns.length) return all; return `<span class="cite" onclick="event.stopPropagation();showSlide('${k}',${ns[0]})">${all}</span>` }) }
+function glossify(h){ return h.split(/(<code>.*?<\/code>|<[^>]+>)/).map((seg,i)=> i%2? seg : seg.replace(ABRX, w=>{ const k=abKey(w.replace(/[\d\-]+$/,"")); return k?`<span class="ab" onclick="ab(event,'${k}')">${w}</span>`:w })).join("") }
+function slidesPage(ch, from){
+  $("#bottom").style.display="none"; const decks=SLIDES[ch]||[];
+  $("#app").innerHTML=`<button class="btn ghost" style="width:auto;padding:6px 10px" onclick="chapterPage(${ch})">← ${CH[ch]}</button>
+   <h1>🖼 Lecture slides</h1><div class="mut">The real lecture slides for this chapter. Tap a slide to view it full-screen (pinch to zoom, Prev/Next to flip).</div>
+   ${decks.length>1?`<div class="row" style="margin-top:8px">${decks.map(d=>`<button class="btn" onclick="document.getElementById('d_${d.key}').scrollIntoView()">${esc(d.title)}</button>`).join("")}</div>`:""}
+   ${decks.map(d=>`<div class="card deck" id="d_${d.key}"><h3>${esc(d.title)} (${d.pages} slides)</h3>${Array.from({length:d.pages},(_,i)=>`<img loading="lazy" src="${slideSrc(d.key,i+1)}" onclick="showSlide('${d.key}',${i+1})"><div class="slidecap">Slide ${i+1}</div>`).join("")}</div>`).join("")}`;
+  window.scrollTo(0,0);
+}
+function glossaryPage(){
+  $("#bottom").style.display="none";
+  $("#app").innerHTML=`<button class="btn ghost" style="width:auto;padding:6px 10px" onclick="home()">← Home</button>
+   <h1>🔤 Abbreviations</h1><div class="mut">Anywhere in the app, a word with a dotted underline can be tapped to show its full form. Blue underlined "(L18 slide 7)" references open that actual slide.</div>
+   <div class="card gl"><dl>${Object.entries(GLOSS).map(([k,[f,d]])=>`<dt>${esc(k)}: ${esc(f)}</dt>${d?`<dd>${esc(d)}</dd>`:""}`).join("")}</dl></div>`;
+  window.scrollTo(0,0);
+}
+
 const shuffle = a => { a = a.slice(); for (let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]} return a };
 function toast(t, ms=2200){ const d=document.createElement("div"); d.className="toast"; d.textContent=t; document.body.appendChild(d); setTimeout(()=>d.remove(), ms) }
 try { window.mermaid && mermaid.initialize({ startOnLoad:false, theme:"default", securityLevel:"loose" }) } catch(e){}
@@ -94,6 +164,7 @@ async function load(){
   window.MANIFEST = man;
   const ls = await Promise.all((man.lessons||[]).map(f => fetch("lessons/"+f+bust).then(r=>r.json()).catch(()=>null)));
   for (const l of ls) if (l && l.chapter) LESSONS[l.chapter] = l;
+  SLIDES = await fetch("slides/index.json"+bust).then(r=>r.json()).catch(()=>({}));
   home();
   const r = (location.hash.match(/round=(\w+)/)||[])[1];
   if (r){ history.replaceState(null,"",location.pathname); startRound(r) }
@@ -172,6 +243,7 @@ function home(){
   <button class="btn" style="border-color:var(--ok)" onclick="startMock()">🧪 Fresh mock: ${Object.values(BLUEPRINT).reduce((a,b)=>a+b,0)} never-seen Qs<small>Exam-style weighting (architecture, patterns and testing heaviest), a mix of all 3 levels. Measures real progress.</small></button>
   <button class="btn" onclick="startDrill()">🔥 Drill my weak spots: 15 Qs<small>Unseen questions from your weakest topics. No repeats from the last 45 min.</small></button>
   <button class="btn" onclick="startMistakes()">❌ Redo my mistakes</button>
+  <button class="btn" onclick="glossaryPage()">🔤 Abbreviations: EC, BV, CFG, B/C/E… what they stand for</button>
   <a class="btn" style="text-decoration:none;background:#2b2410;border-color:#6b5414" href="cheatsheet.html">📄 Cheat sheet: the course's rules on one screen</a>
   <h2>Mastery by chapter</h2>
   <div class="card">${rows}${anyData?"":`<div class="mut" style="margin-top:8px">No data yet. Start a chapter or take the mock.</div>`}</div>
@@ -187,6 +259,7 @@ function chapterPage(ch){
   $("#app").innerHTML = `<button class="btn ghost" style="width:auto;padding:6px 10px" onclick="home()">← Home</button>
    <h1>${CH[ch]}</h1>
    ${LESSONS[ch]?`<button class="btn pri" onclick="lesson(${ch})">📖 Learn: ${esc(LESSONS[ch].title||"lesson")} (${LESSONS[ch].cards.length} cards)</button>`:`<div class="mut">Lesson coming soon</div>`}
+   ${(SLIDES[ch]||[]).length?`<button class="btn" onclick="slidesPage(${ch})">🖼 Lecture slides: ${SLIDES[ch].map(d=>esc(d.title)).join(" + ")}<small>${SLIDES[ch].reduce((a,d)=>a+d.pages,0)} real slides, swipe through or open full-screen</small></button>`:""}
    ${[1,2,3].map(lvRow).join("")}`;
   window.scrollTo(0,0);
 }
@@ -195,6 +268,7 @@ async function lesson(ch){
   $("#bottomIn").innerHTML=`<div class="row"><button class="btn" onclick="chapterPage(${ch})">← Back</button><button class="btn pri" onclick="startLevel(${ch},1)">Start L1 quiz →</button></div>`;
   $("#app").innerHTML = `<button class="btn ghost" style="width:auto;padding:6px 10px" onclick="chapterPage(${ch})">← ${CH[ch]}</button>
    <h1>📖 ${esc(L.title||CH[ch])}</h1>${L.intro?`<div class="mut">${md(L.intro)}</div>`:""}
+   <div class="mut" style="margin-top:6px">Tap a <span class="ab">dotted word</span> for its full form. Each card shows the lecture slides it is based on.</div>${(SLIDES[ch]||[]).length?`<button class="btn" onclick="slidesPage(${ch})">🖼 All lecture slides for this chapter</button>`:""}
    ${L.cards.map((c,i)=>`<div class="card lesson"><h3>${i+1}. ${md(c.title||"")}</h3>
      ${c.body?`<div class="body">${md(c.body)}</div>`:""}
      ${c.svg?`<div class="svgbox">${c.svg}</div>`:""}
@@ -202,6 +276,7 @@ async function lesson(ch){
      ${c.code?`<div class="codeimg"><div class="bar"><i></i><i></i><i></i></div><pre><code class="language-java">${esc(c.code)}</code></pre></div>`:""}
      ${c.after?`<div class="body">${md(c.after)}</div>`:""}
      ${c.keypoints&&c.keypoints.length?`<div class="kp"><b>Remember</b><ul>${c.keypoints.map(k=>`<li>${md(k)}</li>`).join("")}</ul></div>`:""}
+     ${(()=>{ const cs=findCites([c.title,c.body,c.after,...(c.keypoints||[])].join(" ")).slice(0,4); return cs.length?`<div class="slidebox"><b>📑 From the lecture slides</b>${cs.map(([k,n])=>`<img loading="lazy" src="${slideSrc(k,n)}" onclick="showSlide('${k}',${n})"><div class="slidecap">${esc(DECKS()[k].title)}, slide ${n} (tap to enlarge)</div>`).join("")}</div>`:"" })()}
    </div>`).join("")}`;
   if (window.hljs) hljs.highlightAll(); window.scrollTo(0,0);
   for (const el of document.querySelectorAll(".ld")){ const c=L.cards[+el.dataset.i]; try{ const {svg}=await mm("l"+el.dataset.i+"_"+Date.now(), c.diagram); el.innerHTML=svg }catch(e){ el.innerHTML=`<pre style="text-align:left;color:#333;white-space:pre-wrap">${esc(c.diagram)}</pre>` } }

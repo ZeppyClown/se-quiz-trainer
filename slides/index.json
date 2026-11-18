@@ -1,0 +1,105 @@
+{
+ "1": [
+  {
+   "key": "L02",
+   "title": "L2 Requirements Elicitation 1",
+   "pages": 18
+  },
+  {
+   "key": "SRS",
+   "title": "Writing SRS",
+   "pages": 17
+  }
+ ],
+ "2": [
+  {
+   "key": "L03",
+   "title": "L3 Requirements Elicitation 2",
+   "pages": 22
+  },
+  {
+   "key": "L04",
+   "title": "L4 Requirements Elicitation 3",
+   "pages": 22
+  }
+ ],
+ "3": [
+  {
+   "key": "L05",
+   "title": "L5 Conceptual Models",
+   "pages": 22
+  }
+ ],
+ "4": [
+  {
+   "key": "L06",
+   "title": "L6 Dynamic Models",
+   "pages": 23
+  }
+ ],
+ "5": [
+  {
+   "key": "L08",
+   "title": "L8 Software Processes",
+   "pages": 20
+  },
+  {
+   "key": "L09",
+   "title": "L9 Agile / Scrum",
+   "pages": 65
+  }
+ ],
+ "6": [
+  {
+   "key": "L12",
+   "title": "L12 System Design",
+   "pages": 28
+  },
+  {
+   "key": "L12b",
+   "title": "L12 System Design (Thursday)",
+   "pages": 14
+  }
+ ],
+ "7": [
+  {
+   "key": "L13",
+   "title": "L13 Object Design",
+   "pages": 47
+  },
+  {
+   "key": "L14",
+   "title": "L14 Design Patterns",
+   "pages": 21
+  },
+  {
+   "key": "L15",
+   "title": "L15 MVC",
+   "pages": 27
+  }
+ ],
+ "8": [
+  {
+   "key": "L16",
+   "title": "L16 Testing Introduction",
+   "pages": 19
+  },
+  {
+   "key": "L18",
+   "title": "L18 EC + BV Testing",
+   "pages": 18
+  }
+ ],
+ "9": [
+  {
+   "key": "L19",
+   "title": "L19-20 Control Flow Testing",
+   "pages": 38
+  },
+  {
+   "key": "L21",
+   "title": "L21 Software Maintenance",
+   "pages": 25
+  }
+ ]
+}
