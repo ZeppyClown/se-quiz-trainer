@@ -116,6 +116,38 @@ function topicMastery(){
 const pct = (c,n) => n ? Math.round(100*c/n) : null;
 const col = p => p==null ? "#3a4150" : p>=80 ? "var(--ok)" : p>=60 ? "var(--warn)" : "var(--bad)";
 
+// Exam-week plan: SE gets ~2 h a day after stats. Database exam Wed 25 Nov 9am, stats Tue 24 Nov 1:30pm.
+const PLAN = [
+  {d:"2026-11-17", t:"EC + BV testing", ch:[8], desk:"Tutorial 8 → past paper Q4(a) in ChatGPT", bus:"Ch8 Learn, then L1 → L2 → L3"},
+  {d:"2026-11-18", t:"CFG, cyclomatic complexity, basis paths", ch:[9], desk:"Tutorial 9 → past paper Q4(b)", bus:"Ch9 Learn, then L1 → L2 → L3"},
+  {d:"2026-11-19", t:"Architecture + design patterns", ch:[6,7], desk:"Tutorials 6, 7 → past paper Q3", bus:"Ch6 + Ch7 Learn, then L2 questions"},
+  {d:"2026-11-20", t:"Class diagram + B/C/E, state machine", ch:[3,4], desk:"Tutorial 3 Q1 (GES classes), Q2 (projector)", bus:"Ch3 + Ch4 Learn"},
+  {d:"2026-11-21", t:"Database day (no SE)", ch:[], desk:"Database only", bus:"Optional: 🔥 Drill my weak spots"},
+  {d:"2026-11-22", t:"Fix weak spots + Scrum", ch:[5], desk:"Redo your weakest past-paper question cold; Tutorial 5 velocity", bus:"❌ Redo my mistakes, then Ch5"},
+  {d:"2026-11-23", t:"Print + mock", ch:[1,2], desk:"PRINT notes, model answers, cheat sheet. Tab them by topic.", bus:"🧪 Fresh mock, then skim Ch1 + Ch2 Learn"},
+  {d:"2026-11-24", t:"EXAM 9am (Stats 1:30pm)", ch:[], desk:"☀️ Exam morning page, 45 min max", bus:"Lunch: stats formula sheet only", exam:true},
+];
+function planCard(){
+  const done = LS("se_plan")||{};
+  const today = new Date(Date.now()-new Date().getTimezoneOffset()*60000).toISOString().slice(0,10);
+  const items = PLAN.map(p=>{
+    const isToday = p.d===today, past = p.d<today, ok = done[p.d];
+    const day = new Date(p.d+"T12:00").toLocaleDateString([], {weekday:"short", day:"numeric", month:"short"});
+    const chs = p.ch.map(k=>`<span class="pill" style="cursor:pointer" onclick="event.stopPropagation();chapterPage(${k})">Ch${k}</span>`).join(" ");
+    return `<div style="padding:10px 0;border-bottom:1px solid var(--bd);${isToday?"border-left:3px solid var(--acc);padding-left:10px;":""}${past&&ok?"opacity:.55;":""}">
+      <div style="display:flex;align-items:center;gap:8px">
+        ${p.exam?"":`<input type="checkbox" ${ok?"checked":""} onchange="togglePlan('${p.d}')" style="width:20px;height:20px">`}
+        <div style="flex:1"><b>${day}${isToday?" · TODAY":""}</b> ${past&&!ok&&!p.exam?`<span style="color:var(--warn);font-size:12px">· not ticked</span>`:""}<br><span style="font-weight:600${p.exam?";color:var(--warn)":""}">${esc(p.t)}</span></div>
+        <div>${chs}</div>
+      </div>
+      ${isToday||!past?`<div class="mut" style="font-size:13px;margin-top:4px">🖥 ${esc(p.desk)}<br>🚌 ${esc(p.bus)}</div>`:""}
+    </div>`}).join("");
+  const missed = PLAN.filter(p=>p.d<today && !p.exam && !done[p.d] && p.ch.length).length;
+  return `<h2>🗓 Exam-week plan</h2>
+  <div class="mut">SE ≈ 2 h a day after stats. 🖥 = desk session, 🚌 = on the go. Tick a day when done.${missed?` <span style="color:var(--warn)">${missed} earlier day(s) unticked: fold them into Sunday's catch-up. Testing (Ch8, Ch9) comes first.</span>`:""}</div>
+  <div class="card">${items}</div>`;
+}
+function togglePlan(d){ const x=LS("se_plan")||{}; x[d]=!x[d]; SS("se_plan",x); home() }
 function home(){
   $("#bottom").style.display="none";
   const m = topicMastery(), hist = LS("se_hist")||[];
@@ -127,6 +159,7 @@ function home(){
   <h1>SC2006 SE Exam Trainer</h1>
   <div class="mut">${BANK.length} questions (${BANK.filter(q=>stats()[q.id]).length} seen) · bank updated ${esc(window.MANIFEST.updated||"")} · exam Tue 24 Nov, 9am</div>
   ${resume && resume.idx < resume.qs.length ? `<button class="btn pri" onclick="resumeS()">▶ Resume ${esc(resume.title)} (${resume.idx+1}/${resume.qs.length})</button>`:""}
+  ${planCard()}
   <h2>📚 Study path: go chapter by chapter</h2>
   <div class="mut">Tap a chapter: 📖 Learn (rules + worked examples), then <span class="lv lv1">L1 Foundation</span> → <span class="lv lv2">L2 What-if</span> → <span class="lv lv3">L3 Gotcha</span></div>
   <div class="card">${Object.keys(CH).map(k=>{ const st=stats(); const L=[1,2,3].map(l=>{const pool=BANK.filter(q=>q.chapter==k&&lvl(q)==l); const seen=pool.filter(q=>st[q.id]); const c=seen.reduce((a,q)=>a+st[q.id].c,0), n=seen.reduce((a,q)=>a+st[q.id].n,0); const p=pct(c,n); return `<span class="pill" style="${p!=null?`color:#fff;background:${col(p)}`:""}">L${l} ${p==null?seen.length+"/"+pool.length:p+"%"}</span>`}).join("");
